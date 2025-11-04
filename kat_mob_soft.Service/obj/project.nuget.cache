@@ -1,8 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "Yz/nx5IF1mvxAkVSgTuIDyssEOOe5ECxeTHe7eQLaM+rExleJ1byRlJ5M7ZwylefA6EqhQVR+12+jFNvXJVBfA==",
+  "dgSpecHash": "P3o3SGa2LXQ=",
   "success": true,
-  "projectFilePath": "C:\\up\\kat_mob_soft\\kat_mob_soft.Service\\kat_mob_soft.Service.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "D:\\313\\kat_mob_soft\\kat_mob_soft.Service\\kat_mob_soft.Service.csproj",
+  "expectedPackageFiles": [
+    "D:\\Users\\tmu1.SERVER-ECONOM\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\5.0.0\\microsoft.windowsdesktop.app.ref.5.0.0.nupkg.sha512",
+    "D:\\Users\\tmu1.SERVER-ECONOM\\.nuget\\packages\\microsoft.netcore.app.ref\\5.0.0\\microsoft.netcore.app.ref.5.0.0.nupkg.sha512",
+    "D:\\Users\\tmu1.SERVER-ECONOM\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\5.0.0\\microsoft.aspnetcore.app.ref.5.0.0.nupkg.sha512"
+  ],
   "logs": []
 }
