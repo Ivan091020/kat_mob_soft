@@ -1,27 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\up\\kat_mob_soft\\kat_mob_soft\\kat_mob_soft.csproj": {}
+    "D:\\313\\kat_mob_soft\\kat_mob_soft\\kat_mob_soft.csproj": {}
   },
   "projects": {
-    "C:\\up\\kat_mob_soft\\kat_mob_soft.Domain\\kat_mob_soft.Domain.csproj": {
+    "D:\\313\\kat_mob_soft\\kat_mob_soft\\kat_mob_soft.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\up\\kat_mob_soft\\kat_mob_soft.Domain\\kat_mob_soft.Domain.csproj",
-        "projectName": "kat_mob_soft.Domain",
-        "projectPath": "C:\\up\\kat_mob_soft\\kat_mob_soft.Domain\\kat_mob_soft.Domain.csproj",
-        "packagesPath": "C:\\Users\\Ivan\\.nuget\\packages\\",
-        "outputPath": "C:\\up\\kat_mob_soft\\kat_mob_soft.Domain\\obj\\",
+        "projectUniqueName": "D:\\313\\kat_mob_soft\\kat_mob_soft\\kat_mob_soft.csproj",
+        "projectName": "kat_mob_soft",
+        "projectPath": "D:\\313\\kat_mob_soft\\kat_mob_soft\\kat_mob_soft.csproj",
+        "packagesPath": "D:\\Users\\tmu1.SERVER-ECONOM\\.nuget\\packages\\",
+        "outputPath": "D:\\313\\kat_mob_soft\\kat_mob_soft\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
-          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Ivan\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "D:\\Users\\tmu1.SERVER-ECONOM\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net5.0"
@@ -40,7 +38,13 @@
           "warnAsError": [
             "NU1605"
           ]
-        }
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net5.0": {
@@ -51,141 +55,29 @@
             "net47",
             "net471",
             "net472",
-            "net48"
+            "net48",
+            "net481"
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "frameworkReferences": {
-            "Microsoft.NETCore.App": {
-              "privateAssets": "all"
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[5.0.0, 5.0.0]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Host.win-x64",
+              "version": "[5.0.17, 5.0.17]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[5.0.0, 5.0.0]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[5.0.0, 5.0.0]"
             }
-          },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.416\\RuntimeIdentifierGraph.json"
-        }
-      }
-    },
-    "C:\\up\\kat_mob_soft\\kat_mob_soft.Service\\kat_mob_soft.Service.csproj": {
-      "version": "1.0.0",
-      "restore": {
-        "projectUniqueName": "C:\\up\\kat_mob_soft\\kat_mob_soft.Service\\kat_mob_soft.Service.csproj",
-        "projectName": "kat_mob_soft.Service",
-        "projectPath": "C:\\up\\kat_mob_soft\\kat_mob_soft.Service\\kat_mob_soft.Service.csproj",
-        "packagesPath": "C:\\Users\\Ivan\\.nuget\\packages\\",
-        "outputPath": "C:\\up\\kat_mob_soft\\kat_mob_soft.Service\\obj\\",
-        "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
-          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
-        ],
-        "configFilePaths": [
-          "C:\\Users\\Ivan\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
-        ],
-        "originalTargetFrameworks": [
-          "net5.0"
-        ],
-        "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {}
-        },
-        "frameworks": {
-          "net5.0": {
-            "targetAlias": "net5.0",
-            "projectReferences": {
-              "C:\\up\\kat_mob_soft\\kat_mob_soft.Domain\\kat_mob_soft.Domain.csproj": {
-                "projectPath": "C:\\up\\kat_mob_soft\\kat_mob_soft.Domain\\kat_mob_soft.Domain.csproj"
-              }
-            }
-          }
-        },
-        "warningProperties": {
-          "warnAsError": [
-            "NU1605"
-          ]
-        }
-      },
-      "frameworks": {
-        "net5.0": {
-          "targetAlias": "net5.0",
-          "imports": [
-            "net461",
-            "net462",
-            "net47",
-            "net471",
-            "net472",
-            "net48"
           ],
-          "assetTargetFallback": true,
-          "warn": true,
-          "frameworkReferences": {
-            "Microsoft.NETCore.App": {
-              "privateAssets": "all"
-            }
-          },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.416\\RuntimeIdentifierGraph.json"
-        }
-      }
-    },
-    "C:\\up\\kat_mob_soft\\kat_mob_soft\\kat_mob_soft.csproj": {
-      "version": "1.0.0",
-      "restore": {
-        "projectUniqueName": "C:\\up\\kat_mob_soft\\kat_mob_soft\\kat_mob_soft.csproj",
-        "projectName": "kat_mob_soft",
-        "projectPath": "C:\\up\\kat_mob_soft\\kat_mob_soft\\kat_mob_soft.csproj",
-        "packagesPath": "C:\\Users\\Ivan\\.nuget\\packages\\",
-        "outputPath": "C:\\up\\kat_mob_soft\\kat_mob_soft\\obj\\",
-        "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
-          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
-        ],
-        "configFilePaths": [
-          "C:\\Users\\Ivan\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
-        ],
-        "originalTargetFrameworks": [
-          "net5.0"
-        ],
-        "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {}
-        },
-        "frameworks": {
-          "net5.0": {
-            "targetAlias": "net5.0",
-            "projectReferences": {
-              "C:\\up\\kat_mob_soft\\kat_mob_soft.Domain\\kat_mob_soft.Domain.csproj": {
-                "projectPath": "C:\\up\\kat_mob_soft\\kat_mob_soft.Domain\\kat_mob_soft.Domain.csproj"
-              },
-              "C:\\up\\kat_mob_soft\\kat_mob_soft.Service\\kat_mob_soft.Service.csproj": {
-                "projectPath": "C:\\up\\kat_mob_soft\\kat_mob_soft.Service\\kat_mob_soft.Service.csproj"
-              }
-            }
-          }
-        },
-        "warningProperties": {
-          "warnAsError": [
-            "NU1605"
-          ]
-        }
-      },
-      "frameworks": {
-        "net5.0": {
-          "targetAlias": "net5.0",
-          "imports": [
-            "net461",
-            "net462",
-            "net47",
-            "net471",
-            "net472",
-            "net48"
-          ],
-          "assetTargetFallback": true,
-          "warn": true,
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -194,7 +86,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.416\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.301\\RuntimeIdentifierGraph.json"
         }
       }
     }
