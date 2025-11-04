@@ -4,4 +4,13 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\kat_mob_soft.Domain\kat_mob_soft.Domain.csproj" />
+    <ProjectReference Include="..\kat_mob_soft.Service\kat_mob_soft.Service.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\images\" />
+  </ItemGroup>
+
 </Project>

@@ -1,48 +1,104 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+﻿@using Microsoft.AspNetCore.Identity
+
+<!DOCTYPE html>
+<html lang="ru">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - kat_mob_soft</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewData["Title"] - Каталог мобильных приложений</title>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="~/css/shared.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
+
+    <meta name="description" content="Каталог мобильных приложений — обзоры, категории и рекомендации" />
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">kat_mob_soft</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
+    <header class="site-header">
+        <div class="header-top">
+            <div class="container header-top-inner">
+                <div class="logo">
+                    <a asp-area="" asp-controller="Home" asp-action="SiteInformation">
+                        <span class="logo-main">AppCatalog</span>
+                        <small class="logo-sub">каталог мобильных приложений</small>
+                    </a>
+                </div>
+
+                <div class="auth-buttons">
+                    <div class="auth-buttons">
+                        <a class="btn btn-primary" href="#">Войти</a>
+                        <a class="btn btn-ghost" href="#">Зарегистрироваться</a>
+                    </div>
+
                 </div>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+        </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - kat_mob_soft - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        <div class="header-bottom">
+            <div class="container header-bottom-inner">
+                <nav class="main-nav" role="navigation" aria-label="Главное меню">
+                    <ul class="nav-list">
+                        <li><a asp-area="" asp-controller="Home" asp-action="SiteInformation">Главная</a></li>
+                        <li><a asp-area="" asp-controller="Catalog" asp-action="Index">Каталог</a></li>
+                        <li><a asp-area="" asp-controller="Home" asp-action="About">О нас</a></li>
+                        <li><a asp-area="" asp-controller="Home" asp-action="Services">Услуги</a></li>
+                        <li><a asp-area="" asp-controller="Home" asp-action="Contacts">Контакты</a></li>
+                    </ul>
+                </nav>
+
+                <div class="header-actions">
+                    <form asp-area="" asp-controller="Catalog" asp-action="Search" method="get" class="search-form">
+                        <input type="search" name="q" placeholder="Поиск приложений..." aria-label="Поиск по каталогу" />
+                        <button type="submit" class="btn-icon" aria-label="Искать">🔍</button>
+                    </form>
+
+                    <button id="side-menu-button-click-to-hide" class="hamburger" aria-label="Открыть меню">
+                        <span></span><span></span><span></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main role="main">
+        @RenderBody()
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <div class="footer-col">
+                <h4>AppCatalog</h4>
+                <p>Каталог мобильных приложений: обзоры, категории, подборки и рейтинги.</p>
+            </div>
+            <div class="footer-col">
+                <h5>Меню</h5>
+                <ul>
+                    <li><a asp-area="" asp-controller="Catalog" asp-action="Index">Каталог</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="About">О нас</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="Contacts">Контакты</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h5>Контакты</h5>
+                <address>
+                    г. Тирасполь<br />
+                    E-mail: info@appcatalog.local
+                </address>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <small>© @(DateTime.Now.Year) AppCatalog — Все права защищены</small>
+            </div>
         </div>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+
+   
+
+    <script src="~/js/shared_script.js" asp-append-version="true"></script>
+    <script src="~/js/login_and_registration_script.js" asp-append-version="true"></script>
+    <script src="~/js/home_script.js" asp-append-version="true"></script>
 </body>
 </html>

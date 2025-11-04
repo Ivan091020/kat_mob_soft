@@ -1,11 +1,30 @@
 {
   "version": 3,
   "targets": {
-    "net5.0": {}
+    "net5.0": {
+      "kat_mob_soft.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v5.0",
+        "compile": {
+          "bin/placeholder/kat_mob_soft.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/kat_mob_soft.Domain.dll": {}
+        }
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "kat_mob_soft.Domain/1.0.0": {
+      "type": "project",
+      "path": "../kat_mob_soft.Domain/kat_mob_soft.Domain.csproj",
+      "msbuildProject": "../kat_mob_soft.Domain/kat_mob_soft.Domain.csproj"
+    }
+  },
   "projectFileDependencyGroups": {
-    "net5.0": []
+    "net5.0": [
+      "kat_mob_soft.Domain >= 1.0.0"
+    ]
   },
   "packageFolders": {
     "C:\\Users\\Ivan\\.nuget\\packages\\": {},
@@ -41,7 +60,11 @@
       "frameworks": {
         "net5.0": {
           "targetAlias": "net5.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\up\\kat_mob_soft\\kat_mob_soft.Domain\\kat_mob_soft.Domain.csproj": {
+              "projectPath": "C:\\up\\kat_mob_soft\\kat_mob_soft.Domain\\kat_mob_soft.Domain.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
