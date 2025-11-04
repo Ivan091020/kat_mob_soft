@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("kat_mob_soft.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ee722c8f4011114a37c1d9a605b873865de5b6ba")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
 [assembly: System.Reflection.AssemblyProductAttribute("kat_mob_soft.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("kat_mob_soft.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -1,12 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "5we1oIRJlW4=",
+  "dgSpecHash": "X6EarHAlLRPPqAcUxHbDthnIh4GDz8Su/1lcBJEcULMrme63YCb+nl3nWxlCMdoLCDY0bKH7xiboIhap5Nqjpg==",
   "success": true,
-  "projectFilePath": "D:\\313\\kat_mob_soft\\kat_mob_soft.Domain\\kat_mob_soft.Domain.csproj",
-  "expectedPackageFiles": [
-    "D:\\Users\\tmu1.SERVER-ECONOM\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\5.0.0\\microsoft.windowsdesktop.app.ref.5.0.0.nupkg.sha512",
-    "D:\\Users\\tmu1.SERVER-ECONOM\\.nuget\\packages\\microsoft.netcore.app.ref\\5.0.0\\microsoft.netcore.app.ref.5.0.0.nupkg.sha512",
-    "D:\\Users\\tmu1.SERVER-ECONOM\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\5.0.0\\microsoft.aspnetcore.app.ref.5.0.0.nupkg.sha512"
-  ],
+  "projectFilePath": "C:\\up\\kat_mob_soft\\kat_mob_soft.Domain\\kat_mob_soft.Domain.csproj",
+  "expectedPackageFiles": [],
   "logs": []
 }
