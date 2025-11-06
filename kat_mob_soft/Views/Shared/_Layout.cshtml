@@ -1,4 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Identity
+<link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
+...
+<script src="~/js/home_script.js" asp-append-version="true"></script>
 
 <!DOCTYPE html>
 <html lang="ru">
@@ -39,12 +42,13 @@
         <div class="header-bottom">
             <div class="container header-bottom-inner">
                 <nav class="main-nav" role="navigation" aria-label="Главное меню">
+
                     <ul class="nav-list">
-                        <li><a asp-area="" asp-controller="Home" asp-action="SiteInformation">Главная</a></li>
+
                         <li><a asp-area="" asp-controller="Catalog" asp-action="Index">Каталог</a></li>
-                        <li><a asp-area="" asp-controller="Home" asp-action="About">О нас</a></li>
-                        <li><a asp-area="" asp-controller="Home" asp-action="Services">Услуги</a></li>
-                        <li><a asp-area="" asp-controller="Home" asp-action="Contacts">Контакты</a></li>
+                        <li><a asp-controller="Home" asp-action="Index">О нас</a></li>
+                        <li><a asp-controller="Home" asp-action="Services">Услуги</a></li>
+                        <li><a asp-controller="Home" asp-action="Contacts">Контакты</a></li>
                     </ul>
                 </nav>
 
@@ -73,12 +77,7 @@
                 <p>Каталог мобильных приложений: обзоры, категории, подборки и рейтинги.</p>
             </div>
             <div class="footer-col">
-                <h5>Меню</h5>
-                <ul>
-                    <li><a asp-area="" asp-controller="Catalog" asp-action="Index">Каталог</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">О нас</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contacts">Контакты</a></li>
-                </ul>
+                
             </div>
             <div class="footer-col">
                 <h5>Контакты</h5>
@@ -95,7 +94,7 @@
         </div>
     </footer>
 
-   
+
 
     <script src="~/js/shared_script.js" asp-append-version="true"></script>
     <script src="~/js/login_and_registration_script.js" asp-append-version="true"></script>

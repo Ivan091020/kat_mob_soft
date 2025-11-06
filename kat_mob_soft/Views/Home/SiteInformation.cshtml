@@ -1,33 +1,36 @@
 ﻿@{
-    Layout = "_Layout";
-    ViewData["Title"] = "О нас";
+    ViewData["Title"] = "AppCatalog — О нас";
 }
-
 <main class="container">
-    <section class="about-section">
-        <div class="about-row">
-            <div class="about-image">
-                <img src="~/images/about-placeholder.jpg" alt="О нас — изображение" />
-            </div>
-            <div class="about-text">
-                <h1>О нас</h1>
-                <p>Добро пожаловать в каталог мобильных приложений «AppCatalog» — обзоры, категории и рекомендации.</p>
-                <p>Мы подбираем только актуальные приложения для работы, развлечений и повседневной жизни.</p>
-                <div class="about-features">
-                    <article class="feature">
-                        <h3>Популярные приложения</h3>
-                        <p>Рейтинг самых скачиваемых и востребованных приложений.</p>
-                    </article>
-                    <article class="feature">
-                        <h3>Категории</h3>
-                        <p>Приложения удобно разложены по категориям: игры, утилиты, здоровье и др.</p>
-                    </article>
-                    <article class="feature">
-                        <h3>Рекомендации</h3>
-                        <p>Персональные рекомендации для быстрого выбора нужного приложения.</p>
-                    </article>
-                </div>
-            </div>
-        </div>
+    <!-- О нас -->
+    <section id="about" class="section about-section">
+        <h1>О нас</h1>
+        <p>Добро пожаловать в каталог мобильных приложений «AppCatalog» — обзоры, категории и рекомендации.</p>
+        <p>Мы подбираем только актуальные приложения для работы, развлечений и повседневной жизни.</p>
+    </section>
+
+    <!-- Популярные приложения -->
+    <section id="popular" class="section popular-section">
+        <h2>Популярные приложения</h2>
+        <p>Рейтинг самых скачиваемых и востребованных приложений.</p>
+        <!-- сюда можно вставить виджет/список популярных приложений -->
+    </section>
+
+    <!-- Категории -->
+    <section id="categories" class="section categories-section">
+        <h2>Категории</h2>
+        <p>Приложения удобно разложены по категориям: игры, утилиты, здоровье и др.</p>
+    </section>
+
+    <!-- Рекомендации -->
+    <section id="recommendations" class="section recommendations-section">
+        <h2>Рекомендации</h2>
+        <p>Персональные рекомендации для быстрого выбора нужного приложения.</p>
+    </section>
+
+    <!-- Дополнительная информация (если была на главной раньше) -->
+    <section id="extra" class="section extra-section">
+        <h2>Дополнительно</h2>
+        <p>Здесь остаётся любая вспомогательная информация, которая была у тебя на главной.</p>
     </section>
 </main>

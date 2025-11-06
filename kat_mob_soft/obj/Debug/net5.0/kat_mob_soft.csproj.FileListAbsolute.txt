@@ -23,8 +23,6 @@ C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\scopedcss\bundle\kat_mob_soft.s
 C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\kat_mob_soft.TagHelpers.input.cache
 C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\kat_mob_soft.TagHelpers.output.cache
 C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\kat_mob_soft.RazorCoreGenerate.cache
-C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\Razor\Views\Home\Index.cshtml.g.cs
-C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\Razor\Views\Home\Privacy.cshtml.g.cs
 C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\Razor\Views\Shared\Error.cshtml.g.cs
 C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\Razor\Views\Shared\_Layout.cshtml.g.cs
 C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\Razor\Views\Shared\_ValidationScriptsPartial.cshtml.g.cs
@@ -49,3 +47,10 @@ D:\313\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\kat_mob_soft.MvcApplicationPar
 D:\313\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\kat_mob_soft.RazorAssemblyInfo.cache
 D:\313\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\kat_mob_soft.RazorAssemblyInfo.cs
 D:\313\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\kat_mob_soft.sourcelink.json
+C:\up\kat_mob_soft\kat_mob_soft\bin\Debug\net5.0\kat_mob_soft.Domain.dll
+C:\up\kat_mob_soft\kat_mob_soft\bin\Debug\net5.0\kat_mob_soft.Service.dll
+C:\up\kat_mob_soft\kat_mob_soft\bin\Debug\net5.0\kat_mob_soft.Domain.pdb
+C:\up\kat_mob_soft\kat_mob_soft\bin\Debug\net5.0\kat_mob_soft.Service.pdb
+C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\Razor\Views\Home\contacts.cshtml.g.cs
+C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\Razor\Views\Home\Services.cshtml.g.cs
+C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\Razor\Views\Home\SiteInformation.cshtml.g.cs
