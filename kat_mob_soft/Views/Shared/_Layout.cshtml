@@ -1,8 +1,4 @@
 ﻿@using Microsoft.AspNetCore.Identity
-<link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
-...
-<script src="~/js/home_script.js" asp-append-version="true"></script>
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -13,8 +9,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
+    <!-- Стили -->
     <link rel="stylesheet" href="~/css/shared.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/login_and_registration.css" asp-append-version="true" />
 
     <meta name="description" content="Каталог мобильных приложений — обзоры, категории и рекомендации" />
 </head>
@@ -30,11 +28,9 @@
                 </div>
 
                 <div class="auth-buttons">
-                    <div class="auth-buttons">
-                        <a class="btn btn-primary" href="#">Войти</a>
-                        <a class="btn btn-ghost" href="#">Зарегистрироваться</a>
-                    </div>
-
+                    <!-- Меняем <a> на <button> с id — чтобы JS мог открыть модал -->
+                    <button id="header-open-signin" class="btn btn-primary" type="button">Войти</button>
+                    <button id="header-open-signup" class="btn btn-ghost" type="button">Зарегистрироваться</button>
                 </div>
             </div>
         </div>
@@ -42,9 +38,7 @@
         <div class="header-bottom">
             <div class="container header-bottom-inner">
                 <nav class="main-nav" role="navigation" aria-label="Главное меню">
-
                     <ul class="nav-list">
-
                         <li><a asp-area="" asp-controller="Catalog" asp-action="Index">Каталог</a></li>
                         <li><a asp-controller="Home" asp-action="Index">О нас</a></li>
                         <li><a asp-controller="Home" asp-action="Services">Услуги</a></li>
@@ -76,9 +70,7 @@
                 <h4>AppCatalog</h4>
                 <p>Каталог мобильных приложений: обзоры, категории, подборки и рейтинги.</p>
             </div>
-            <div class="footer-col">
-                
-            </div>
+            <div class="footer-col"></div>
             <div class="footer-col">
                 <h5>Контакты</h5>
                 <address>
@@ -94,10 +86,59 @@
         </div>
     </footer>
 
+    <!-- Подключаем partial (modal) один раз здесь -->
+    @await Html.PartialAsync("_LoginRegistrationPartial")
 
-
+    <!-- Скрипты: внизу перед </body> -->
     <script src="~/js/shared_script.js" asp-append-version="true"></script>
     <script src="~/js/login_and_registration_script.js" asp-append-version="true"></script>
     <script src="~/js/home_script.js" asp-append-version="true"></script>
+
+    <!-- Маленькая связка: привязать кнопки шапки к модальному -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // header кнопки открывают модал, имитируя клик по внутренним кнопкам в partial
+            const headerSignIn = document.getElementById('header-open-signin');
+            const headerSignUp = document.getElementById('header-open-signup');
+            const innerSignIn = document.getElementById('click-to-show-signin');
+            const innerSignUp = document.getElementById('click-to-show-signup');
+
+            if (headerSignIn) {
+                headerSignIn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    // если у нас есть внутренняя кнопка — нажмём её, иначе откроем сам модал
+                    if (innerSignIn) { innerSignIn.click(); }
+                    else {
+                        // попроще: покажем модал напрямую
+                        const modal = document.getElementById('login-registration-modal');
+                        const overlay = document.getElementById('login-registration-overlay');
+                        const formSignin = document.getElementById('form_signin');
+                        const formSignup = document.getElementById('form_signup');
+                        formSignin?.classList.remove('hidden');
+                        formSignup?.classList.add('hidden');
+                        modal?.classList.remove('hidden');
+                        overlay?.classList.remove('hidden');
+                    }
+                });
+            }
+
+            if (headerSignUp) {
+                headerSignUp.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    if (innerSignUp) { innerSignUp.click(); }
+                    else {
+                        const modal = document.getElementById('login-registration-modal');
+                        const overlay = document.getElementById('login-registration-overlay');
+                        const formSignin = document.getElementById('form_signin');
+                        const formSignup = document.getElementById('form_signup');
+                        formSignup?.classList.remove('hidden');
+                        formSignin?.classList.add('hidden');
+                        modal?.classList.remove('hidden');
+                        overlay?.classList.remove('hidden');
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 </html>

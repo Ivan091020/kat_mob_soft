@@ -54,3 +54,4 @@ C:\up\kat_mob_soft\kat_mob_soft\bin\Debug\net5.0\kat_mob_soft.Service.pdb
 C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\Razor\Views\Home\contacts.cshtml.g.cs
 C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\Razor\Views\Home\Services.cshtml.g.cs
 C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\Razor\Views\Home\SiteInformation.cshtml.g.cs
+C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\Razor\Views\Shared\_LoginRegistrationPartial.cshtml.g.cs

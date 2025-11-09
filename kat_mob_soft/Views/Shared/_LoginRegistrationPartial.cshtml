@@ -1,0 +1,65 @@
+﻿@* Поместите в Views/Shared/_LoginRegistrationPartial.cshtml *@
+<div id="login-registration-overlay" class="overlay hidden"></div>
+
+<div id="login-registration-modal" class="lr-modal hidden" aria-hidden="true">
+    <div class="lr-container">
+        <div class="form-box">
+            <div class="form-btn-container">
+                <button id="click-to-show-signin" class="form-btn">Войти</button>
+                <button id="click-to-show-signup" class="form-btn">Зарегистрироваться</button>
+            </div>
+
+            <div class="forms-wrapper">
+                <!-- Форма входа -->
+                <form id="form_signin" class="form-signin" autocomplete="off">
+                    <h3>Вход</h3>
+
+                    <div class="input-group">
+                        <input id="signin-email" name="Email" type="email" required />
+                        <label for="signin-email">Email</label>
+                    </div>
+
+                    <div class="input-group">
+                        <input id="signin-password" name="Password" type="password" required />
+                        <label for="signin-password">Пароль</label>
+                    </div>
+
+                    <div id="error-messages-singin" class="error-messages"></div>
+
+                    <button type="button" id="btn-signin-submit" class="submit-btn">Войти</button>
+                    <button type="button" id="btn-close-sign" class="close-btn">Закрыть</button>
+                </form>
+
+                <!-- Форма регистрации -->
+                <form id="form_signup" class="form-signup hidden" autocomplete="off">
+                    <h3>Регистрация</h3>
+
+                    <div class="input-group">
+                        <input id="signup-name" name="Name" type="text" required />
+                        <label for="signup-name">ФИО</label>
+                    </div>
+
+                    <div class="input-group">
+                        <input id="signup-email" name="Email" type="email" required />
+                        <label for="signup-email">Email</label>
+                    </div>
+
+                    <div class="input-group">
+                        <input id="signup-password" name="Password" type="password" required />
+                        <label for="signup-password">Пароль</label>
+                    </div>
+
+                    <div class="input-group">
+                        <input id="signup-confirm" name="ConfirmPassword" type="password" required />
+                        <label for="signup-confirm">Подтвердите пароль</label>
+                    </div>
+
+                    <div id="error-messages-signup" class="error-messages"></div>
+
+                    <button type="button" id="btn-signup-submit" class="submit-btn">Зарегистрироваться</button>
+                    <button type="button" id="btn-close-signup" class="close-btn">Закрыть</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

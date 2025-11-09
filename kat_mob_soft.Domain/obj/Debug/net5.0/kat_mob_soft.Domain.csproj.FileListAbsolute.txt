@@ -9,4 +9,3 @@ C:\up\kat_mob_soft\kat_mob_soft.Domain\obj\Debug\net5.0\kat_mob_soft.Domain.cspr
 C:\up\kat_mob_soft\kat_mob_soft.Domain\obj\Debug\net5.0\kat_mob_soft.Domain.dll
 C:\up\kat_mob_soft\kat_mob_soft.Domain\obj\Debug\net5.0\ref\kat_mob_soft.Domain.dll
 C:\up\kat_mob_soft\kat_mob_soft.Domain\obj\Debug\net5.0\kat_mob_soft.Domain.pdb
-C:\up\kat_mob_soft\kat_mob_soft.Domain\obj\Debug\net5.0\kat_mob_soft.Domain.csproj.AssemblyReference.cache
