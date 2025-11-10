@@ -2,6 +2,9 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+
+    @await Html.PartialAsync("_Footer")
+
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>@ViewData["Title"] - Каталог мобильных приложений</title>
@@ -11,8 +14,16 @@
 
     <!-- Стили -->
     <link rel="stylesheet" href="~/css/shared.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/shared.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
+
     <link rel="stylesheet" href="~/css/login_and_registration.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/shared.css" asp-append-version="true" />
+
+    <script src="~/js/shared_script.js" asp-append-version="true"></script>
+    <script src="~/js/contact_script.js" asp-append-version="true"></script>
+
+
 
     <meta name="description" content="Каталог мобильных приложений — обзоры, категории и рекомендации" />
 </head>
@@ -60,34 +71,18 @@
         </div>
     </header>
 
+
     <main role="main">
         @RenderBody()
     </main>
 
-    <footer class="site-footer">
-        <div class="container footer-inner">
-            <div class="footer-col">
-                <h4>AppCatalog</h4>
-                <p>Каталог мобильных приложений: обзоры, категории, подборки и рейтинги.</p>
-            </div>
-            <div class="footer-col"></div>
-            <div class="footer-col">
-                <h5>Контакты</h5>
-                <address>
-                    г. Тирасполь<br />
-                    E-mail: info@appcatalog.local
-                </address>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <div class="container">
-                <small>© @(DateTime.Now.Year) AppCatalog — Все права защищены</small>
-            </div>
-        </div>
-    </footer>
+
+
 
     <!-- Подключаем partial (modal) один раз здесь -->
     @await Html.PartialAsync("_LoginRegistrationPartial")
+    
+
 
     <!-- Скрипты: внизу перед </body> -->
     <script src="~/js/shared_script.js" asp-append-version="true"></script>
@@ -140,5 +135,6 @@
             }
         });
     </script>
+
 </body>
 </html>

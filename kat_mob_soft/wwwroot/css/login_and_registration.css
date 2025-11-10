@@ -11,6 +11,11 @@
     .lr-modal.hidden {
         display: none;
     }
+    /* универсально скрываем элементы с классом hidden внутри модального блока */
+    .lr-modal .hidden {
+        display: none !important;
+    }
+
 
 .overlay {
     position: fixed;

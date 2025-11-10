@@ -618,7 +618,183 @@ body {
         display: none;
     }
     /* на мобильных — свайп */
+    /* ===== Contact message section ===== */
+    .contact-message-section {
+        padding: 60px 0;
+        background: linear-gradient(180deg, #ffffff 0%, #fffdf7 100%);
+    }
+
+        .contact-message-section .container-inner {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+
+        .contact-message-section .section-title {
+            font-size: 28px;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .contact-message-section .section-sub {
+            color: #666;
+            margin-bottom: 24px;
+        }
+
+    .contact-form {
+        background: #fff;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 6px 22px rgba(15,15,15,0.06);
+        display: grid;
+        gap: 14px;
+    }
+
+        .contact-form .form-row {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .contact-form label {
+            font-size: 13px;
+            margin-bottom: 6px;
+            color: #444;
+        }
+
+        .contact-form input[type="text"],
+        .contact-form input[type="email"],
+        .contact-form textarea {
+            border: 1px solid #e6e6e6;
+            padding: 10px 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .contact-form textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+    .form-actions {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        margin-top: 6px;
+    }
+
+    .btn {
+        cursor: pointer;
+        padding: 10px 16px;
+        border-radius: 8px;
+        border: none;
+        font-weight: 600;
+    }
+
+    .btn-primary {
+        background: #ff7a00;
+        color: #fff;
+    }
+
+    .btn-secondary {
+        background: #f2f2f2;
+        color: #333;
+    }
+
+    .contact-feedback {
+        margin-top: 8px;
+        min-height: 22px;
+        font-size: 14px;
+    }
+
+    .site-footer {
+        background-color: #000000; /* чёрный фон, чтобы отделялся от сайта */
+        color: #ffffff; /* белый текст */
+        padding: 40px 0;
+    }
+
+
+    .footer-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 16px;
+    }
+
+    .footer-column {
+        flex: 1 1 180px; /* колонки одинаковой ширины */
+        margin: 0 12px;
+    }
+
+        .footer-column h4 {
+            font-size: 16px;
+            margin-bottom: 12px;
+            color: #ff7a00; /* акцентный цвет заголовков */
+        }
+
+        .footer-column ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+            .footer-column ul li {
+                margin-bottom: 8px;
+            }
+
+        .footer-column a {
+            color: #d7d7d7;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+            .footer-column a:hover {
+                color: #ff7a00;
+            }
+
+        .footer-column p {
+            margin: 4px 0;
+            color: #c0c0c0;
+            font-size: 13px;
+        }
+
+    .footer-bottom {
+        border-top: 1px solid rgba(255,255,255,0.2);
+        text-align: center;
+        padding-top: 12px;
+        font-size: 13px;
+        color: #a0a0a0;
+        margin-top: 24px;
+    }
+
+    /* адаптивность */
+    @media (max-width: 1024px) {
+        .footer-container {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 20px;
+        }
+
+        .footer-column {
+            margin: 0;
+        }
+        .site-footer {
+            background-color: #000000; /* чёрный фон */
+            color: #ffffff;
+            padding: 40px 0;
+            border-top: 4px solid #ff7a00; /* акцентная граница сверху */
+            box-shadow: 0 -4px 12px rgba(0,0,0,0.5); /* лёгкая тень */
+        }
+
+    }
 }
+
+        
+    
+
+
 
 
 

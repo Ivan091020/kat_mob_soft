@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System.Diagnostics;
+using System.Linq;
 
 namespace kat_mob_soft.Controllers
 {
@@ -12,40 +12,45 @@ namespace kat_mob_soft.Controllers
             _logger = logger;
         }
 
-        // Главная страница — сразу SiteInformation
+
         public IActionResult Index()
         {
-            return RedirectToAction("SiteInformation");
+            return View("SiteInformation");
         }
 
-
-        public IActionResult SiteInformation()
+        // ------------------ SendMessage ------------------
+        // Синхронный вариант: не требует System.Threading.Tasks и не будет предупреждения CS1998.
+        // Временно отключил проверку antiforgery для удобства при отправке JSON через fetch.
+        [HttpPost]
+        [IgnoreAntiforgeryToken]
+        public IActionResult SendMessage([FromBody] ContactMessageModel model)
         {
-            return View();
-        }
+            if (!ModelState.IsValid)
+            {
+                // Для корректной работы SelectMany требуется using System.Linq; (он есть вверху файла)
+                var errors = ModelState.Values
+                    .SelectMany(v => v.Errors)
+                    .Select(e => e.ErrorMessage)
+                    .ToList();
 
-        public IActionResult About()
-        {
-            return View();
-        }
+                return BadRequest(new { success = false, message = string.Join("; ", errors) });
+            }
 
-        public IActionResult Contacts()
-        {
-            return View();
+            // TODO: Здесь можно сохранять в БД или отправлять письмо.
+            return Json(new { success = true });
         }
-        public IActionResult Services()
-        {
-            return View();
-        }
+        // -------------------------------------------------
+    }
 
-      
-
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            ViewData["RequestId"] = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
-            return View();
-        }
+    // ------------------ Модель (в том же файле, т.к. у тебя нет папки Models) ------------------
+    // Если позже добавишь папку Models, можно перенести этот класс туда.
+    public class ContactMessageModel
+    {
+        // Можно добавить атрибуты валидации, если хочешь:
+        // [Required], [EmailAddress], [StringLength(...)] и т.д.
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public string Subject { get; set; }
+        public string Message { get; set; }
     }
 }
