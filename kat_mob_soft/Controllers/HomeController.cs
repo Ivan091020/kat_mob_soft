@@ -18,6 +18,15 @@ namespace kat_mob_soft.Controllers
             return View("SiteInformation");
         }
 
+        public IActionResult Services()
+        {
+            return View("Services");
+        }
+        public IActionResult Contacts()
+        {
+            return View("Contacts");
+        }
+
         // ------------------ SendMessage ------------------
         // Синхронный вариант: не требует System.Threading.Tasks и не будет предупреждения CS1998.
         // Временно отключил проверку antiforgery для удобства при отправке JSON через fetch.

@@ -2,32 +2,22 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-
-    @await Html.PartialAsync("_Footer")
-
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>@ViewData["Title"] - Каталог мобильных приложений</title>
+    <title>@ViewData["Title"] - AppCatalog</title>
 
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-    <!-- Стили -->
-    <link rel="stylesheet" href="~/css/shared.css" asp-append-version="true" />
+    <!-- Стили — только один раз каждый -->
     <link rel="stylesheet" href="~/css/shared.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
-
     <link rel="stylesheet" href="~/css/login_and_registration.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/shared.css" asp-append-version="true" />
 
-    <script src="~/js/shared_script.js" asp-append-version="true"></script>
-    <script src="~/js/contact_script.js" asp-append-version="true"></script>
-
-
-
-    <meta name="description" content="Каталог мобильных приложений — обзоры, категории и рекомендации" />
+    <meta name="description" content="AppCatalog — каталог мобильных приложений: обзоры, категории, подборки и рекомендации 2025" />
 </head>
 <body>
+    <!-- ШАПКА -->
     <header class="site-header">
         <div class="header-top">
             <div class="container header-top-inner">
@@ -39,7 +29,6 @@
                 </div>
 
                 <div class="auth-buttons">
-                    <!-- Меняем <a> на <button> с id — чтобы JS мог открыть модал -->
                     <button id="header-open-signin" class="btn btn-primary" type="button">Войти</button>
                     <button id="header-open-signup" class="btn btn-ghost" type="button">Зарегистрироваться</button>
                 </div>
@@ -50,7 +39,7 @@
             <div class="container header-bottom-inner">
                 <nav class="main-nav" role="navigation" aria-label="Главное меню">
                     <ul class="nav-list">
-                        <li><a asp-area="" asp-controller="Catalog" asp-action="Index">Каталог</a></li>
+                        <li><a asp-area="" asp-controller=" Home" asp-action="Index">Каталог</a></li>
                         <li><a asp-controller="Home" asp-action="Index">О нас</a></li>
                         <li><a asp-controller="Home" asp-action="Services">Услуги</a></li>
                         <li><a asp-controller="Home" asp-action="Contacts">Контакты</a></li>
@@ -60,7 +49,7 @@
                 <div class="header-actions">
                     <form asp-area="" asp-controller="Catalog" asp-action="Search" method="get" class="search-form">
                         <input type="search" name="q" placeholder="Поиск приложений..." aria-label="Поиск по каталогу" />
-                        <button type="submit" class="btn-icon" aria-label="Искать">🔍</button>
+                        <button type="submit" class="btn-icon" aria-label="Искать">Поиск</button>
                     </form>
 
                     <button id="side-menu-button-click-to-hide" class="hamburger" aria-label="Открыть меню">
@@ -70,71 +59,76 @@
             </div>
         </div>
     </header>
-
-
+    <!-- КОНЕЦ ШАПКИ -->
+    <!-- ОСНОВНОЙ КОНТЕНТ -->
     <main role="main">
         @RenderBody()
     </main>
 
+    <!-- ФУТЕР — ТЁМНЫЙ, КРАСИВЫЙ, АДАПТИВНЫЙ -->
+    <footer class="site-footer">
+        <div class="footer-top container">
+            <div class="footer-brand">
+                <h3 class="logo">AppCatalog</h3>
+                <p class="muted">Каталог мобильных приложений: обзоры, категории и подборки.</p>
+            </div>
 
+            <nav class="footer-nav">
+                <h4>Меню</h4>
+                <ul>
+                    <li><a asp-area="" asp-controller=" Home" asp-action="Index">Каталог</a></li>
+                    <li><a asp-controller="Home" asp-action="Index">О нас</a></li>
+                    <li><a asp-controller="Home" asp-action="Services">Услуги</a></li>
+                    <li><a asp-controller="Home" asp-action="Contacts">Контакты</a></li>
+                </ul>
+            </nav>
+            <div class="footer-contacts">
+                <h4>Контакты</h4>
+                <p class="contact-line">г. Тирасполь</p>
+                <p class="contact-line">Тел: +373 XX XXX XXX</p>
+                <p class="contact-line">E-mail: info@appcatalog.local</p>
+            </div>
 
+            <div class="footer-social">
+                <h4>Мы в сети</h4>
+                <ul>
+                    <li><a href="#" aria-label="VK">VK</a></li>
+                    <li><a href="#" aria-label="Telegram">Telegram</a></li>
+                    <li><a href="#" aria-label="GitHub">GitHub</a></li>
+                </ul>
+            </div>
+        </div>
 
-    <!-- Подключаем partial (modal) один раз здесь -->
+        <div class="footer-bottom container">
+            <div class="copyright">© @DateTime.Now.Year AppCatalog — Все права защищены.</div>
+            <div class="credits">Разработано студентом ТТИП</div>
+        </div>
+    </footer>
+
+    <!-- Модальное окно входа/регистрации -->
     @await Html.PartialAsync("_LoginRegistrationPartial")
-    
 
-
-    <!-- Скрипты: внизу перед </body> -->
+    <!-- Скрипты внизу -->
     <script src="~/js/shared_script.js" asp-append-version="true"></script>
     <script src="~/js/login_and_registration_script.js" asp-append-version="true"></script>
     <script src="~/js/home_script.js" asp-append-version="true"></script>
+    <script src="~/js/contact_script.js" asp-append-version="true"></script>
 
-    <!-- Маленькая связка: привязать кнопки шапки к модальному -->
+    <!-- Связка кнопок шапки с модалкой -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // header кнопки открывают модал, имитируя клик по внутренним кнопкам в partial
             const headerSignIn = document.getElementById('header-open-signin');
             const headerSignUp = document.getElementById('header-open-signup');
             const innerSignIn = document.getElementById('click-to-show-signin');
             const innerSignUp = document.getElementById('click-to-show-signup');
 
-            if (headerSignIn) {
-                headerSignIn.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    // если у нас есть внутренняя кнопка — нажмём её, иначе откроем сам модал
-                    if (innerSignIn) { innerSignIn.click(); }
-                    else {
-                        // попроще: покажем модал напрямую
-                        const modal = document.getElementById('login-registration-modal');
-                        const overlay = document.getElementById('login-registration-overlay');
-                        const formSignin = document.getElementById('form_signin');
-                        const formSignup = document.getElementById('form_signup');
-                        formSignin?.classList.remove('hidden');
-                        formSignup?.classList.add('hidden');
-                        modal?.classList.remove('hidden');
-                        overlay?.classList.remove('hidden');
-                    }
-                });
+            if (headerSignIn && innerSignIn) {
+                headerSignIn.addEventListener('click', () => innerSignIn.click());
             }
-
-            if (headerSignUp) {
-                headerSignUp.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    if (innerSignUp) { innerSignUp.click(); }
-                    else {
-                        const modal = document.getElementById('login-registration-modal');
-                        const overlay = document.getElementById('login-registration-overlay');
-                        const formSignin = document.getElementById('form_signin');
-                        const formSignup = document.getElementById('form_signup');
-                        formSignup?.classList.remove('hidden');
-                        formSignin?.classList.add('hidden');
-                        modal?.classList.remove('hidden');
-                        overlay?.classList.remove('hidden');
-                    }
-                });
+            if (headerSignUp && innerSignUp) {
+                headerSignUp.addEventListener('click', () => innerSignUp.click());
             }
         });
     </script>
-
 </body>
 </html>
