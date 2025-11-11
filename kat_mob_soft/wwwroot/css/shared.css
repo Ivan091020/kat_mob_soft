@@ -786,3 +786,51 @@ body {
         text-align: center;
     }
 }
+/* --- QUICK FIX (вставить в КОНЕЦ CSS) --- */
+/* Временный, но безопасный — потом можно убрать !important и перенести в аккуратный блок */
+
+#contact-message, .contact-message-section {
+    background: #f7fbff !important; /* светлый фон секции */
+    border-top: 4px solid #ff7a00 !important; /* акцентная полоса сверху */
+    border-bottom: 4px solid #ff7a00 !important; /* акцентная полоса снизу */
+    padding: 48px 0 !important;
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+    #contact-message .container-inner,
+    .contact-message-section .container-inner {
+        background: #ffffff !important;
+        padding: 36px !important;
+        border-radius: 14px !important;
+        box-shadow: 0 10px 30px rgba(2,6,23,0.08) !important;
+        max-width: 960px !important;
+        margin: 0 auto !important;
+    }
+
+/* Make sure form looks ok inside */
+#contact-form {
+    background: transparent !important;
+}
+
+/* Ensure footer is visible and above section */
+.site-footer {
+    display: block !important;
+    position: relative !important;
+    z-index: 9999 !important;
+    background: #071022 !important;
+    color: #dfeaf6 !important;
+    padding: 36px 0 !important;
+    border-top: 1px solid rgba(255,255,255,0.04) !important;
+    box-shadow: 0 -8px 32px rgba(2,6,23,0.6) !important;
+    border-radius: 12px 12px 0 0 !important;
+}
+
+/* Small responsive rescue */
+@media (max-width: 860px) {
+    .site-footer .container, .contact-message-section .container-inner {
+        padding-left: 16px !important;
+        padding-right: 16px !important;
+    }
+}
+
