@@ -1,17 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Linq;
+using System.ComponentModel.DataAnnotations;
 
 namespace kat_mob_soft.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
         }
-
 
         public IActionResult Index()
         {
@@ -22,44 +23,49 @@ namespace kat_mob_soft.Controllers
         {
             return View("Services");
         }
+
         public IActionResult Contacts()
         {
             return View("Contacts");
         }
 
         // ------------------ SendMessage ------------------
-        // Синхронный вариант: не требует System.Threading.Tasks и не будет предупреждения CS1998.
-        // Временно отключил проверку antiforgery для удобства при отправке JSON через fetch.
         [HttpPost]
-        [IgnoreAntiforgeryToken]
+        [ValidateAntiForgeryToken]
         public IActionResult SendMessage([FromBody] ContactMessageModel model)
         {
             if (!ModelState.IsValid)
             {
-                // Для корректной работы SelectMany требуется using System.Linq; (он есть вверху файла)
                 var errors = ModelState.Values
                     .SelectMany(v => v.Errors)
                     .Select(e => e.ErrorMessage)
-                    .ToList();
+                    .ToArray();
 
-                return BadRequest(new { success = false, message = string.Join("; ", errors) });
+                return BadRequest(new { success = false, errors });
             }
 
-            // TODO: Здесь можно сохранять в БД или отправлять письмо.
             return Json(new { success = true });
         }
         // -------------------------------------------------
     }
 
-    // ------------------ Модель (в том же файле, т.к. у тебя нет папки Models) ------------------
-    // Если позже добавишь папку Models, можно перенести этот класс туда.
     public class ContactMessageModel
     {
-        // Можно добавить атрибуты валидации, если хочешь:
-        // [Required], [EmailAddress], [StringLength(...)] и т.д.
+        [Required(ErrorMessage = "Имя обязательно")]
         public string Name { get; set; }
+
+        [Required(ErrorMessage = "Email обязателен")]
+        [EmailAddress(ErrorMessage = "Неверный формат email")]
         public string Email { get; set; }
+
+        [Required(ErrorMessage = "Тема обязательна")]
         public string Subject { get; set; }
+
+        [Required(ErrorMessage = "Сообщение обязательно")]
+        [StringLength(1000, ErrorMessage = "Сообщение не должно превышать 1000 символов")]
         public string Message { get; set; }
+        // TODO: временно отключено, пока Identity не настроен
+        // После подключения Identity восстановить полноценный метод Register
+
     }
 }

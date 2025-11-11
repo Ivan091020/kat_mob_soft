@@ -22,5 +22,7 @@ namespace kat_mob_soft
                 {
                     webBuilder.UseStartup<Startup>();
                 });
+
     }
 }
+

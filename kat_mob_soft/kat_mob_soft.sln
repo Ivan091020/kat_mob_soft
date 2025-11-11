@@ -11,11 +11,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{56CF9A
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Service", "Service", "{1B72E210-9936-46B6-B118-B88DF7756093}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "kat_mob_soft.DAL", "..\kat_mob_soft.DAL\kat_mob_soft.DAL.csproj", "{7F6BBAAC-7EDD-46E5-BE5A-636015952038}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "kat_mob_soft.DAL", "..\kat_mob_soft.DAL\kat_mob_soft.DAL.csproj", "{7F6BBAAC-7EDD-46E5-BE5A-636015952038}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "kat_mob_soft.Domain", "..\kat_mob_soft.Domain\kat_mob_soft.Domain.csproj", "{8B34AD0F-59EE-46D1-9EA7-327C32422276}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "kat_mob_soft.Domain", "..\kat_mob_soft.Domain\kat_mob_soft.Domain.csproj", "{8B34AD0F-59EE-46D1-9EA7-327C32422276}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "kat_mob_soft.Service", "..\kat_mob_soft.Service\kat_mob_soft.Service.csproj", "{965B6375-072C-4BAC-8BB0-80CDBF6E2EE0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "kat_mob_soft.Service", "..\kat_mob_soft.Service\kat_mob_soft.Service.csproj", "{965B6375-072C-4BAC-8BB0-80CDBF6E2EE0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ViewModels", "ViewModels", "{53B3DCC0-E917-4CF9-A6B7-FC142F2BA4B8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LoginAndRegistration", "LoginAndRegistration", "{7E7805A4-882E-4F66-B166-A14BEB5752F3}"
+	ProjectSection(SolutionItems) = preProject
+		LoginViewModel.cs = LoginViewModel.cs
+		RegisterViewModel.cs = RegisterViewModel.cs
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +55,8 @@ Global
 		{7F6BBAAC-7EDD-46E5-BE5A-636015952038} = {3913B960-D27C-4638-AC1E-F9D0709CAFBD}
 		{8B34AD0F-59EE-46D1-9EA7-327C32422276} = {56CF9AAC-1275-4526-A7A1-899444E970DC}
 		{965B6375-072C-4BAC-8BB0-80CDBF6E2EE0} = {1B72E210-9936-46B6-B118-B88DF7756093}
+		{53B3DCC0-E917-4CF9-A6B7-FC142F2BA4B8} = {56CF9AAC-1275-4526-A7A1-899444E970DC}
+		{7E7805A4-882E-4F66-B166-A14BEB5752F3} = {53B3DCC0-E917-4CF9-A6B7-FC142F2BA4B8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B58A5D70-FDE1-412A-B611-6D10A96D5A08}

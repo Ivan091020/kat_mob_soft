@@ -49,6 +49,7 @@ namespace kat_mob_soft
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
 
+
         }
     }
 }

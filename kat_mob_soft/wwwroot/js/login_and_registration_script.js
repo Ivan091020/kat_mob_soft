@@ -1,21 +1,16 @@
-﻿// wwwroot/js/login_and_registration_script.js
-(() => {
-    // Удобная обёртка для логов — можно выключить, установив false
+﻿(() => {
     const DBG = true;
     const log = (...args) => { if (DBG) console.log('[LR]', ...args); };
 
-    // Подготовка: безопасно ищем элементы и привязываем слушатели после загрузки DOM
     function init() {
         log('Инициализация login_and_registration_script.js');
 
         const modal = document.getElementById('login-registration-modal');
         const overlay = document.getElementById('login-registration-overlay');
 
-        // Кнопки, которые открывают модал
         const showSignInBtn = document.getElementById('click-to-show-signin');
         const showSignUpBtn = document.getElementById('click-to-show-signup');
 
-        // Формы и кнопки отправки (могут быть null, если partial не вставлен)
         const formSignin = document.getElementById('form_signin');
         const formSignup = document.getElementById('form_signup');
         const btnSignInSubmit = document.getElementById('btn-signin-submit');
@@ -27,7 +22,7 @@
         const errorSignin = document.getElementById('error-messages-singin');
         const errorSignup = document.getElementById('error-messages-signup');
 
-        // Функции управления модальным окном
+        // ---- Модальное окно ----
         function openModal() {
             if (modal) { modal.classList.remove('hidden'); modal.setAttribute('aria-hidden', 'false'); }
             if (overlay) overlay.classList.remove('hidden');
@@ -44,19 +39,10 @@
             if (errorSignup) errorSignup.innerHTML = '';
         }
 
-        // Убедимся, что кнопки открытия есть — если нет, покажем предупреждение в консоль
-        if (!showSignInBtn && !showSignUpBtn) {
-            log('Кнопки открытия модала не найдены. Проверь id (click-to-show-signin / click-to-show-signup) и место подключения partial.');
-        }
-
-        // Привязываем обработчики (защищённо)
         showSignInBtn?.addEventListener('click', (e) => {
             e.preventDefault();
-            log('Нажата кнопка: Войти (open modal signin)');
-            if (formSignin) {
-                formSignin.classList.remove('hidden');
-                formSignup?.classList.add('hidden');
-            }
+            formSignin?.classList.remove('hidden');
+            formSignup?.classList.add('hidden');
             showSignInBtn.classList.add('active');
             showSignUpBtn?.classList.remove('active');
             openModal();
@@ -64,11 +50,8 @@
 
         showSignUpBtn?.addEventListener('click', (e) => {
             e.preventDefault();
-            log('Нажата кнопка: Зарегистрироваться (open modal signup)');
-            if (formSignup) {
-                formSignup.classList.remove('hidden');
-                formSignin?.classList.add('hidden');
-            }
+            formSignup?.classList.remove('hidden');
+            formSignin?.classList.add('hidden');
             showSignUpBtn.classList.add('active');
             showSignInBtn?.classList.remove('active');
             openModal();
@@ -78,7 +61,7 @@
         btnCloseSign?.addEventListener('click', closeModal);
         btnCloseSignUp?.addEventListener('click', closeModal);
 
-        // Функция отображения ошибок
+        // ---- Отображение ошибок ----
         function displayErrors(container, errors) {
             if (!container) return;
             container.innerHTML = '';
@@ -91,71 +74,69 @@
             });
         }
 
-        // Функция отправки запроса к серверу
-        async function sendRequest(url, body) {
+        // ---- Получение токена AntiForgery ----
+        function getToken(form) {
+            const tokenInput = form.querySelector('input[name="__RequestVerificationToken"]');
+            return tokenInput ? tokenInput.value : null;
+        }
+
+        // ---- Отправка формы через fetch ----
+        async function postForm(form, url, errorContainer) {
+            const token = getToken(form);
+            const formData = new FormData(form);
+            const body = new URLSearchParams();
+            for (const [key, value] of formData.entries()) body.append(key, value);
+
+            const headers = { 'Content-Type': 'application/x-www-form-urlencoded' };
+            if (token) headers['RequestVerificationToken'] = token;
+
             try {
                 const resp = await fetch(url, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(body)
+                    credentials: 'same-origin',
+                    headers,
+                    body
                 });
-                if (!resp.ok) {
-                    // попробуем прочитать тело ошибки
-                    let text = await resp.text().catch(() => null);
-                    log('Fetch returned not ok', resp.status, text);
-                    return { success: false, errors: [`HTTP ${resp.status}`] };
+                if (resp.ok) {
+                    const data = await resp.json().catch(() => null);
+                    return { success: true, data };
+                } else {
+                    const errData = await resp.json().catch(() => null);
+                    return { success: false, errors: errData?.errors || [errData?.message || 'Ошибка'] };
                 }
-                const data = await resp.json().catch(() => null);
-                return data ?? { success: false, errors: ['Неправильный ответ сервера'] };
             } catch (err) {
-                log('sendRequest error', err);
+                log('postForm error', err);
                 return { success: false, errors: ['Сетевая ошибка'] };
             }
         }
 
-        // Обработчики отправки
+        // ---- Submit Login ----
         btnSignInSubmit?.addEventListener('click', async (ev) => {
             ev.preventDefault();
-            log('Попытка входа...');
-            if (!formSignin) { log('form_signin отсутствует'); return; }
-            if (errorSignin) errorSignin.innerHTML = '';
-            const body = {
-                Email: document.getElementById('signin-email')?.value?.trim(),
-                Password: document.getElementById('signin-password')?.value
-            };
-            log('body', body);
-            const result = await sendRequest('/Home/Login', body);
-            log('result', result);
-            if (result?.success) {
+            if (!formSignin) return;
+            errorSignin.innerHTML = '';
+            const result = await postForm(formSignin, formSignin.action || '/Account/Login', errorSignin);
+            if (result.success) {
                 location.reload();
             } else {
-                displayErrors(errorSignin, result?.errors || [result?.message || 'Ошибка']);
+                displayErrors(errorSignin, result.errors);
             }
         });
 
+        // ---- Submit Register ----
         btnSignUpSubmit?.addEventListener('click', async (ev) => {
             ev.preventDefault();
-            log('Попытка регистрации...');
-            if (!formSignup) { log('form_signup отсутствует'); return; }
-            if (errorSignup) errorSignup.innerHTML = '';
-            const body = {
-                Name: document.getElementById('signup-name')?.value?.trim(),
-                Email: document.getElementById('signup-email')?.value?.trim(),
-                Password: document.getElementById('signup-password')?.value,
-                ConfirmPassword: document.getElementById('signup-confirm')?.value
-            };
-            log('body', body);
-            const result = await sendRequest('/Home/Register', body);
-            log('result', result);
-            if (result?.success) {
+            if (!formSignup) return;
+            errorSignup.innerHTML = '';
+            const result = await postForm(formSignup, formSignup.action || '/Account/Register', errorSignup);
+            if (result.success) {
                 location.reload();
             } else {
-                displayErrors(errorSignup, result?.errors || [result?.message || 'Ошибка']);
+                displayErrors(errorSignup, result.errors);
             }
         });
-    } // init
+    }
 
-    // Инициализируем после загрузки DOM
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', init);
     } else {
