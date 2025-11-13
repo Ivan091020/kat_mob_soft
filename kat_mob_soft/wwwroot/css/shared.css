@@ -833,4 +833,75 @@ body {
         padding-right: 16px !important;
     }
 }
+/* ===== Focus & Error styles for contact form ===== */
+
+/* базовый вид полей */
+.contact-form input[type="text"],
+.contact-form input[type="email"],
+.contact-form textarea {
+    border: 1px solid #e6e6e6;
+    padding: 10px 12px;
+    border-radius: 8px;
+    transition: border-color .15s ease, box-shadow .15s ease, transform .08s ease;
+}
+
+    /* визуальное выделение при фокусе — красный акцент */
+    .contact-form input[type="text"]:focus,
+    .contact-form input[type="email"]:focus,
+    .contact-form textarea:focus {
+        outline: none; /* убираем браузерный outline */
+        border-color: #e11; /* насыщенный красный */
+        box-shadow: 0 0 0 4px rgba(225,17,17,0.12); /* светящаяся обводка */
+        transform: translateY(-1px);
+    }
+
+    /* дополнительный селектор для более доступного поведения в современных браузерах */
+    .contact-form input[type="text"]:focus-visible,
+    .contact-form input[type="email"]:focus-visible,
+    .contact-form textarea:focus-visible {
+        box-shadow: 0 0 0 4px rgba(225,17,17,0.18);
+    }
+
+/* класс состояния ошибки (я использую и для валидации и для подсветки) */
+.contact-form .input-error {
+    border-color: #c02020 !important;
+    box-shadow: 0 0 0 6px rgba(192,32,32,0.08) !important;
+}
+
+/* текст сообщения об ошибке */
+.contact-form .field-error {
+    color: #c02020;
+    font-size: 13px;
+    margin-top: 6px;
+    display: none; /* показываем только при ошибке */
+}
+
+/* когда контейнер помечен ошибкой, показываем подпись */
+.contact-form .form-row.error .field-error {
+    display: block;
+}
+
+/* для аккуратного размещения label + input */
+.contact-form .form-row {
+    position: relative;
+}
+
+/* небольшая анимация для кнопки при невалидных полях */
+.contact-form .btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* мобильная адаптация — увеличим touch-область ошибок */
+@media (max-width: 520px) {
+    .contact-form input, .contact-form textarea {
+        font-size: 15px;
+        padding: 12px;
+    }
+
+    .contact-form .field-error {
+        font-size: 14px;
+    }
+}
+
 
