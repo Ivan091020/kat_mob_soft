@@ -16,7 +16,9 @@
 
     <meta name="description" content="AppCatalog — каталог мобильных приложений: обзоры, категории, подборки и рекомендации 2025" />
 </head>
+
 <body>
+
     <!-- ШАПКА -->
     <header class="site-header">
         <div class="header-top">
@@ -46,11 +48,13 @@
                     </ul>
                 </nav>
 
+
                 <div class="header-actions">
                     <form asp-area="" asp-controller="Catalog" asp-action="Search" method="get" class="search-form">
                         <input type="search" name="q" placeholder="Поиск приложений..." aria-label="Поиск по каталогу" />
                         <button type="submit" class="btn-icon" aria-label="Искать">Поиск</button>
                     </form>
+
 
                     <button id="side-menu-button-click-to-hide" class="hamburger" aria-label="Открыть меню">
                         <span></span><span></span><span></span>
@@ -114,6 +118,7 @@
     <script src="~/js/home_script.js" asp-append-version="true"></script>
     <script src="~/js/contact_script.js" asp-append-version="true"></script>
     <script src="~/js/auth_fetch.js" asp-append-version="true"></script>
+    <script src="~/js/chared_script.js" asp-append-version="true"></script>
 
 
     <!-- Связка кнопок шапки с модалкой -->

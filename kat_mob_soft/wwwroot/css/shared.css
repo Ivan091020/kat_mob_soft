@@ -680,6 +680,47 @@ body {
         font-size: 14px;
     }
 }
+/* ===== Мобильное меню (фиксированная версия) ===== */
+@media (max-width: 900px) {
+
+    /* скрытое меню по умолчанию */
+    .nav-list {
+        display: none;
+        flex-direction: column;
+        background: rgba(0,0,0,0.9);
+        width: 100%;
+        padding: 12px 0;
+        gap: 12px;
+    }
+
+        /* меню, когда открыто */
+        .nav-list.open {
+            display: flex;
+        }
+
+        .nav-list li a {
+            width: 100%;
+            text-align: center;
+            padding: 10px 0;
+        }
+
+    /* гамбургер */
+    .hamburger {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        position: relative;
+        top: -6px; /* приподнимаем выше */
+        z-index: 2000;
+    }
+
+    /* чтобы поиск не перекрывался */
+    .search-form {
+        z-index: 1500;
+        position: relative;
+    }
+}
+
 
 /* === КРАСИВЫЙ ТЁМНЫЙ ФУТЕР APPCATALOG — ФИНАЛЬНАЯ ВЕРСИЯ === */
 .site-footer {
@@ -826,40 +867,6 @@ body {
     border-radius: 12px 12px 0 0 !important;
 }
 
-/* Small responsive rescue */
-@media (max-width: 900px) {
-    .nav-list {
-        display: flex;              /* показываем меню */
-        flex-direction: column;     /* вертикально */
-        gap: 12px;
-        width: 100%;                /* растягиваем на всю ширину шапки */
-        background: #fff;           /* светлый фон */
-        padding: 10px 0;
-        border-radius: 0;           /* без скруглений */
-        position: relative;         /* встроенное меню */
-        top: 0;                     /* не вылазит сверху */
-        transform: none;            /* убираем translateX */
-        z-index: 1;                 /* под шапкой */
-    }
-
-    .nav-list li a {
-        width: 100%;
-        text-align: center;         /* кнопки по центру */
-        padding: 10px 0;
-    }
-
-    .auth-buttons {
-        flex-direction: column;
-        gap: 10px;
-        margin-top: 12px;
-        align-items: center;
-        width: 100%;
-    }
-
-    .hamburger {
-        display: flex;
-    }
-}
 
 /* ===== Focus & Error styles for contact form ===== */
 
