@@ -2,6 +2,12 @@
     const DBG = true;
     const log = (...args) => { if (DBG) console.log('[LR]', ...args); };
 
+    // ---------- DEMO FLAG ----------
+    // true  = не отправляем реальный запрос регистрации, только логируем в консоль (demo mode)
+    // false = выполняем реальную отправку на сервер (postForm -> /Account/Register)
+    const MOCK_REGISTRATION = true;
+    // --------------------------------
+
     function init() {
         log('Инициализация login_and_registration_script.js');
 
@@ -114,7 +120,7 @@
         btnSignInSubmit?.addEventListener('click', async (ev) => {
             ev.preventDefault();
             if (!formSignin) return;
-            errorSignin.innerHTML = '';
+            if (errorSignin) errorSignin.innerHTML = '';
             const result = await postForm(formSignin, formSignin.action || '/Account/Login', errorSignin);
             if (result.success) {
                 location.reload();
@@ -123,11 +129,75 @@
             }
         });
 
-        // ---- Submit Register ----
+        // ---- Client-side validation for Register (used in MOCK mode) ----
+        function validateRegisterFields(values) {
+            const errors = [];
+
+            // Required checks
+            if (!values.UserName && !values.Name) { // allow both field names: UserName or Name
+                errors.push('Имя пользователя обязательно');
+            }
+            const email = values.Email || '';
+            if (!email.trim()) {
+                errors.push('Email обязателен');
+            } else {
+                // simple email regex
+                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!re.test(email)) errors.push('Неверный формат email');
+            }
+
+            const pwd = values.Password || '';
+            const confirm = values.ConfirmPassword || values.Confirm || '';
+
+            if (!pwd) errors.push('Пароль обязателен');
+            else if (pwd.length < 6) errors.push('Пароль минимум 6 символов');
+
+            if (!confirm) errors.push('Подтверждение пароля обязательно');
+            else if (pwd && pwd !== confirm) errors.push('Пароли не совпадают');
+
+            // Optionally: other checks, e.g. username length
+            return errors;
+        }
+
+        // ---- Submit Register (с поддержкой demo-mode и клиентской валидацией) ----
         btnSignUpSubmit?.addEventListener('click', async (ev) => {
             ev.preventDefault();
             if (!formSignup) return;
-            errorSignup.innerHTML = '';
+            if (errorSignup) errorSignup.innerHTML = '';
+
+            // собираем поля из формы
+            const formData = new FormData(formSignup);
+            const bodyObj = {};
+            for (const [k, v] of formData.entries()) bodyObj[k] = v;
+
+            log('Попытка регистрации, body:', bodyObj);
+
+            // Если в MOCK режиме — сначала валидируем на клиенте и выводим ошибки, если есть
+            if (MOCK_REGISTRATION) {
+                const clientErrors = validateRegisterFields(bodyObj);
+                if (clientErrors.length > 0) {
+                    // показываем ошибки в контейнере
+                    displayErrors(errorSignup, clientErrors);
+                    // и логируем в консоль для преподавателя
+                    console.warn('[MOCK REGISTER] Клиентская валидация не пройдена:', clientErrors);
+                    return; // не отправляем запрос
+                }
+
+                // Если клиентская валидация успешна — логируем (симуляция отправки)
+                console.log('%c[MOCK REGISTER] Отправка данных (симуляция):', 'color: teal; font-weight: bold;', bodyObj);
+
+                // имитируем небольшой delay и успешный ответ (по желанию можно снять комментарий)
+                // setTimeout(() => {
+                //     // чистим форму и закрываем модал (если нужно)
+                //     formSignup.reset();
+                //     displayErrors(errorSignup, []); // очистить контейнер
+                //     // можно закрыть модал: closeModal();
+                // }, 200);
+
+                return; // выходим, не делаем реальную отправку
+            }
+
+            // Если mock выключен — делаем реальную отправку через postForm
             const result = await postForm(formSignup, formSignup.action || '/Account/Register', errorSignup);
             if (result.success) {
                 location.reload();
