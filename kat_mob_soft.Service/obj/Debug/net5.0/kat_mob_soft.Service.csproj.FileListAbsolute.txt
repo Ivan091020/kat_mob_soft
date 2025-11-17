@@ -28,3 +28,5 @@ C:\Users\user\Desktop\kat_mob_softV7er\kat_mob_soft.Service\obj\Debug\net5.0\kat
 C:\Users\user\Desktop\kat_mob_softV7er\kat_mob_soft.Service\obj\Debug\net5.0\kat_mob_soft.Service.dll
 C:\Users\user\Desktop\kat_mob_softV7er\kat_mob_soft.Service\obj\Debug\net5.0\ref\kat_mob_soft.Service.dll
 C:\Users\user\Desktop\kat_mob_softV7er\kat_mob_soft.Service\obj\Debug\net5.0\kat_mob_soft.Service.pdb
+C:\up\kat_mob_soft\kat_mob_soft.Service\bin\Debug\net5.0\kat_mob_soft.DAL.dll
+C:\up\kat_mob_soft\kat_mob_soft.Service\bin\Debug\net5.0\kat_mob_soft.DAL.pdb

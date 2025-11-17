@@ -1,13 +1,8 @@
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 
-namespace kat_mob_soft
+namespace kat_mob_soft.DAL // <- замени на namespace твоего Web-проекта, если другое
 {
     public class Program
     {
@@ -20,9 +15,7 @@ namespace kat_mob_soft
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    webBuilder.UseStartup<Startup>(); // <-- здесь ожидается класс Startup
                 });
-
     }
 }
-

@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\kat_mob_soft.Domain\kat_mob_soft.Domain.csproj" />
+    <ProjectReference Include="..\kat_mob_soft.DAL\kat_mob_soft.DAL.csproj" />
   </ItemGroup>
 
 </Project>
