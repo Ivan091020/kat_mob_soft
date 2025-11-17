@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text.Json;
 
-namespace Domain.Models.Db
+namespace kat_mob_soft.Domain.Models.Db
 {
     [System.ComponentModel.DataAnnotations.Schema.Table("audit_logs", Schema = "public")]
     public class AuditLogDb

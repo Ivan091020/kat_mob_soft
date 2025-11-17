@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Domain.Models.Db
+namespace kat_mob_soft.Domain.Models.Db
 {
     [Table("users", Schema = "public")]
     public class UserDb

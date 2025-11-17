@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Domain.Models.Db
+namespace kat_mob_soft.Domain.Models.Db
 {
     [Table("app_icons", Schema = "public")]
     public class AppIconDb

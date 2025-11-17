@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Domain.Models.Db
+namespace kat_mob_soft.Domain.Models.Db
 {
     [Table("app_tags", Schema = "public")]
     public class AppTagDb

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Domain.Models.Db
+namespace kat_mob_soft.Domain.Models.Db
 {
     [System.ComponentModel.DataAnnotations.Schema.Table("reports", Schema = "public")]
     public class ReportDb

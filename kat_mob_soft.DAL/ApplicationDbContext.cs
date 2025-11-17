@@ -1,6 +1,6 @@
 ﻿// DAL/Data/AppCatalogDbContext.cs
 using System;
-using Domain.Models.Db;
+using kat_mob_soft.Domain.Models.Db;
 using Microsoft.EntityFrameworkCore;
 
 namespace kat_mob_soft.DAL

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Domain.Models.Db
+namespace kat_mob_soft.Domain.Models.Db
 {
     [Table("downloads", Schema = "public")]
     public class DownloadDb
