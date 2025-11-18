@@ -19,7 +19,13 @@ namespace kat_mob_soft.DAL.Interfaces.Storage
             return list;
         }
 
-        public async Task<UserDb> GetByIdAsync(Guid id)
+        public Task<UserDb> GetByIdAsync(Guid id)
+        {
+            // UserDb использует long, а не Guid
+            return Task.FromResult<UserDb>(null);
+        }
+
+        public async Task<UserDb> GetByIdAsync(long id)
         {
             var entity = await _db.Users.FindAsync(id);
             if (entity == null) return null;
@@ -33,6 +39,11 @@ namespace kat_mob_soft.DAL.Interfaces.Storage
             if (!entry.Collection(e => e.AuditLogs).IsLoaded) await entry.Collection(e => e.AuditLogs).LoadAsync();
 
             return entity;
+        }
+
+        public async Task<UserDb> GetByEmailAsync(string email)
+        {
+            return await _db.Users.FirstOrDefaultAsync(u => u.Email == email);
         }
 
         public async Task CreateAsync(UserDb entity)

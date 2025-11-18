@@ -4,9 +4,14 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
-using kat_mob_soft.DAL; // <- заменяй на точный namespace, где у тебя расположен DbContext
+using kat_mob_soft.DAL;
+using kat_mob_soft.DAL.Interfaces.Storage;
+using kat_mob_soft.DAL.Interfaces;
+using kat_mob_soft.Domain.Models.Db;
+using kat_mob_soft.Service;
+using AutoMapper;
 
-namespace kat_mob_soft.DAL // <- должен совпадать с namespace проекта Web
+namespace kat_mob_soft.DAL
 {
     public class Startup
     {
@@ -19,7 +24,15 @@ namespace kat_mob_soft.DAL // <- должен совпадать с namespace проекта Web
 
             services.AddDbContext<AppCatalogDbContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
-            // или services.AddDbContext<ApplicationDbContext>(...) в зависимости от имени класса контекста
+
+            // Р РµРіРёСЃС‚СЂР°С†РёСЏ AutoMapper
+            services.AddAutoMapper(typeof(AppMappingProfile));
+
+            // Р РµРіРёСЃС‚СЂР°С†РёСЏ Storage
+            services.AddScoped<IBaseStorage<UserDb>, UserStorage>();
+
+            // Р РµРіРёСЃС‚СЂР°С†РёСЏ СЃРµСЂРІРёСЃРѕРІ
+            services.AddScoped<IAccountService, AccountService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
