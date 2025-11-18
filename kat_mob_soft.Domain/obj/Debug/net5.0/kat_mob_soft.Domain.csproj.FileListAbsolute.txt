@@ -1,8 +1,9 @@
 C:\up\kat_mob_soft\kat_mob_soft.Domain\bin\Debug\net5.0\kat_mob_soft.Domain.deps.json
+C:\up\kat_mob_soft\kat_mob_soft.Domain\bin\Debug\net5.0\kat_mob_soft.Domain.runtimeconfig.json
+C:\up\kat_mob_soft\kat_mob_soft.Domain\bin\Debug\net5.0\kat_mob_soft.Domain.runtimeconfig.dev.json
 C:\up\kat_mob_soft\kat_mob_soft.Domain\bin\Debug\net5.0\kat_mob_soft.Domain.dll
 C:\up\kat_mob_soft\kat_mob_soft.Domain\bin\Debug\net5.0\ref\kat_mob_soft.Domain.dll
 C:\up\kat_mob_soft\kat_mob_soft.Domain\bin\Debug\net5.0\kat_mob_soft.Domain.pdb
-C:\up\kat_mob_soft\kat_mob_soft.Domain\obj\Debug\net5.0\kat_mob_soft.Domain.csproj.AssemblyReference.cache
 C:\up\kat_mob_soft\kat_mob_soft.Domain\obj\Debug\net5.0\kat_mob_soft.Domain.GeneratedMSBuildEditorConfig.editorconfig
 C:\up\kat_mob_soft\kat_mob_soft.Domain\obj\Debug\net5.0\kat_mob_soft.Domain.AssemblyInfoInputs.cache
 C:\up\kat_mob_soft\kat_mob_soft.Domain\obj\Debug\net5.0\kat_mob_soft.Domain.AssemblyInfo.cs
@@ -10,3 +11,4 @@ C:\up\kat_mob_soft\kat_mob_soft.Domain\obj\Debug\net5.0\kat_mob_soft.Domain.cspr
 C:\up\kat_mob_soft\kat_mob_soft.Domain\obj\Debug\net5.0\kat_mob_soft.Domain.dll
 C:\up\kat_mob_soft\kat_mob_soft.Domain\obj\Debug\net5.0\ref\kat_mob_soft.Domain.dll
 C:\up\kat_mob_soft\kat_mob_soft.Domain\obj\Debug\net5.0\kat_mob_soft.Domain.pdb
+C:\up\kat_mob_soft\kat_mob_soft.Domain\obj\Debug\net5.0\kat_mob_soft.Domain.genruntimeconfig.cache

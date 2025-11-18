@@ -272,6 +272,10 @@
       "kat_mob_soft.Domain/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v5.0",
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore.Relational": "5.0.17",
+          "Npgsql.EntityFrameworkCore.PostgreSQL": "5.0.10"
+        },
         "compile": {
           "bin/placeholder/kat_mob_soft.Domain.dll": {}
         },
@@ -863,6 +867,7 @@
   "projectFileDependencyGroups": {
     "net5.0": [
       "Microsoft.EntityFrameworkCore >= 5.0.17",
+      "Microsoft.EntityFrameworkCore.Relational >= 5.0.17",
       "Microsoft.EntityFrameworkCore.Tools >= 5.0.17",
       "Npgsql.EntityFrameworkCore.PostgreSQL >= 5.0.10",
       "kat_mob_soft.Domain >= 1.0.0"
@@ -920,6 +925,10 @@
         "targetAlias": "net5.0",
         "dependencies": {
           "Microsoft.EntityFrameworkCore": {
+            "target": "Package",
+            "version": "[5.0.17, )"
+          },
+          "Microsoft.EntityFrameworkCore.Relational": {
             "target": "Package",
             "version": "[5.0.17, )"
           },

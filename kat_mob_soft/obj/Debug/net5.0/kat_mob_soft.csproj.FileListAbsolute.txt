@@ -1,3 +1,11 @@
+C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\kat_mob_soft.csproj.AssemblyReference.cache
+C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\kat_mob_soft.GeneratedMSBuildEditorConfig.editorconfig
+C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\kat_mob_soft.AssemblyInfoInputs.cache
+C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\kat_mob_soft.AssemblyInfo.cs
+C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\kat_mob_soft.csproj.CoreCompileInputs.cache
+C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\kat_mob_soft.MvcApplicationPartsAssemblyInfo.cache
+C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\kat_mob_soft.RazorAssemblyInfo.cache
+C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\kat_mob_soft.RazorAssemblyInfo.cs
 C:\up\kat_mob_soft\kat_mob_soft\bin\Debug\net5.0\appsettings.Development.json
 C:\up\kat_mob_soft\kat_mob_soft\bin\Debug\net5.0\appsettings.json
 C:\up\kat_mob_soft\kat_mob_soft\bin\Debug\net5.0\kat_mob_soft.exe
@@ -9,6 +17,9 @@ C:\up\kat_mob_soft\kat_mob_soft\bin\Debug\net5.0\ref\kat_mob_soft.dll
 C:\up\kat_mob_soft\kat_mob_soft\bin\Debug\net5.0\kat_mob_soft.pdb
 C:\up\kat_mob_soft\kat_mob_soft\bin\Debug\net5.0\kat_mob_soft.Views.dll
 C:\up\kat_mob_soft\kat_mob_soft\bin\Debug\net5.0\kat_mob_soft.Views.pdb
+C:\up\kat_mob_soft\kat_mob_soft\bin\Debug\net5.0\AutoMapper.dll
+C:\up\kat_mob_soft\kat_mob_soft\bin\Debug\net5.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+C:\up\kat_mob_soft\kat_mob_soft\bin\Debug\net5.0\BCrypt.Net-Next.dll
 C:\up\kat_mob_soft\kat_mob_soft\bin\Debug\net5.0\Humanizer.dll
 C:\up\kat_mob_soft\kat_mob_soft\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.dll
 C:\up\kat_mob_soft\kat_mob_soft\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Abstractions.dll
@@ -24,14 +35,6 @@ C:\up\kat_mob_soft\kat_mob_soft\bin\Debug\net5.0\kat_mob_soft.Service.dll
 C:\up\kat_mob_soft\kat_mob_soft\bin\Debug\net5.0\kat_mob_soft.Domain.pdb
 C:\up\kat_mob_soft\kat_mob_soft\bin\Debug\net5.0\kat_mob_soft.Service.pdb
 C:\up\kat_mob_soft\kat_mob_soft\bin\Debug\net5.0\kat_mob_soft.DAL.pdb
-C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\kat_mob_soft.csproj.AssemblyReference.cache
-C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\kat_mob_soft.GeneratedMSBuildEditorConfig.editorconfig
-C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\kat_mob_soft.AssemblyInfoInputs.cache
-C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\kat_mob_soft.AssemblyInfo.cs
-C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\kat_mob_soft.csproj.CoreCompileInputs.cache
-C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\kat_mob_soft.MvcApplicationPartsAssemblyInfo.cache
-C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\kat_mob_soft.RazorAssemblyInfo.cache
-C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\kat_mob_soft.RazorAssemblyInfo.cs
 C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\staticwebassets\kat_mob_soft.StaticWebAssets.Manifest.cache
 C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\staticwebassets\kat_mob_soft.StaticWebAssets.xml
 C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\scopedcss\bundle\kat_mob_soft.styles.css

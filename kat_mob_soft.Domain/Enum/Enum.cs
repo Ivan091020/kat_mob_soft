@@ -1,22 +1,25 @@
-﻿public enum UserRole
+﻿namespace kat_mob_soft.Domain.Enum
 {
-    User,
-    Developer,
-    Moderator,
-    Admin
-}
+    public enum UserRole
+    {
+        User,
+        Developer,
+        Moderator,
+        Admin
+    }
 
-public enum AppPlatform
-{
-    Android,
-    iOS,
-    Windows,
-    Other
-}
+    public enum AppPlatform
+    {
+        Android,
+        iOS,
+        Windows,
+        Other
+    }
 
-public enum PurchaseStatus
-{
-    Pending,
-    Completed,
-    Refunded
+    public enum PurchaseStatus
+    {
+        Pending,
+        Completed,
+        Refunded
+    }
 }
