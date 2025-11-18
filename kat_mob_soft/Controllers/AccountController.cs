@@ -15,43 +15,62 @@ namespace kat_mob_soft.Controllers
             _accountService = accountService;
         }
 
+        // GET: Account/Register - отображение формы регистрации
+        [HttpGet]
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        // POST: Account/Register - обработка регистрации
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register([FromBody] RegisterViewModel model)
+        public async Task<IActionResult> Register(RegisterViewModel model)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return View(model);
             }
 
             try
             {
                 var profile = await _accountService.RegisterAsync(model);
-                return Ok(profile);
+                return RedirectToAction("Login", "Account");
             }
             catch (InvalidOperationException ex)
             {
-                return BadRequest(new { error = ex.Message });
+                ModelState.AddModelError("", ex.Message);
+                return View(model);
             }
         }
 
+        // GET: Account/Login - отображение формы входа
+        [HttpGet]
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        // POST: Account/Login - обработка входа
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login([FromBody] LoginViewModel model)
+        public async Task<IActionResult> Login(LoginViewModel model)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return View(model);
             }
 
             try
             {
                 var tokens = await _accountService.LoginAsync(model);
-                return Ok(tokens);
+                // TODO: Сохранение токена в cookie или session
+                return RedirectToAction("Index", "Home");
             }
             catch (UnauthorizedAccessException ex)
             {
-                return Unauthorized(new { error = ex.Message });
+                ModelState.AddModelError("", ex.Message);
+                return View(model);
             }
         }
 
