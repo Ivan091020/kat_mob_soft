@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using kat_mob_soft.Service;
 using kat_mob_soft.Domain.ViewModels;
@@ -27,19 +28,58 @@ namespace kat_mob_soft.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
+            Console.WriteLine($"Controller: Получен запрос на регистрацию пользователя {model.Email}");
+            Console.WriteLine($"Controller: ModelState.IsValid = {ModelState.IsValid}");
+            
+            // Проверяем, это AJAX запрос или обычный
+            var isAjax = Request.Headers["X-Requested-With"] == "XMLHttpRequest" || 
+                        Request.ContentType?.Contains("application/json") == true;
+            
             if (!ModelState.IsValid)
             {
+                Console.WriteLine("Controller: ModelState невалиден");
+                var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
+                
+                if (isAjax)
+                {
+                    return Json(new { success = false, errors });
+                }
                 return View(model);
             }
 
             try
             {
+                Console.WriteLine("Controller: Вызываем AccountService.RegisterAsync");
                 var profile = await _accountService.RegisterAsync(model);
+                Console.WriteLine("Controller: Регистрация успешна");
+                
+                if (isAjax)
+                {
+                    return Json(new { success = true, message = "Регистрация успешна" });
+                }
                 return RedirectToAction("Login", "Account");
             }
             catch (InvalidOperationException ex)
             {
+                Console.WriteLine($"Controller: Ошибка регистрации: {ex.Message}");
+                
+                if (isAjax)
+                {
+                    return Json(new { success = false, errors = new[] { ex.Message } });
+                }
                 ModelState.AddModelError("", ex.Message);
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Controller: Непредвиденная ошибка: {ex.Message}");
+                Console.WriteLine($"Controller: Stack trace: {ex.StackTrace}");
+                
+                if (isAjax)
+                {
+                    return Json(new { success = false, errors = new[] { "Произошла ошибка при регистрации" } });
+                }
+                ModelState.AddModelError("", "Произошла ошибка при регистрации");
                 return View(model);
             }
         }

@@ -5,7 +5,7 @@
     // ---------- DEMO FLAG ----------
     // true  = не отправляем реальный запрос регистрации, только логируем в консоль (demo mode)
     // false = выполняем реальную отправку на сервер (postForm -> /Account/Register)
-    const MOCK_REGISTRATION = true;
+    const MOCK_REGISTRATION = false;
     // --------------------------------
 
     function init() {
@@ -86,7 +86,7 @@
             return tokenInput ? tokenInput.value : null;
         }
 
-        // ---- Отправка формы через fetch ----
+        // ---- Отправка формы через fetch (FormUrlEncoded) ----
         async function postForm(form, url, errorContainer) {
             const token = getToken(form);
             const formData = new FormData(form);
@@ -112,6 +112,34 @@
                 }
             } catch (err) {
                 log('postForm error', err);
+                return { success: false, errors: ['Сетевая ошибка'] };
+            }
+        }
+
+        // ---- Новая: Отправка JSON через fetch (если нужно) ----
+        // Ничего не меняет по умолчанию — используется только если форма имеет data-sendjson="1"
+        async function postJson(payloadObj, url, form /* optional, to read token */, errorContainer) {
+            const headers = { 'Content-Type': 'application/json' };
+            // если есть token на форме — добавляем заголовок антифрод токена (ASP.NET)
+            const token = form ? getToken(form) : null;
+            if (token) headers['RequestVerificationToken'] = token;
+
+            try {
+                const resp = await fetch(url, {
+                    method: 'POST',
+                    credentials: 'same-origin',
+                    headers,
+                    body: JSON.stringify(payloadObj)
+                });
+                if (resp.ok) {
+                    const data = await resp.json().catch(() => null);
+                    return { success: true, data };
+                } else {
+                    const errData = await resp.json().catch(() => null);
+                    return { success: false, errors: errData?.errors || [errData?.message || 'Ошибка'] };
+                }
+            } catch (err) {
+                log('postJson error', err);
                 return { success: false, errors: ['Сетевая ошибка'] };
             }
         }
@@ -186,19 +214,40 @@
                 // Если клиентская валидация успешна — логируем (симуляция отправки)
                 console.log('%c[MOCK REGISTER] Отправка данных (симуляция):', 'color: teal; font-weight: bold;', bodyObj);
 
-                // имитируем небольшой delay и успешный ответ (по желанию можно снять комментарий)
-                // setTimeout(() => {
-                //     // чистим форму и закрываем модал (если нужно)
-                //     formSignup.reset();
-                //     displayErrors(errorSignup, []); // очистить контейнер
-                //     // можно закрыть модал: closeModal();
-                // }, 200);
+                /*имитируем небольшой delay и успешный ответ (по желанию можно снять комментарий)*/
+                setTimeout(() => {
+                    // чистим форму и закрываем модал (если нужно)
+                    formSignup.reset();
+                    displayErrors(errorSignup, []); // очистить контейнер
+                    // можно закрыть модал: closeModal();
+                }, 200);
 
                 return; // выходим, не делаем реальную отправку
             }
 
-            // Если mock выключен — делаем реальную отправку через postForm
-            const result = await postForm(formSignup, formSignup.action || '/Account/Register', errorSignup);
+            // Если mock выключен — делаем реальную отправку.
+            // По умолчанию используется postForm (FormUrlEncoded),
+            // но если форма содержит атрибут data-sendjson="1" — используем JSON вариант (postJson).
+            const sendJson = formSignup.getAttribute && formSignup.getAttribute('data-sendjson') === '1';
+            const actionUrl = formSignup.action || '/Account/Register';
+            
+            console.log('[DEBUG] Отправка запроса на:', actionUrl);
+            console.log('[DEBUG] SendJson:', sendJson);
+            console.log('[DEBUG] Body:', bodyObj);
+
+            let result;
+            if (sendJson) {
+                // используем JSON отправку
+                console.log('[DEBUG] Используем postJson');
+                result = await postJson(bodyObj, actionUrl, formSignup, errorSignup);
+            } else {
+                // стандартная отправка form-urlencoded
+                console.log('[DEBUG] Используем postForm');
+                result = await postForm(formSignup, actionUrl, errorSignup);
+            }
+            
+            console.log('[DEBUG] Результат:', result);
+
             if (result.success) {
                 location.reload();
             } else {
@@ -213,3 +262,5 @@
         init();
     }
 })();
+
+   

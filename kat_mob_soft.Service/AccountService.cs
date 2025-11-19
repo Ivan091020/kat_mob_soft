@@ -24,23 +24,30 @@ namespace kat_mob_soft.Service
 
         public async Task<ProfileViewModel> RegisterAsync(RegisterViewModel model)
         {
+            Console.WriteLine($"AccountService: Начинаем регистрацию пользователя {model.Email}");
+            
             // Проверка существования пользователя
             if (_userStorageTyped != null)
             {
+                Console.WriteLine("AccountService: Проверяем существование пользователя...");
                 var existingUser = await _userStorageTyped.GetByEmailAsync(model.Email);
                 if (existingUser != null)
                 {
+                    Console.WriteLine("AccountService: Пользователь уже существует");
                     throw new InvalidOperationException("Пользователь с таким email уже существует");
                 }
             }
 
             // Создание нового пользователя
+            Console.WriteLine("AccountService: Создаем нового пользователя...");
             var user = _mapper.Map<UserDb>(model);
             user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(model.Password);
             user.RegisteredAt = DateTimeOffset.UtcNow;
             user.Role = "user";
 
+            Console.WriteLine("AccountService: Сохраняем пользователя в базу...");
             await _userStorage.CreateAsync(user);
+            Console.WriteLine("AccountService: Пользователь успешно сохранен");
 
             return _mapper.Map<ProfileViewModel>(user);
         }

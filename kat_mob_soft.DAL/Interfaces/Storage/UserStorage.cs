@@ -48,8 +48,11 @@ namespace kat_mob_soft.DAL.Interfaces.Storage
 
         public async Task CreateAsync(UserDb entity)
         {
+            Console.WriteLine($"UserStorage: Добавляем пользователя {entity.Email} в контекст...");
             await _db.Users.AddAsync(entity);
+            Console.WriteLine("UserStorage: Вызываем SaveChangesAsync...");
             await _db.SaveChangesAsync();
+            Console.WriteLine("UserStorage: SaveChangesAsync выполнен успешно");
         }
 
         public async Task UpdateAsync(UserDb entity)
