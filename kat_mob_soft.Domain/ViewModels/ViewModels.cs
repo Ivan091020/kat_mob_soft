@@ -43,3 +43,4 @@ namespace kat_mob_soft.Domain.ViewModels
     }
 }
 
+
