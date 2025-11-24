@@ -5,13 +5,14 @@
     <div class="lr-container">
         <div class="form-box">
             <div class="form-btn-container">
-                <button id="click-to-show-signin" class="form-btn">Войти</button>
+                <button id="click-to-show-signin" class="form-btn active">Войти</button>
                 <button id="click-to-show-signup" class="form-btn">Зарегистрироваться</button>
             </div>
 
             <div class="forms-wrapper">
                 <!-- Форма входа -->
-                <form id="form_signin" class="form-signin" autocomplete="off">
+                <form id="form_signin" class="form-signin" autocomplete="off" asp-action="Login" asp-controller="Account">
+                    @Html.AntiForgeryToken()
                     <h3>Вход</h3>
 
                     <div class="input-group">
@@ -26,12 +27,14 @@
 
                     <div id="error-messages-singin" class="error-messages"></div>
 
+                    <!-- КНОПКА ТОЛЬКО ДЛЯ JS — НЕ submit! -->
                     <button type="button" id="btn-signin-submit" class="submit-btn">Войти</button>
                     <button type="button" id="btn-close-sign" class="close-btn">Закрыть</button>
                 </form>
 
                 <!-- Форма регистрации -->
-                <form id="form_signup" class="form-signup hidden" autocomplete="off">
+                <form id="form_signup" class="form-signup hidden" autocomplete="off" asp-action="Register" asp-controller="Account">
+                    @Html.AntiForgeryToken()
                     <h3>Регистрация</h3>
 
                     <div class="input-group">
@@ -56,6 +59,7 @@
 
                     <div id="error-messages-signup" class="error-messages"></div>
 
+                    <!-- ГЛАВНОЕ: type="button" + убрал твой "typeof" -->
                     <button type="button" id="btn-signup-submit" class="submit-btn">Зарегистрироваться</button>
                     <button type="button" id="btn-close-signup" class="close-btn">Закрыть</button>
                 </form>

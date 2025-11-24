@@ -11,6 +11,7 @@ using kat_mob_soft.Domain.Models.Db;
 using kat_mob_soft.Service;
 using AutoMapper;
 
+
 namespace kat_mob_soft.DAL
 {
     public class Startup
@@ -36,6 +37,7 @@ namespace kat_mob_soft.DAL
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+
         {
             if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
             else

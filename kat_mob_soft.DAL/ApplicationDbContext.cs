@@ -58,6 +58,7 @@ namespace kat_mob_soft.DAL
 
             modelBuilder.Entity<ReportDb>().ToTable("reports", "public");
             modelBuilder.Entity<AuditLogDb>().ToTable("audit_logs", "public");
+            
 
             // ----------------------------------------
             // Composite key: app_tags (many-to-many)
