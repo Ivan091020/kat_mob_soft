@@ -30,10 +30,7 @@
                     </a>
                 </div>
 
-                <div class="auth-buttons">
-                    <button id="header-open-signin" class="btn btn-primary" type="button">Войти</button>
-                    <button id="header-open-signup" class="btn btn-ghost" type="button">Зарегистрироваться</button>
-                </div>
+                @await Html.PartialAsync("_LoginStatus")
             </div>
         </div>
 
@@ -111,6 +108,9 @@
 
     <!-- Модальное окно входа/регистрации -->
     @await Html.PartialAsync("_LoginRegistrationPartial")
+
+    <!-- Toast уведомления -->
+    <div id="toast-container" class="toast-container"></div>
 
     <!-- Скрипты внизу -->
     <script src="~/js/shared_script.js" asp-append-version="true"></script>

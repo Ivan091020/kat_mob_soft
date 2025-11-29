@@ -42,6 +42,20 @@ namespace kat_mob_soft.DAL
             // Таблицы / имена — явная привязка (на случай, если в Domain нет [Table])
             // ----------------------------------------
             modelBuilder.Entity<UserDb>().ToTable("users", "public");
+            
+            // Явный маппинг имен столбцов для UserDb (PostgreSQL использует lowercase)
+            modelBuilder.Entity<UserDb>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("id");
+                entity.Property(e => e.Username).HasColumnName("username");
+                entity.Property(e => e.Email).HasColumnName("email");
+                entity.Property(e => e.PasswordHash).HasColumnName("password_hash");
+                entity.Property(e => e.DisplayName).HasColumnName("display_name");
+                entity.Property(e => e.Role).HasColumnName("role");
+                entity.Property(e => e.AvatarPath).HasColumnName("avatar_path");
+                entity.Property(e => e.RegisteredAt).HasColumnName("registered_at");
+                entity.Property(e => e.LastLogin).HasColumnName("last_login");
+            });
             modelBuilder.Entity<DeveloperDb>().ToTable("developers", "public");
             modelBuilder.Entity<CategoryDb>().ToTable("categories", "public");
             modelBuilder.Entity<TagDb>().ToTable("tags", "public");

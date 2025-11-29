@@ -1,6 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using kat_mob_soft.Service;
 using kat_mob_soft.Domain.ViewModels;
@@ -77,18 +81,92 @@ namespace kat_mob_soft.Controllers
         public async Task<IActionResult> Login(LoginViewModel model)
         {
             if (!ModelState.IsValid)
+            {
+                if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+                {
+                    var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage);
+                    return Json(new { success = false, errors = errors });
+                }
                 return View(model);
+            }
 
             try
             {
-                await _accountService.LoginAsync(model);
+                // Используем UserStorage через сервис (как в AccountService)
+                var userStorage = HttpContext.RequestServices.GetRequiredService<kat_mob_soft.DAL.Interfaces.Storage.UserStorage>();
+                var user = await userStorage.GetByEmailAsync(model.Email);
+                
+                if (user == null || !BCrypt.Net.BCrypt.Verify(model.Password, user.PasswordHash))
+                {
+                    var errorMsg = "Неверный email или пароль";
+                    if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+                    {
+                        return Json(new { success = false, errors = new[] { errorMsg } });
+                    }
+                    ModelState.AddModelError("", errorMsg);
+                    return View(model);
+                }
+
+                // Обновляем время последнего входа
+                user.LastLogin = DateTimeOffset.UtcNow;
+                await userStorage.UpdateAsync(user);
+
+                // Создаем claims для аутентификации
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                    new Claim(ClaimTypes.Name, user.Username),
+                    new Claim(ClaimTypes.Email, user.Email),
+                    new Claim(ClaimTypes.Role, user.Role ?? "user")
+                };
+
+                var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                var authProperties = new AuthenticationProperties
+                {
+                    IsPersistent = model.RememberMe,
+                    ExpiresUtc = model.RememberMe ? DateTimeOffset.UtcNow.AddDays(7) : DateTimeOffset.UtcNow.AddHours(24)
+                };
+
+                await HttpContext.SignInAsync(
+                    CookieAuthenticationDefaults.AuthenticationScheme,
+                    new ClaimsPrincipal(claimsIdentity),
+                    authProperties);
+
+                // Логирование для отладки
+                Console.WriteLine($"Пользователь {user.Username} (ID: {user.Id}) успешно аутентифицирован");
+                Console.WriteLine($"Claims установлены: Name={user.Username}, Email={user.Email}, Role={user.Role}");
+
+                if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+                {
+                    return Json(new { success = true, message = "Вход выполнен" });
+                }
+
                 return RedirectToAction("Index", "Home");
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError("", ex.Message);
+                var errorMsg = ex.Message;
+                if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+                {
+                    return Json(new { success = false, errors = new[] { errorMsg } });
+                }
+                ModelState.AddModelError("", errorMsg);
                 return View(model);
             }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            
+            if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+            {
+                return Json(new { success = true, message = "Вы вышли" });
+            }
+            
+            return RedirectToAction("Index", "Home");
         }
     }
 }

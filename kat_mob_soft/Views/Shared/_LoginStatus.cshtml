@@ -1,0 +1,41 @@
+@using System.Security.Claims
+@{
+    var isAuthenticated = User?.Identity?.IsAuthenticated ?? false;
+    // Пробуем получить имя из разных источников
+    var userName = User?.Identity?.Name;
+    if (string.IsNullOrEmpty(userName))
+    {
+        userName = User?.FindFirst(ClaimTypes.Name)?.Value;
+    }
+    if (string.IsNullOrEmpty(userName))
+    {
+        userName = User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+    }
+    if (string.IsNullOrEmpty(userName))
+    {
+        userName = "Пользователь";
+    }
+    var userEmail = User?.FindFirst(ClaimTypes.Email)?.Value ?? "";
+}
+
+@if (isAuthenticated)
+{
+    <div class="user-status">
+        <div class="user-info">
+            <span class="user-icon">👤</span>
+            <span class="user-name">@userName</span>
+        </div>
+        <form asp-controller="Account" asp-action="Logout" method="post" class="logout-form" id="logout-form">
+            @Html.AntiForgeryToken()
+            <button type="button" id="btn-logout" class="btn btn-ghost btn-small">Выйти</button>
+        </form>
+    </div>
+}
+else
+{
+    <div class="auth-buttons">
+        <button id="header-open-signin" class="btn btn-primary" type="button">Войти</button>
+        <button id="header-open-signup" class="btn btn-ghost" type="button">Зарегистрироваться</button>
+    </div>
+}
+

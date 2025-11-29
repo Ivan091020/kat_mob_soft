@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using kat_mob_soft.Domain.Models.Db;
 using kat_mob_soft.DAL.Interfaces;
 using kat_mob_soft.DAL;
+using Npgsql;
 
 namespace kat_mob_soft.DAL.Interfaces.Storage
 {
@@ -43,7 +45,21 @@ namespace kat_mob_soft.DAL.Interfaces.Storage
 
         public async Task<UserDb> GetByEmailAsync(string email)
         {
-            return await _db.Users.FirstOrDefaultAsync(u => u.Email == email);
+            // Используем прямой SQL с правильными именами столбцов PostgreSQL (lowercase)
+            // Все колонки должны быть включены для корректного маппинга EF Core
+            var sql = @"
+                SELECT id, username, email, password_hash, display_name, role, avatar_path, registered_at, last_login
+                FROM public.users
+                WHERE email = @email
+                LIMIT 1";
+            
+            var emailParam = new NpgsqlParameter("@email", email);
+            var users = await _db.Users
+                .FromSqlRaw(sql, emailParam)
+                .AsNoTracking()
+                .ToListAsync();
+            
+            return users.FirstOrDefault();
         }
 
         public async Task CreateAsync(UserDb entity)

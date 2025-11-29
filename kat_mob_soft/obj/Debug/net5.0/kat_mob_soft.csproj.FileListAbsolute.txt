@@ -47,6 +47,7 @@ C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\Razor\Views\Home\SiteInformatio
 C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\Razor\Views\Shared\Error.cshtml.g.cs
 C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\Razor\Views\Shared\_Layout.cshtml.g.cs
 C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\Razor\Views\Shared\_LoginRegistrationPartial.cshtml.g.cs
+C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\Razor\Views\Shared\_LoginStatus.cshtml.g.cs
 C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\Razor\Views\Shared\_ValidationScriptsPartial.cshtml.g.cs
 C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\Razor\Views\_ViewImports.cshtml.g.cs
 C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\Razor\Views\_ViewStart.cshtml.g.cs

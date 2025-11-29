@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace kat_mob_soft.Domain.ViewModels
 {
     public class ProfileViewModel 
@@ -19,8 +21,15 @@ namespace kat_mob_soft.Domain.ViewModels
 
     public class LoginViewModel 
     { 
+        [Required(ErrorMessage = "Email обязателен")]
+        [EmailAddress(ErrorMessage = "Неверный формат email")]
         public string Email { get; set; } 
-        public string Password { get; set; } 
+        
+        [Required(ErrorMessage = "Пароль обязателен")]
+        [DataType(DataType.Password)]
+        public string Password { get; set; }
+        
+        public bool RememberMe { get; set; }
     }
 
     public class ChangePasswordViewModel 

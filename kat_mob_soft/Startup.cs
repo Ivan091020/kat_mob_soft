@@ -1,9 +1,11 @@
+using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using kat_mob_soft.DAL;
 using kat_mob_soft.DAL.Interfaces.Storage;
 using kat_mob_soft.DAL.Interfaces;
@@ -26,11 +28,29 @@ namespace kat_mob_soft.DAL
             services.AddDbContext<AppCatalogDbContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
 
+            // Настройка cookie-аутентификации
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.LoginPath = "/Account/Login";
+                    options.LogoutPath = "/Account/Logout";
+                    options.AccessDeniedPath = "/Account/Login";
+                    options.Cookie.Name = "AppCatalogAuth";
+                    options.Cookie.HttpOnly = true;
+                    options.Cookie.SecurePolicy = Microsoft.AspNetCore.Http.CookieSecurePolicy.SameAsRequest;
+                    options.Cookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.Lax;
+                    options.Cookie.Path = "/";
+                    options.ExpireTimeSpan = TimeSpan.FromDays(7);
+                    options.SlidingExpiration = true;
+                });
+
             // Регистрация AutoMapper
             services.AddAutoMapper(typeof(AppMappingProfile));
 
             // Регистрация Storage
             services.AddScoped<IBaseStorage<UserDb>, UserStorage>();
+            // Регистрация UserStorage напрямую для доступа из контроллеров
+            services.AddScoped<UserStorage>();
 
             // Регистрация сервисов
             services.AddScoped<IAccountService, AccountService>();
