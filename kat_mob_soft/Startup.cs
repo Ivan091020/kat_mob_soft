@@ -12,6 +12,11 @@ using kat_mob_soft.DAL.Interfaces;
 using kat_mob_soft.Domain.Models.Db;
 using kat_mob_soft.Service;
 using AutoMapper;
+using FluentValidation;
+using kat_mob_soft.Domain.Validators;
+using kat_mob_soft.Domain.ViewModels;
+using kat_mob_soft.Filters;
+using Microsoft.AspNetCore.Mvc;
 
 
 namespace kat_mob_soft.DAL
@@ -23,7 +28,14 @@ namespace kat_mob_soft.DAL
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            services.AddControllersWithViews(options =>
+            {
+                options.Filters.Add<FluentValidationActionFilter>();
+            });
+
+            // Регистрация валидаторов FluentValidation
+            services.AddScoped<IValidator<LoginViewModel>, LoginViewModelValidator>();
+            services.AddScoped<IValidator<RegisterViewModel>, RegisterViewModelValidator>();
 
             services.AddDbContext<AppCatalogDbContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));

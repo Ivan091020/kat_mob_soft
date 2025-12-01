@@ -42,20 +42,16 @@ namespace kat_mob_soft.DAL
             // Таблицы / имена — явная привязка (на случай, если в Domain нет [Table])
             // ----------------------------------------
             modelBuilder.Entity<UserDb>().ToTable("users", "public");
-            
-            // Явный маппинг имен столбцов для UserDb (PostgreSQL использует lowercase)
-            modelBuilder.Entity<UserDb>(entity =>
-            {
-                entity.Property(e => e.Id).HasColumnName("id");
-                entity.Property(e => e.Username).HasColumnName("username");
-                entity.Property(e => e.Email).HasColumnName("email");
-                entity.Property(e => e.PasswordHash).HasColumnName("password_hash");
-                entity.Property(e => e.DisplayName).HasColumnName("display_name");
-                entity.Property(e => e.Role).HasColumnName("role");
-                entity.Property(e => e.AvatarPath).HasColumnName("avatar_path");
-                entity.Property(e => e.RegisteredAt).HasColumnName("registered_at");
-                entity.Property(e => e.LastLogin).HasColumnName("last_login");
-            });
+            // Явное указание имен столбцов для PostgreSQL (snake_case)
+            modelBuilder.Entity<UserDb>().Property(u => u.Id).HasColumnName("id");
+            modelBuilder.Entity<UserDb>().Property(u => u.Username).HasColumnName("username");
+            modelBuilder.Entity<UserDb>().Property(u => u.Email).HasColumnName("email");
+            modelBuilder.Entity<UserDb>().Property(u => u.PasswordHash).HasColumnName("password_hash");
+            modelBuilder.Entity<UserDb>().Property(u => u.DisplayName).HasColumnName("display_name");
+            modelBuilder.Entity<UserDb>().Property(u => u.Role).HasColumnName("role");
+            modelBuilder.Entity<UserDb>().Property(u => u.AvatarPath).HasColumnName("avatar_path");
+            modelBuilder.Entity<UserDb>().Property(u => u.RegisteredAt).HasColumnName("registered_at");
+            modelBuilder.Entity<UserDb>().Property(u => u.LastLogin).HasColumnName("last_login");
             modelBuilder.Entity<DeveloperDb>().ToTable("developers", "public");
             modelBuilder.Entity<CategoryDb>().ToTable("categories", "public");
             modelBuilder.Entity<TagDb>().ToTable("tags", "public");

@@ -25,7 +25,7 @@
                         <label for="signin-password">Пароль</label>
                     </div>
 
-                    <div id="error-messages-singin" class="error-messages"></div>
+                    <div asp-validation-summary="All" class="text-danger" id="error-messages-singin"></div>
 
                     <!-- КНОПКА ТОЛЬКО ДЛЯ JS — НЕ submit! -->
                     <button type="button" id="btn-signin-submit" class="submit-btn">Войти</button>
@@ -39,7 +39,7 @@
 
                     <div class="input-group">
                         <input id="signup-name" name="Username" type="text" required />
-                        <label for="signup-name">ФИО</label>
+                        <label for="signup-name">Имя пользователя</label>
                     </div>
 
                     <div class="input-group">
@@ -52,12 +52,7 @@
                         <label for="signup-password">Пароль</label>
                     </div>
 
-                    <div class="input-group">
-                        <input id="signup-confirm" name="ConfirmPassword" type="password" required />
-                        <label for="signup-confirm">Подтвердите пароль</label>
-                    </div>
-
-                    <div id="error-messages-signup" class="error-messages"></div>
+                    <div asp-validation-summary="All" class="text-danger" id="error-messages-signup"></div>
 
                     <!-- ГЛАВНОЕ: type="button" + убрал твой "typeof" -->
                     <button type="button" id="btn-signup-submit" class="submit-btn">Зарегистрироваться</button>

@@ -6,6 +6,8 @@ using kat_mob_soft.Domain.ViewModels;
 using kat_mob_soft.Domain.Models.Db;
 using kat_mob_soft.DAL.Interfaces;
 using kat_mob_soft.DAL.Interfaces.Storage;
+using FluentValidation;
+using kat_mob_soft.Domain.Validators;
 
 namespace kat_mob_soft.Service
 {
@@ -14,17 +16,33 @@ namespace kat_mob_soft.Service
         private readonly IBaseStorage<UserDb> _userStorage;
         private readonly UserStorage _userStorageTyped;
         private readonly IMapper _mapper;
+        private readonly IValidator<LoginViewModel> _loginValidator;
+        private readonly IValidator<RegisterViewModel> _registerValidator;
 
-        public AccountService(IBaseStorage<UserDb> userStorage, IMapper mapper)
+        public AccountService(
+            IBaseStorage<UserDb> userStorage, 
+            IMapper mapper,
+            IValidator<LoginViewModel> loginValidator,
+            IValidator<RegisterViewModel> registerValidator)
         {
             _userStorage = userStorage;
             _userStorageTyped = userStorage as UserStorage;
             _mapper = mapper;
+            _loginValidator = loginValidator;
+            _registerValidator = registerValidator;
         }
 
         public async Task<ProfileViewModel> RegisterAsync(RegisterViewModel model)
         {
             Console.WriteLine($"AccountService: Начинаем регистрацию пользователя {model.Email}");
+            
+            // Валидация с помощью FluentValidation
+            var validationResult = await _registerValidator.ValidateAsync(model);
+            if (!validationResult.IsValid)
+            {
+                var errors = string.Join(", ", validationResult.Errors.Select(e => e.ErrorMessage));
+                throw new ValidationException(validationResult.Errors);
+            }
             
             // Проверка существования пользователя
             if (_userStorageTyped != null)
@@ -54,6 +72,14 @@ namespace kat_mob_soft.Service
 
         public async Task<TokenViewModel> LoginAsync(LoginViewModel model)
         {
+            // Валидация с помощью FluentValidation
+            var validationResult = await _loginValidator.ValidateAsync(model);
+            if (!validationResult.IsValid)
+            {
+                var errors = string.Join(", ", validationResult.Errors.Select(e => e.ErrorMessage));
+                throw new ValidationException(validationResult.Errors);
+            }
+            
             if (_userStorageTyped == null)
                 throw new InvalidOperationException("UserStorage не инициализирован");
 

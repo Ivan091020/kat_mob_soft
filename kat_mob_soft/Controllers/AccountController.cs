@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using BCrypt.Net;
 using kat_mob_soft.DAL;
 using Npgsql;
+using FluentValidation;
 
 namespace kat_mob_soft.Controllers
 {
@@ -63,10 +64,30 @@ namespace kat_mob_soft.Controllers
 
                 return Json(new { success = true });
             }
+            catch (ValidationException ex)
+            {
+                Console.WriteLine("ОШИБКА ВАЛИДАЦИИ: " + ex.ToString());
+                var errors = ex.Errors.Select(e => e.ErrorMessage).ToList();
+                if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+                {
+                    return Json(new { success = false, errors = errors });
+                }
+                foreach (var error in ex.Errors)
+                {
+                    ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
+                }
+                return View(model);
+            }
             catch (Exception ex)
             {
                 Console.WriteLine("ОШИБКА: " + ex.ToString());
-                return Json(new { success = false, errors = new[] { ex.Message } });
+                var errorMessage = ex.Message;
+                if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+                {
+                    return Json(new { success = false, errors = new[] { errorMessage } });
+                }
+                ModelState.AddModelError("", errorMessage);
+                return View(model);
             }
         }
 
@@ -142,6 +163,20 @@ namespace kat_mob_soft.Controllers
                 }
 
                 return RedirectToAction("Index", "Home");
+            }
+            catch (ValidationException ex)
+            {
+                Console.WriteLine("ОШИБКА ВАЛИДАЦИИ: " + ex.ToString());
+                var errors = ex.Errors.Select(e => e.ErrorMessage).ToList();
+                if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+                {
+                    return Json(new { success = false, errors = errors });
+                }
+                foreach (var error in ex.Errors)
+                {
+                    ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
+                }
+                return View(model);
             }
             catch (Exception ex)
             {

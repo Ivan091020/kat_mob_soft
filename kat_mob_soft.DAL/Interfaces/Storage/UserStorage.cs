@@ -45,21 +45,13 @@ namespace kat_mob_soft.DAL.Interfaces.Storage
 
         public async Task<UserDb> GetByEmailAsync(string email)
         {
-            // Используем прямой SQL с правильными именами столбцов PostgreSQL (lowercase)
-            // Все колонки должны быть включены для корректного маппинга EF Core
-            var sql = @"
-                SELECT id, username, email, password_hash, display_name, role, avatar_path, registered_at, last_login
-                FROM public.users
-                WHERE email = @email
-                LIMIT 1";
+            // Используем LINQ-запрос - EF Core сгенерирует правильный SQL для PostgreSQL
+            // Это безопаснее и проще, чем прямой SQL
+            var user = await _db.Users
+                .Where(u => u.Email == email)
+                .FirstOrDefaultAsync();
             
-            var emailParam = new NpgsqlParameter("@email", email);
-            var users = await _db.Users
-                .FromSqlRaw(sql, emailParam)
-                .AsNoTracking()
-                .ToListAsync();
-            
-            return users.FirstOrDefault();
+            return user;
         }
 
         public async Task CreateAsync(UserDb entity)
