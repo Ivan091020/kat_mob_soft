@@ -15,6 +15,7 @@ using AutoMapper;
 using FluentValidation;
 using kat_mob_soft.Domain.Validators;
 using kat_mob_soft.Domain.ViewModels;
+using kat_mob_soft.Domain.Models;
 using kat_mob_soft.Filters;
 using Microsoft.AspNetCore.Mvc;
 
@@ -33,9 +34,26 @@ namespace kat_mob_soft.DAL
                 options.Filters.Add<FluentValidationActionFilter>();
             });
 
-            // Регистрация валидаторов FluentValidation
+            // Регистрация валидаторов FluentValidation для ViewModels
             services.AddScoped<IValidator<LoginViewModel>, LoginViewModelValidator>();
             services.AddScoped<IValidator<RegisterViewModel>, RegisterViewModelValidator>();
+            services.AddScoped<IValidator<ChangePasswordViewModel>, ChangePasswordViewModelValidator>();
+            services.AddScoped<IValidator<UpdateProfileViewModel>, UpdateProfileViewModelValidator>();
+            services.AddScoped<IValidator<ContactMessageModel>, ContactMessageModelValidator>();
+
+            // Регистрация валидаторов FluentValidation для доменных моделей
+            services.AddScoped<IValidator<App>, AppValidator>();
+            services.AddScoped<IValidator<Category>, CategoryValidator>();
+            services.AddScoped<IValidator<Review>, ReviewValidator>();
+            services.AddScoped<IValidator<Developer>, DeveloperValidator>();
+            services.AddScoped<IValidator<Tag>, TagValidator>();
+            services.AddScoped<IValidator<AppVersion>, AppVersionValidator>();
+            services.AddScoped<IValidator<Report>, ReportValidator>();
+            services.AddScoped<IValidator<AppIcon>, AppIconValidator>();
+            services.AddScoped<IValidator<AppScreenshot>, AppScreenshotValidator>();
+            services.AddScoped<IValidator<AppTag>, AppTagValidator>();
+            services.AddScoped<IValidator<Purchase>, PurchaseValidator>();
+            services.AddScoped<IValidator<User>, UserValidator>();
 
             services.AddDbContext<AppCatalogDbContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));

@@ -1,24 +1,26 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentValidation;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using kat_mob_soft.Domain.ViewModels;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace kat_mob_soft.Filters
 {
     public class FluentValidationActionFilter : IAsyncActionFilter
     {
-        private readonly IValidator<LoginViewModel> _loginValidator;
-        private readonly IValidator<RegisterViewModel> _registerValidator;
+        private readonly IServiceProvider _serviceProvider;
+        private readonly ILogger<FluentValidationActionFilter> _logger;
 
         public FluentValidationActionFilter(
-            IValidator<LoginViewModel> loginValidator,
-            IValidator<RegisterViewModel> registerValidator)
+            IServiceProvider serviceProvider,
+            ILogger<FluentValidationActionFilter> logger)
         {
-            _loginValidator = loginValidator;
-            _registerValidator = registerValidator;
+            _serviceProvider = serviceProvider;
+            _logger = logger;
         }
 
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
@@ -28,24 +30,29 @@ namespace kat_mob_soft.Filters
             {
                 if (context.ActionArguments.TryGetValue(parameter.Name, out var argument) && argument != null)
                 {
-                    ValidationResult result = null;
+                    var argumentType = argument.GetType();
+                    
+                    // Пытаемся найти валидатор для типа аргумента
+                    var validatorType = typeof(IValidator<>).MakeGenericType(argumentType);
+                    var validator = _serviceProvider.GetService(validatorType) as IValidator;
 
-                    // Проверяем тип и используем соответствующий валидатор
-                    if (argument is LoginViewModel loginModel)
+                    if (validator != null)
                     {
-                        result = await _loginValidator.ValidateAsync(loginModel);
-                    }
-                    else if (argument is RegisterViewModel registerModel)
-                    {
-                        result = await _registerValidator.ValidateAsync(registerModel);
-                    }
+                        var validationContext = new ValidationContext<object>(argument);
+                        var result = await validator.ValidateAsync(validationContext);
 
-                    // Добавляем ошибки в ModelState
-                    if (result != null && !result.IsValid)
-                    {
-                        foreach (var error in result.Errors)
+                        // Добавляем ошибки в ModelState
+                        if (!result.IsValid)
                         {
-                            context.ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
+                            _logger.LogWarning(
+                                "Validation failed for {ModelType}: {ErrorCount} errors",
+                                argumentType.Name,
+                                result.Errors.Count);
+
+                            foreach (var error in result.Errors)
+                            {
+                                context.ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
+                            }
                         }
                     }
                 }
