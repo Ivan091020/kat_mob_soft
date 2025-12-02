@@ -52,6 +52,11 @@
                         <label for="signup-password">Пароль</label>
                     </div>
 
+                    <div class="input-group">
+                        <input id="signup-confirm-password" name="ConfirmPassword" type="password" required />
+                        <label for="signup-confirm-password">Подтвердите пароль</label>
+                    </div>
+
                     <div asp-validation-summary="All" class="text-danger" id="error-messages-signup"></div>
 
                     <!-- ГЛАВНОЕ: type="button" + убрал твой "typeof" -->

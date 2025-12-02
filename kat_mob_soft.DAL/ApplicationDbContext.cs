@@ -52,6 +52,8 @@ namespace kat_mob_soft.DAL
             modelBuilder.Entity<UserDb>().Property(u => u.AvatarPath).HasColumnName("avatar_path");
             modelBuilder.Entity<UserDb>().Property(u => u.RegisteredAt).HasColumnName("registered_at");
             modelBuilder.Entity<UserDb>().Property(u => u.LastLogin).HasColumnName("last_login");
+            modelBuilder.Entity<UserDb>().Property(u => u.EmailConfirmed).HasColumnName("email_confirmed");
+            modelBuilder.Entity<UserDb>().Property(u => u.EmailConfirmationToken).HasColumnName("email_confirmation_token");
             modelBuilder.Entity<DeveloperDb>().ToTable("developers", "public");
             modelBuilder.Entity<CategoryDb>().ToTable("categories", "public");
             modelBuilder.Entity<TagDb>().ToTable("tags", "public");

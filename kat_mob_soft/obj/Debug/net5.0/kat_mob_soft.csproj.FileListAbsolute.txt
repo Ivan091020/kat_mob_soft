@@ -14,13 +14,16 @@ C:\up\kat_mob_soft\kat_mob_soft\bin\Debug\net5.0\AutoMapper.Extensions.Microsoft
 C:\up\kat_mob_soft\kat_mob_soft\bin\Debug\net5.0\BCrypt.Net-Next.dll
 C:\up\kat_mob_soft\kat_mob_soft\bin\Debug\net5.0\FluentValidation.dll
 C:\up\kat_mob_soft\kat_mob_soft\bin\Debug\net5.0\Humanizer.dll
+C:\up\kat_mob_soft\kat_mob_soft\bin\Debug\net5.0\MailKit.dll
 C:\up\kat_mob_soft\kat_mob_soft\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.dll
 C:\up\kat_mob_soft\kat_mob_soft\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Abstractions.dll
 C:\up\kat_mob_soft\kat_mob_soft\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Design.dll
 C:\up\kat_mob_soft\kat_mob_soft\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Relational.dll
 C:\up\kat_mob_soft\kat_mob_soft\bin\Debug\net5.0\Microsoft.Extensions.DependencyInjection.dll
+C:\up\kat_mob_soft\kat_mob_soft\bin\Debug\net5.0\MimeKit.dll
 C:\up\kat_mob_soft\kat_mob_soft\bin\Debug\net5.0\Npgsql.dll
 C:\up\kat_mob_soft\kat_mob_soft\bin\Debug\net5.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll
+C:\up\kat_mob_soft\kat_mob_soft\bin\Debug\net5.0\BouncyCastle.Crypto.dll
 C:\up\kat_mob_soft\kat_mob_soft\bin\Debug\net5.0\System.Diagnostics.DiagnosticSource.dll
 C:\up\kat_mob_soft\kat_mob_soft\bin\Debug\net5.0\cs\FluentValidation.resources.dll
 C:\up\kat_mob_soft\kat_mob_soft\bin\Debug\net5.0\da\FluentValidation.resources.dll
@@ -74,3 +77,4 @@ C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\kat_mob_soft.dll
 C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\ref\kat_mob_soft.dll
 C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\kat_mob_soft.pdb
 C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\kat_mob_soft.genruntimeconfig.cache
+C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\Razor\Views\Shared\_ConfirmEmailPartial.cshtml.g.cs

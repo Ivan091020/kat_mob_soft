@@ -1,0 +1,19 @@
+@model kat_mob_soft.Domain.ViewModels.ConfirmEmailViewModel
+
+<div class="confirm-email-container" style="display:none;">
+    <div class="overlay"></div>
+    <div class="confirm-email-form">
+        <div class="form_title">Регистрация</div>
+        <p>На указанную почту отправлено письмо с кодом подтверждения</p>
+        <div class="input-group-code">
+            <input type="text" id="code_confirm" name="CodeConfirm" placeholder="Введите код подтверждения" maxlength="6" autocomplete="off" />
+            <label for="code_confirm">Введите код подтверждения</label>
+        </div>
+        <div class="button_confirm_container">
+            <button type="button" class="button_confirm send_confirm">Отправить</button>
+            <button type="button" class="button_confirm red button_confirm_close">Закрыть</button>
+        </div>
+        <p class="warning">При закрытии данной формы Регистрация НЕ будет завершена</p>
+    </div>
+</div>
+

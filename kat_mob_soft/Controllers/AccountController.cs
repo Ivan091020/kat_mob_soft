@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using kat_mob_soft.Service;
 using kat_mob_soft.Domain.ViewModels;
 using kat_mob_soft.Domain.Models.Db;
+using kat_mob_soft.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using BCrypt.Net;
@@ -33,36 +34,41 @@ namespace kat_mob_soft.Controllers
             return View();
         }
 
-        // ЭТО ГЛАВНОЕ — РЕГИСТРАЦИЯ РАБОТАЕТ НА 100%
         [HttpPost]
-        [HttpPost]
-        [HttpPost]
-        [HttpPost]
-        public async Task<IActionResult> Register(RegisterViewModel model, bool isAjax = true)
+        public async Task<IActionResult> Register(kat_mob_soft.ViewModels.RegisterViewModel model, bool isAjax = true)
         {
             if (!ModelState.IsValid)
                 return Json(new { success = false, errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage) });
 
             try
             {
-                // БЕРЁМ КОНТЕКСТ ЛЮБЫМ СПОСОБОМ — ГАРАНТИРОВАННО РАБОТАЕТ
-                var context = HttpContext.RequestServices.GetRequiredService<AppCatalogDbContext>();
+                // Преобразуем ViewModel из kat_mob_soft.ViewModels в Domain.ViewModels
+                var domainModel = new Domain.ViewModels.RegisterViewModel
+                {
+                    Email = model.Email,
+                    Password = model.Password,
+                    Username = model.UserName // Преобразуем UserName -> Username
+                };
 
-                // ПРЯМОЙ SQL — ОБХОДИМ ВСЁ EF НАХРЕН
-                var sql = @"
-            INSERT INTO public.users (username, email, password_hash, registered_at, role, display_name)
-            VALUES (@username, @email, @hash, @now, 'User', @username)
-            RETURNING id";
+                // Используем AccountService для регистрации (отправка письма с кодом)
+                var generatedCode = await _accountService.RegisterAsync(domainModel);
+                
+                // Создаем ConfirmEmailViewModel с кодом
+                var confirmEmailModel = new ConfirmEmailViewModel
+                {
+                    Email = model.Email,
+                    Login = model.UserName,
+                    GeneratedCode = generatedCode,
+                    Password = model.Password,
+                    PasswordConfirm = model.ConfirmPassword
+                };
 
-                var id = await context.Database.ExecuteSqlRawAsync(sql,
-                    new Npgsql.NpgsqlParameter("@username", model.Username),
-                    new Npgsql.NpgsqlParameter("@email", model.Email),
-                    new Npgsql.NpgsqlParameter("@hash", BCrypt.Net.BCrypt.HashPassword(model.Password)),
-                    new Npgsql.NpgsqlParameter("@now", DateTime.UtcNow));
+                if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+                {
+                    return Json(new { success = true, message = "Регистрация успешна. Проверьте почту для получения кода подтверждения.", data = confirmEmailModel });
+                }
 
-                Console.WriteLine($"ПОЯВИЛАСЬ В БД ЧЕРЕЗ СЫРОЙ SQL! ID = {id}");
-
-                return Json(new { success = true });
+                return View("ConfirmEmail", confirmEmailModel);
             }
             catch (ValidationException ex)
             {
@@ -99,7 +105,7 @@ namespace kat_mob_soft.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginViewModel model)
+        public async Task<IActionResult> Login(Domain.ViewModels.LoginViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -128,17 +134,29 @@ namespace kat_mob_soft.Controllers
                     return View(model);
                 }
 
+                // Проверка подтверждения email
+                if (!user.EmailConfirmed)
+                {
+                    var errorMsg = "Email не подтвержден. Пожалуйста, подтвердите email перед входом.";
+                    if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+                    {
+                        return Json(new { success = false, errors = new[] { errorMsg } });
+                    }
+                    ModelState.AddModelError("", errorMsg);
+                    return View(model);
+                }
+
                 // Обновляем время последнего входа
                 user.LastLogin = DateTimeOffset.UtcNow;
                 await userStorage.UpdateAsync(user);
 
                 // Создаем claims для аутентификации
-                var claims = new List<Claim>
+                var claims = new List<System.Security.Claims.Claim>
                 {
-                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                    new Claim(ClaimTypes.Name, user.Username),
-                    new Claim(ClaimTypes.Email, user.Email),
-                    new Claim(ClaimTypes.Role, user.Role ?? "user")
+                    new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.NameIdentifier, user.Id.ToString()),
+                    new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.Name, user.Username ?? ""),
+                    new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.Email, user.Email ?? ""),
+                    new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.Role, user.Role ?? "user")
                 };
 
                 var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -202,6 +220,63 @@ namespace kat_mob_soft.Controllers
             }
             
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ConfirmEmail(string email, string token)
+        {
+            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(token))
+            {
+                ViewBag.Error = "Неверная ссылка подтверждения";
+                return View();
+            }
+
+            try
+            {
+                var result = await _accountService.ConfirmEmailAsync(email, token);
+                if (result)
+                {
+                    ViewBag.Success = "Email успешно подтвержден! Теперь вы можете войти в систему.";
+                }
+                else
+                {
+                    ViewBag.Error = "Неверный токен подтверждения или email уже подтвержден";
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка подтверждения email: {ex.Message}");
+                ViewBag.Error = "Произошла ошибка при подтверждении email";
+            }
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ConfirmEmail([FromBody] ConfirmEmailViewModel model)
+        {
+            if (model == null || string.IsNullOrEmpty(model.CodeConfirm) || string.IsNullOrEmpty(model.Email))
+            {
+                return Json(new { success = false, errors = new[] { "Код подтверждения и email обязательны" } });
+            }
+
+            try
+            {
+                var result = await _accountService.ConfirmEmailAsync(model.Email, model.CodeConfirm);
+                if (result)
+                {
+                    return Json(new { success = true, message = "Email успешно подтвержден!" });
+                }
+                else
+                {
+                    return Json(new { success = false, errors = new[] { "Неверный код подтверждения" } });
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка подтверждения email: {ex.Message}");
+                return Json(new { success = false, errors = new[] { "Произошла ошибка при подтверждении email" } });
+            }
         }
     }
 }

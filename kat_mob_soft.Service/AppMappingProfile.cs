@@ -20,6 +20,8 @@ namespace kat_mob_soft.Service
                 .ForMember(dest => dest.LastLogin, opt => opt.Ignore())
                 .ForMember(dest => dest.Role, opt => opt.Ignore())
                 .ForMember(dest => dest.AvatarPath, opt => opt.Ignore())
+                .ForMember(dest => dest.EmailConfirmed, opt => opt.Ignore())
+                .ForMember(dest => dest.EmailConfirmationToken, opt => opt.Ignore())
                 .ForMember(dest => dest.Reviews, opt => opt.Ignore())
                 .ForMember(dest => dest.Downloads, opt => opt.Ignore())
                 .ForMember(dest => dest.Purchases, opt => opt.Ignore())
@@ -41,6 +43,16 @@ namespace kat_mob_soft.Service
                 .ForMember(dest => dest.ReportsFiled, opt => opt.Ignore())
                 .ForMember(dest => dest.AuditLogs, opt => opt.Ignore())
                 .ForMember(dest => dest.DisplayName, opt => opt.MapFrom(src => src.FullName ?? src.DisplayName));
+
+            // Маппинг для подтверждения email (из методички)
+            CreateMap<RegisterViewModel, ConfirmEmailViewModel>()
+                .ForMember(dest => dest.CodeConfirm, opt => opt.Ignore())
+                .ForMember(dest => dest.GeneratedCode, opt => opt.Ignore())
+                .ReverseMap();
+            CreateMap<UserDb, ConfirmEmailViewModel>()
+                .ForMember(dest => dest.CodeConfirm, opt => opt.Ignore())
+                .ForMember(dest => dest.GeneratedCode, opt => opt.MapFrom(src => src.EmailConfirmationToken))
+                .ReverseMap();
 
             // Другие маппинги по необходимости
         }

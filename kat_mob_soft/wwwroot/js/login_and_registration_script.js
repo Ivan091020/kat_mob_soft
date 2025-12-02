@@ -94,6 +94,149 @@
             return input ? input.value : null;
         }
 
+        // === Функция показа/скрытия контейнеров ===
+        function hiddenOpen_Closeclick(container) {
+            const x = document.querySelector(container);
+            if (x) {
+                if (x.style.display === "none" || !x.style.display) {
+                    // Для формы подтверждения используем flex, для остальных - grid
+                    if (container === '.confirm-email-container') {
+                        x.style.display = "flex";
+                    } else {
+                        x.style.display = "grid";
+                    }
+                } else {
+                    x.style.display = "none";
+                }
+            }
+        }
+
+        // === Функция очистки и закрытия формы ===
+        function cleaningAndClosingForm(form, errorContainer) {
+            if (errorContainer) {
+                errorContainer.innerHTML = '';
+            }
+            // Сброс значений полей формы
+            if (form) {
+                const inputs = form.querySelectorAll('input');
+                inputs.forEach(input => {
+                    if (input.type !== 'hidden' && input.name !== '__RequestVerificationToken') {
+                        input.value = '';
+                    }
+                });
+            }
+            // Закрываем форму регистрации
+            closeModal();
+        }
+
+        // === Функция подтверждения email ===
+        let confirmEmailData = null;
+        function confirmEmail(body) {
+            confirmEmailData = body;
+        }
+
+        // === Обработчики для формы подтверждения (делегирование событий) ===
+        // Используем делегирование событий, чтобы обработчики работали даже если форма добавлена динамически
+        document.addEventListener('click', function(e) {
+            // Кнопка отправки кода (работает и для button, и для div)
+            if (e.target && (e.target.classList.contains('send_confirm') || e.target.closest('.send_confirm'))) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                const button = e.target.classList.contains('send_confirm') ? e.target : e.target.closest('.send_confirm');
+                console.log('Кнопка отправки кода нажата');
+                
+                const codeInput = document.getElementById('code_confirm');
+                if (!codeInput) {
+                    console.error('Поле ввода кода не найдено');
+                    alert('Поле ввода кода не найдено');
+                    return;
+                }
+
+                const code = codeInput.value.trim();
+                console.log('Введенный код:', code);
+                if (!code) {
+                    alert('Введите код подтверждения');
+                    codeInput.focus();
+                    return;
+                }
+
+                if (!confirmEmailData) {
+                    console.error('Данные регистрации не найдены. confirmEmailData:', confirmEmailData);
+                    alert('Данные регистрации не найдены. Пожалуйста, зарегистрируйтесь заново.');
+                    return;
+                }
+                
+                console.log('Данные для подтверждения:', confirmEmailData);
+
+                // Добавляем код в body
+                const confirmBody = {
+                    ...confirmEmailData,
+                    CodeConfirm: code
+                };
+
+                const requestURL = '/Account/ConfirmEmail';
+                
+                // Блокируем кнопку на время запроса
+                if (button) {
+                    button.disabled = true;
+                    button.style.opacity = '0.6';
+                }
+                
+                console.log('Отправка запроса на подтверждение:', confirmBody);
+                fetch(requestURL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    body: JSON.stringify(confirmBody),
+                    credentials: 'same-origin'
+                })
+                .then(resp => resp.json())
+                .then(data => {
+                    if (data.success) {
+                        console.log('Код подтверждения принят:', data);
+                        hiddenOpen_Closeclick('.confirm-email-container');
+                        showToast('Email успешно подтвержден!', 'success');
+                        setTimeout(() => location.reload(), 1500);
+                    } else {
+                        const errors = data.errors || ['Неверный код подтверждения'];
+                        console.error('Ошибка подтверждения:', errors);
+                        alert(errors.join(', '));
+                        if (button) {
+                            button.disabled = false;
+                            button.style.opacity = '1';
+                        }
+                    }
+                })
+                .catch(err => {
+                    console.error('Ошибка подтверждения email:', err);
+                    alert('Произошла ошибка при подтверждении email');
+                    if (button) {
+                        button.disabled = false;
+                        button.style.opacity = '1';
+                    }
+                });
+            }
+            
+            // Кнопка закрытия формы (работает и для button, и для div)
+            if (e.target && (e.target.classList.contains('button_confirm_close') || e.target.closest('.button_confirm_close'))) {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log('Закрытие формы подтверждения');
+                hiddenOpen_Closeclick('.confirm-email-container');
+            }
+        });
+
+        // Обработчик клика на overlay
+        document.addEventListener('click', function(e) {
+            if (e.target && e.target.classList.contains('overlay') && 
+                e.target.closest('.confirm-email-container')) {
+                hiddenOpen_Closeclick('.confirm-email-container');
+            }
+        });
+
         // === Универсальная отправка формы ===
         async function postForm(form, url, errorContainer) {
             const token = getToken(form);
@@ -178,8 +321,26 @@
             const result = await postForm(formSignup, '/Account/Register', errorSignup);
 
             if (result.success) {
-                console.log('%cРЕГИСТРАЦИЯ УСПЕШНА! Перезагружаем...', 'color: lime; font-size: 18px;');
-                location.reload();
+                console.log('%cРЕГИСТРАЦИЯ УСПЕШНА!', 'color: lime; font-size: 18px;');
+                console.log('Данные регистрации:', result.data);
+                // Очищаем форму и закрываем её
+                cleaningAndClosingForm(formSignup, errorSignup);
+                // Вызываем функцию подтверждения email с данными
+                if (result.data && result.data.data) {
+                    console.log('Сохраняем данные для подтверждения:', result.data.data);
+                    confirmEmail(result.data.data);
+                } else {
+                    console.warn('Данные регистрации не получены в ответе');
+                }
+                // Показываем форму подтверждения email
+                setTimeout(() => {
+                    hiddenOpen_Closeclick('.confirm-email-container');
+                    // Фокусируемся на поле ввода кода
+                    const codeInput = document.getElementById('code_confirm');
+                    if (codeInput) {
+                        codeInput.focus();
+                    }
+                }, 100);
             } else {
                 const errors = result.data.errors || ['Неизвестная ошибка'];
                 errorSignup && (errorSignup.innerHTML = errors.map(e => `<div class="error">${e}</div>`).join(''));

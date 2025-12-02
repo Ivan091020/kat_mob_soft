@@ -18,6 +18,7 @@ using kat_mob_soft.Domain.ViewModels;
 using kat_mob_soft.Domain.Models;
 using kat_mob_soft.Filters;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 
 
 namespace kat_mob_soft.DAL
@@ -76,6 +77,9 @@ namespace kat_mob_soft.DAL
 
             // Регистрация AutoMapper
             services.AddAutoMapper(typeof(AppMappingProfile));
+
+            // Регистрация MemoryCache для временного хранения данных регистрации
+            services.AddMemoryCache();
 
             // Регистрация Storage
             services.AddScoped<IBaseStorage<UserDb>, UserStorage>();

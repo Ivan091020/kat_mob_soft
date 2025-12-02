@@ -33,6 +33,11 @@ namespace kat_mob_soft.Domain.Models.Db
         public DateTimeOffset RegisteredAt { get; set; } = DateTimeOffset.UtcNow;
         public DateTimeOffset? LastLogin { get; set; }
 
+        public bool EmailConfirmed { get; set; } = false;
+        
+        [MaxLength(500)]
+        public string EmailConfirmationToken { get; set; }
+
         // --- Навигационные свойства (добавлено) ---
         public virtual ICollection<ReviewDb> Reviews { get; set; } = new List<ReviewDb>();
         public virtual ICollection<DownloadDb> Downloads { get; set; } = new List<DownloadDb>();

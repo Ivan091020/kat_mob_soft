@@ -109,6 +109,9 @@
     <!-- Модальное окно входа/регистрации -->
     @await Html.PartialAsync("_LoginRegistrationPartial")
 
+    <!-- Форма подтверждения email -->
+    @await Html.PartialAsync("_ConfirmEmailPartial", new kat_mob_soft.Domain.ViewModels.ConfirmEmailViewModel())
+
     <!-- Toast уведомления -->
     <div id="toast-container" class="toast-container"></div>
 
