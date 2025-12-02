@@ -347,6 +347,17 @@
             }
         });
 
+        // === Google авторизация ===
+        const google = document.querySelectorAll('.google');
+        if (google) {
+            google.forEach(btn => {
+                btn.addEventListener('click', function () {
+                    window.location.href = `/Home/AuthenticationGoogle?returnUrl=${encodeURIComponent(window.location.href)}`;
+                });
+            });
+        }
+        // Ссылки: 3
+
         // === Выход ===
         const btnLogout = document.getElementById('btn-logout');
         const logoutForm = document.getElementById('logout-form');

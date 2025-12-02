@@ -1,18 +1,24 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Security.Claims;
 using AutoMapper;
 using kat_mob_soft.Domain.ViewModels;
 using kat_mob_soft.Domain.Models.Db;
+using kat_mob_soft.Domain.Models;
 using kat_mob_soft.DAL.Interfaces;
 using kat_mob_soft.DAL.Interfaces.Storage;
 using FluentValidation;
 using kat_mob_soft.Domain.Validators;
+using kat_mob_soft.Domain.Response;
+using kat_mob_soft.Domain.Enum;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Caching.Memory;
 using MailKit.Net.Smtp;
 using MimeKit;
 using System.Security.Cryptography;
+using Microsoft.EntityFrameworkCore;
 
 namespace kat_mob_soft.Service
 {
@@ -402,6 +408,104 @@ namespace kat_mob_soft.Service
         {
             var random = new Random();
             return random.Next(100000, 999999).ToString(); // 6-значный код
+        }
+
+        /// <summary>
+        /// Проверяет, существует ли пользователь в БД, и если нет - создает его. Возвращает ClaimsIdentity для аутентификации.
+        /// </summary>
+        public async Task<BaseResponse<ClaimsIdentity>> IsCreatedAccount(User model)
+        {
+            try
+            {
+                var userDb = new UserDb();
+                
+                // Проверяем, существует ли пользователь с таким email
+                if (_userStorageTyped != null)
+                {
+                    var existingUser = await _userStorageTyped.GetByEmailAsync(model.Email);
+                    
+                    if (existingUser == null)
+                    {
+                        // Пользователя нет - создаем нового
+                        model.PasswordHash = BCrypt.Net.BCrypt.HashPassword("google");
+                        
+                        userDb = new UserDb
+                        {
+                            Username = model.Login ?? model.FullName ?? model.Email.Split('@')[0],
+                            Email = model.Email,
+                            PasswordHash = model.PasswordHash,
+                            RegisteredAt = DateTimeOffset.UtcNow,
+                            Role = "user",
+                            EmailConfirmed = true, // Google подтвердил email
+                            DisplayName = model.FullName ?? model.Login,
+                            AvatarPath = model.PathImage
+                        };
+                        
+                        await _userStorage.CreateAsync(userDb);
+                        
+                        // Обновляем LastLogin
+                        userDb.LastLogin = DateTimeOffset.UtcNow;
+                        await _userStorage.UpdateAsync(userDb);
+                        
+                        // Создаем ClaimsIdentity для нового пользователя
+                        var claims = new List<Claim>
+                        {
+                            new Claim(ClaimTypes.NameIdentifier, userDb.Id.ToString()),
+                            new Claim(ClaimTypes.Name, userDb.Username ?? ""),
+                            new Claim(ClaimTypes.Email, userDb.Email ?? ""),
+                            new Claim(ClaimTypes.Role, userDb.Role ?? "user")
+                        };
+                        
+                        var claimsIdentity = new ClaimsIdentity(claims, "Cookie");
+                        
+                        return new BaseResponse<ClaimsIdentity>
+                        {
+                            Data = claimsIdentity,
+                            Description = "Объект добавился",
+                            StatusCode = StatusCode.OK
+                        };
+                    }
+                    else
+                    {
+                        // Пользователь уже существует - обновляем LastLogin и возвращаем его ClaimsIdentity
+                        existingUser.LastLogin = DateTimeOffset.UtcNow;
+                        await _userStorage.UpdateAsync(existingUser);
+                        
+                        var claims = new List<Claim>
+                        {
+                            new Claim(ClaimTypes.NameIdentifier, existingUser.Id.ToString()),
+                            new Claim(ClaimTypes.Name, existingUser.Username ?? ""),
+                            new Claim(ClaimTypes.Email, existingUser.Email ?? ""),
+                            new Claim(ClaimTypes.Role, existingUser.Role ?? "user")
+                        };
+                        
+                        var claimsIdentity = new ClaimsIdentity(claims, "Cookie");
+                        
+                        return new BaseResponse<ClaimsIdentity>
+                        {
+                            Data = claimsIdentity,
+                            Description = "Объект уже был создан",
+                            StatusCode = StatusCode.OK
+                        };
+                    }
+                }
+                else
+                {
+                    return new BaseResponse<ClaimsIdentity>
+                    {
+                        Description = "UserStorage не инициализирован",
+                        StatusCode = StatusCode.InternalServerError
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<ClaimsIdentity>
+                {
+                    Description = ex.Message,
+                    StatusCode = StatusCode.InternalServerError
+                };
+            }
         }
     }
 }

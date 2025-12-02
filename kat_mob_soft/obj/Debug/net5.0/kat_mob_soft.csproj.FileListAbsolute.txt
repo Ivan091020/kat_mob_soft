@@ -15,6 +15,7 @@ C:\up\kat_mob_soft\kat_mob_soft\bin\Debug\net5.0\BCrypt.Net-Next.dll
 C:\up\kat_mob_soft\kat_mob_soft\bin\Debug\net5.0\FluentValidation.dll
 C:\up\kat_mob_soft\kat_mob_soft\bin\Debug\net5.0\Humanizer.dll
 C:\up\kat_mob_soft\kat_mob_soft\bin\Debug\net5.0\MailKit.dll
+C:\up\kat_mob_soft\kat_mob_soft\bin\Debug\net5.0\Microsoft.AspNetCore.Authentication.Google.dll
 C:\up\kat_mob_soft\kat_mob_soft\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.dll
 C:\up\kat_mob_soft\kat_mob_soft\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Abstractions.dll
 C:\up\kat_mob_soft\kat_mob_soft\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Design.dll
@@ -63,6 +64,7 @@ C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\Razor\Views\Home\Contacts.cshtm
 C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\Razor\Views\Home\Services.cshtml.g.cs
 C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\Razor\Views\Home\SiteInformation.cshtml.g.cs
 C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\Razor\Views\Shared\Error.cshtml.g.cs
+C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\Razor\Views\Shared\_ConfirmEmailPartial.cshtml.g.cs
 C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\Razor\Views\Shared\_Layout.cshtml.g.cs
 C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\Razor\Views\Shared\_LoginRegistrationPartial.cshtml.g.cs
 C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\Razor\Views\Shared\_LoginStatus.cshtml.g.cs
@@ -77,4 +79,3 @@ C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\kat_mob_soft.dll
 C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\ref\kat_mob_soft.dll
 C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\kat_mob_soft.pdb
 C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\kat_mob_soft.genruntimeconfig.cache
-C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\Razor\Views\Shared\_ConfirmEmailPartial.cshtml.g.cs

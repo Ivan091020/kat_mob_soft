@@ -9,6 +9,8 @@ namespace kat_mob_soft.Domain.Models
         public string FullName { get; set; }
         public string Email { get; set; }
         public string PasswordHash { get; set; }
+        public string Login { get; set; }
+        public string PathImage { get; set; }
 
         public ICollection<Review> Reviews { get; set; }
         public ICollection<Download> Downloads { get; set; }

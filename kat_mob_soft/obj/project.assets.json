@@ -128,6 +128,18 @@
           "lib/net5.0/MailKit.dll": {}
         }
       },
+      "Microsoft.AspNetCore.Authentication.Google/5.0.17": {
+        "type": "package",
+        "compile": {
+          "lib/net5.0/Microsoft.AspNetCore.Authentication.Google.dll": {}
+        },
+        "runtime": {
+          "lib/net5.0/Microsoft.AspNetCore.Authentication.Google.dll": {}
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
+      },
       "Microsoft.CSharp/4.7.0": {
         "type": "package",
         "compile": {
@@ -1014,6 +1026,21 @@
         "lib/netstandard2.1/MailKit.xml",
         "mailkit.3.0.0.nupkg.sha512",
         "mailkit.nuspec"
+      ]
+    },
+    "Microsoft.AspNetCore.Authentication.Google/5.0.17": {
+      "sha512": "Az1M408Z6KeOLHH4EJMHLgERvrDpo+YWqEjUzCIfYPwM2f3/FrapW9f/hIa9qYRwZB4sae/J/OlH98ebSm24CQ==",
+      "type": "package",
+      "path": "microsoft.aspnetcore.authentication.google/5.0.17",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/net5.0/Microsoft.AspNetCore.Authentication.Google.dll",
+        "lib/net5.0/Microsoft.AspNetCore.Authentication.Google.xml",
+        "microsoft.aspnetcore.authentication.google.5.0.17.nupkg.sha512",
+        "microsoft.aspnetcore.authentication.google.nuspec"
       ]
     },
     "Microsoft.CSharp/4.7.0": {
@@ -3254,6 +3281,7 @@
   "projectFileDependencyGroups": {
     "net5.0": [
       "AutoMapper.Extensions.Microsoft.DependencyInjection >= 8.1.1",
+      "Microsoft.AspNetCore.Authentication.Google >= 5.0.17",
       "Microsoft.EntityFrameworkCore.Design >= 5.0.17",
       "Npgsql.EntityFrameworkCore.PostgreSQL >= 5.0.10",
       "System.Text.RegularExpressions >= 4.3.1",
@@ -3322,6 +3350,10 @@
           "AutoMapper.Extensions.Microsoft.DependencyInjection": {
             "target": "Package",
             "version": "[8.1.1, )"
+          },
+          "Microsoft.AspNetCore.Authentication.Google": {
+            "target": "Package",
+            "version": "[5.0.17, )"
           },
           "Microsoft.EntityFrameworkCore.Design": {
             "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",

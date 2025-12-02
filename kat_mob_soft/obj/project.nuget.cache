@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "0JsbZOoFup6WpT5tcwGxqKVHQ4krBmLQh9/U1FjdWJPiTO/sooEsfwEi5r3UIUUOte/YxcEp3k31HoM3/KP8bA==",
+  "dgSpecHash": "iG1vcEmKNB0aDn/At8HgWOMBkGATuwFSlhxo0Oy4dU/3EkY++WkGa0uU/odhPW3tveaJh+066PJjIyi5JTvsJA==",
   "success": true,
   "projectFilePath": "C:\\up\\kat_mob_soft\\kat_mob_soft\\kat_mob_soft.csproj",
   "expectedPackageFiles": [
@@ -10,6 +10,7 @@
     "C:\\Users\\Ivan\\.nuget\\packages\\fluentvalidation\\6.4.0\\fluentvalidation.6.4.0.nupkg.sha512",
     "C:\\Users\\Ivan\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\Ivan\\.nuget\\packages\\mailkit\\3.0.0\\mailkit.3.0.0.nupkg.sha512",
+    "C:\\Users\\Ivan\\.nuget\\packages\\microsoft.aspnetcore.authentication.google\\5.0.17\\microsoft.aspnetcore.authentication.google.5.0.17.nupkg.sha512",
     "C:\\Users\\Ivan\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
     "C:\\Users\\Ivan\\.nuget\\packages\\microsoft.entityframeworkcore\\5.0.17\\microsoft.entityframeworkcore.5.0.17.nupkg.sha512",
     "C:\\Users\\Ivan\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\5.0.17\\microsoft.entityframeworkcore.abstractions.5.0.17.nupkg.sha512",

@@ -45,9 +45,14 @@
 
 .form-btn-container {
     display: flex;
+    align-items: center;
     gap: 12px;
     justify-content: center;
     margin-bottom: 16px;
+}
+
+.form-btn-container a {
+    display: contents;
 }
 
 .form-btn {
@@ -56,6 +61,17 @@
     border-radius: 8px;
     border: 1px solid #e0e0e0;
     background: #fff;
+    border: none;
+    cursor: pointer;
+    background-color: rgb(255, 165, 0);
+    color: #fff;
+    padding: 10px 50px;
+    font-size: inherit;
+    width: fit-content;
+}
+
+.google-img {
+    width: 20%;
 }
 
     .form-btn.active {
