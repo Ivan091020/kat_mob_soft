@@ -1,0 +1,76 @@
+@model kat_mob_soft.Domain.ViewModels.AppPageViewModel
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = Model.Name;
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/app-page.css" asp-append-version="true" />
+}
+
+<div class="app-page">
+    <div class="app-header">
+        <h1>@Model.Name</h1>
+        <p class="app-developer">@Model.DeveloperName</p>
+    </div>
+
+    <div class="app-images">
+        <!-- Основное изображение -->
+        <img id="main-image" src="@Model.PathImg" alt="@Model.Name" class="main-image" />
+
+        <!-- Миниатюры -->
+        <div class="thumbnail-container">
+            <img src="@Model.PathImg" alt="Thumbnail" class="thumbnail" onclick="changeImage(this)" />
+            @if (Model.Screenshots != null && Model.Screenshots.Count > 0)
+            {
+                @foreach (var screenshot in Model.Screenshots)
+                {
+                    <img src="@screenshot.PathImg" alt="Thumbnail" class="thumbnail" onclick="changeImage(this)" />
+                }
+            }
+        </div>
+    </div>
+
+    <div class="app-info">
+        <h1>@Model.Name</h1>
+        <p><strong>Разработчик:</strong> @Model.DeveloperName</p>
+        <p><strong>Категория:</strong> @Model.CategoryName</p>
+        
+        @if (!string.IsNullOrEmpty(Model.FullDescription))
+        {
+            <p class="description"><strong>Описание:</strong> @Model.FullDescription</p>
+        }
+        else if (!string.IsNullOrEmpty(Model.ShortDescription))
+        {
+            <p class="description"><strong>Описание:</strong> @Model.ShortDescription</p>
+        }
+        
+        @if (Model.AverageRating > 0)
+        {
+            <p><strong>Рейтинг:</strong> 
+                @for (int i = 1; i <= 5; i++)
+                {
+                    if (i <= Math.Round(Model.AverageRating))
+                    {
+                        <img src="/images/star.jpg" alt="Star" class="star" />
+                    }
+                    else
+                    {
+                        <img src="/images/star-empty.jpg" alt="Star" class="star" />
+                    }
+                }
+                @Model.AverageRating.ToString("F1")
+            </p>
+        }
+        
+        <p><strong>Цена:</strong> @Model.Price.ToString("F2") @Model.Currency</p>
+    </div>
+</div>
+
+<script>
+    function changeImage(thumbnail) {
+        var mainImage = document.getElementById('main-image');
+        mainImage.src = thumbnail.src;
+    }
+</script>
+

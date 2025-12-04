@@ -22,17 +22,20 @@ namespace kat_mob_soft.Service
         private readonly AppCatalogDbContext _db;
         private readonly IBaseStorage<CategoryDb> _categoryStorage;
         private readonly IBaseStorage<DeveloperDb> _developerStorage;
+        private readonly IBaseStorage<AppScreenshotDb> _screenshotStorage;
 
         public AppService(
             IBaseStorage<AppDb> appStorage,
             AppCatalogDbContext db,
             IBaseStorage<CategoryDb> categoryStorage,
-            IBaseStorage<DeveloperDb> developerStorage)
+            IBaseStorage<DeveloperDb> developerStorage,
+            IBaseStorage<AppScreenshotDb> screenshotStorage)
         {
             _appStorage = appStorage;
             _db = db;
             _categoryStorage = categoryStorage;
             _developerStorage = developerStorage;
+            _screenshotStorage = screenshotStorage;
         }
 
         public async Task<BaseResponse<List<AppViewModel>>> GetAllAppsAsync()
@@ -53,6 +56,7 @@ namespace kat_mob_soft.Service
                     {
                         Id = app.Id,
                         Name = app.Name,
+                        ShortDescription = app.ShortDescription ?? "",
                         PathImg = app.Icon != null ? app.Icon.FilePath : "/images/default-app.png",
                         CountDownload = app.Downloads != null ? app.Downloads.Count : 0,
                         CategoryName = app.Category != null ? app.Category.Name : "Без категории",
@@ -233,6 +237,7 @@ namespace kat_mob_soft.Service
                     {
                         Id = app.Id,
                         Name = app.Name,
+                        ShortDescription = app.ShortDescription ?? "",
                         PathImg = app.Icon != null ? app.Icon.FilePath : "/images/default-app.png",
                         CountDownload = app.Downloads != null ? app.Downloads.Count : 0,
                         CategoryName = app.Category != null ? app.Category.Name : "Без категории",
@@ -302,6 +307,98 @@ namespace kat_mob_soft.Service
             result = result.Trim('-');
 
             return result;
+        }
+
+        public async Task<BaseResponse<AppPageViewModel>> GetAppById(long id)
+        {
+            try
+            {
+                var appDb = await _db.Apps
+                    .Include(a => a.Category)
+                    .Include(a => a.Developer)
+                    .Include(a => a.Icon)
+                    .FirstOrDefaultAsync(a => a.Id == id);
+
+                if (appDb == null)
+                {
+                    return new BaseResponse<AppPageViewModel>()
+                    {
+                        Description = "Найдено 0 элементов",
+                        StatusCode = StatusCode.OK
+                    };
+                }
+
+                var result = new AppPageViewModel
+                {
+                    Id = appDb.Id,
+                    Name = appDb.Name,
+                    DeveloperName = appDb.Developer?.Name ?? "Неизвестный разработчик",
+                    CategoryName = appDb.Category?.Name ?? "Без категории",
+                    ShortDescription = appDb.ShortDescription ?? "",
+                    FullDescription = appDb.FullDescription ?? "",
+                    Price = appDb.Price,
+                    Currency = appDb.Currency ?? "USD",
+                    AverageRating = appDb.AverageRating,
+                    PathImg = appDb.Icon?.FilePath ?? "/images/default-app.png",
+                    Screenshots = new List<AppScreenshotViewModel>()
+                };
+
+                return new BaseResponse<AppPageViewModel>()
+                {
+                    Data = result,
+                    StatusCode = StatusCode.OK
+                };
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<AppPageViewModel>()
+                {
+                    Description = ex.Message,
+                    StatusCode = StatusCode.InternalServerError
+                };
+            }
+        }
+
+        public BaseResponse<List<AppScreenshotViewModel>> GetScreenshotsByAppId(long id)
+        {
+            try
+            {
+                var screenshotsDb = _db.AppScreenshots
+                    .Where(x => x.AppId == id)
+                    .OrderBy(x => x.SortOrder)
+                    .ToList();
+
+                var result = screenshotsDb.Select(s => new AppScreenshotViewModel
+                {
+                    Id = s.Id,
+                    PathImg = s.FilePath,
+                    Caption = s.Caption ?? ""
+                }).ToList();
+
+                if (result.Count == 0)
+                {
+                    return new BaseResponse<List<AppScreenshotViewModel>>()
+                    {
+                        Description = "Найдено 0 элементов",
+                        StatusCode = StatusCode.OK,
+                        Data = result
+                    };
+                }
+
+                return new BaseResponse<List<AppScreenshotViewModel>>()
+                {
+                    Data = result,
+                    StatusCode = StatusCode.OK
+                };
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<List<AppScreenshotViewModel>>()
+                {
+                    Description = ex.Message,
+                    StatusCode = StatusCode.InternalServerError
+                };
+            }
         }
 
     }

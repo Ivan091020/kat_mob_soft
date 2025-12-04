@@ -109,39 +109,45 @@
                 {
                     @foreach (var item in Model)
                     {
-                        <div class="app-item card-app" 
-                             data-price="@item.Price" 
-                             data-rating="@item.AverageRating" 
-                             data-name="@item.Name"
-                             data-category="@item.CategoryName">
-                            <div class="card-image-wrapper">
-                                <img src="@item.PathImg" alt="@item.Name" class="card-image" />
-                            </div>
-                            <div class="card-content">
-                                <h3 class="card-title">@item.Name</h3>
-                                <div class="card-category-price">
-                                    <span class="card-category">@item.CategoryName</span>
-                                    @if (item.Price > 0)
-                                    {
-                                        <span class="card-price">@item.Price.ToString("F2") @item.Currency</span>
-                                    }
+                        <a asp-controller="Apps" asp-action="AppPage" asp-route-id="@item.Id" class="app-item-link">
+                            <div class="app-item card-app" 
+                                 data-price="@item.Price" 
+                                 data-rating="@item.AverageRating" 
+                                 data-name="@item.Name"
+                                 data-category="@item.CategoryName">
+                                <div class="card-image-wrapper">
+                                    <img src="@item.PathImg" alt="@item.Name" class="card-image" />
                                 </div>
-                                <div class="card-rating">
-                                    @for (int i = 1; i <= 5; i++)
+                                <div class="card-content">
+                                    <h3 class="card-title">@item.Name</h3>
+                                    @if (!string.IsNullOrEmpty(item.ShortDescription))
                                     {
-                                        if (i <= Math.Round(item.AverageRating))
-                                        {
-                                            <span class="star filled">★</span>
-                                        }
-                                        else
-                                        {
-                                            <span class="star">★</span>
-                                        }
+                                        <p class="card-description">@item.ShortDescription</p>
                                     }
-                                    <span class="rating-value">@item.AverageRating.ToString("F1")</span>
+                                    <div class="card-category-price">
+                                        <span class="card-category">@item.CategoryName</span>
+                                        @if (item.Price > 0)
+                                        {
+                                            <span class="card-price">@item.Price.ToString("F2") @item.Currency</span>
+                                        }
+                                    </div>
+                                    <div class="card-rating">
+                                        @for (int i = 1; i <= 5; i++)
+                                        {
+                                            if (i <= Math.Round(item.AverageRating))
+                                            {
+                                                <span class="star filled">★</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="star">★</span>
+                                            }
+                                        }
+                                        <span class="rating-value">@item.AverageRating.ToString("F1")</span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </a>
                     }
                 }
                 else

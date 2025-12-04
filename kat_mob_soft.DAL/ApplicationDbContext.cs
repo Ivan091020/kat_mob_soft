@@ -1,4 +1,4 @@
-﻿// DAL/Data/AppCatalogDbContext.cs
+// DAL/Data/AppCatalogDbContext.cs
 using System;
 using kat_mob_soft.Domain.Models.Db;
 using Microsoft.EntityFrameworkCore;
@@ -97,6 +97,14 @@ namespace kat_mob_soft.DAL
             modelBuilder.Entity<AppDb>().Property(a => a.Metadata).HasColumnName("metadata");
             modelBuilder.Entity<AppVersionDb>().ToTable("app_versions", "public");
             modelBuilder.Entity<AppScreenshotDb>().ToTable("app_screenshots", "public");
+            // Настройка имен столбцов для AppScreenshotDb (snake_case)
+            modelBuilder.Entity<AppScreenshotDb>().Property(s => s.Id).HasColumnName("id");
+            modelBuilder.Entity<AppScreenshotDb>().Property(s => s.AppId).HasColumnName("app_id");
+            modelBuilder.Entity<AppScreenshotDb>().Property(s => s.VersionId).HasColumnName("version_id");
+            modelBuilder.Entity<AppScreenshotDb>().Property(s => s.FilePath).HasColumnName("file_path");
+            modelBuilder.Entity<AppScreenshotDb>().Property(s => s.SortOrder).HasColumnName("sort_order");
+            modelBuilder.Entity<AppScreenshotDb>().Property(s => s.Caption).HasColumnName("caption");
+            
             modelBuilder.Entity<AppIconDb>().ToTable("app_icons", "public");
             // Настройка имен столбцов для AppIconDb (snake_case)
             modelBuilder.Entity<AppIconDb>().Property(i => i.Id).HasColumnName("id");

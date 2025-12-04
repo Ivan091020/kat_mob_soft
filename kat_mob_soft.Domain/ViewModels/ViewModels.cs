@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace kat_mob_soft.Domain.ViewModels
@@ -88,6 +89,7 @@ namespace kat_mob_soft.Domain.ViewModels
     {
         public long Id { get; set; }
         public string Name { get; set; }
+        public string ShortDescription { get; set; }
         public string PathImg { get; set; }
         public int CountDownload { get; set; }
         public string CategoryName { get; set; }
@@ -120,6 +122,28 @@ namespace kat_mob_soft.Domain.ViewModels
         public string DeveloperName { get; set; }
 
         public bool IsPublished { get; set; } = false;
+    }
+
+    public class AppPageViewModel
+    {
+        public long Id { get; set; }
+        public string Name { get; set; }
+        public string DeveloperName { get; set; }
+        public string CategoryName { get; set; }
+        public string ShortDescription { get; set; }
+        public string FullDescription { get; set; }
+        public decimal Price { get; set; }
+        public string Currency { get; set; }
+        public decimal AverageRating { get; set; }
+        public string PathImg { get; set; }
+        public List<AppScreenshotViewModel> Screenshots { get; set; }
+    }
+
+    public class AppScreenshotViewModel
+    {
+        public long Id { get; set; }
+        public string PathImg { get; set; }
+        public string Caption { get; set; }
     }
 }
 

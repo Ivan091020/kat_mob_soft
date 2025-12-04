@@ -115,26 +115,29 @@ function dataDisplay(data) {
         }
         
         const appItem = `
-            <div class="app-item card-app" 
-                 data-price="${app.price}" 
-                 data-rating="${app.averageRating}" 
-                 data-name="${app.name}"
-                 data-category="${app.categoryName}">
-                <div class="card-image-wrapper">
-                    <img src="${app.pathImg || '/images/default-app.png'}" alt="${app.name}" class="card-image" />
-                </div>
-                <div class="card-content">
-                    <h3 class="card-title">${app.name}</h3>
-                    <div class="card-category-price">
-                        <span class="card-category">${app.categoryName || 'Без категории'}</span>
-                        ${priceHtml}
+            <a href="/Apps/AppPage/${app.id}" class="app-item-link">
+                <div class="app-item card-app" 
+                     data-price="${app.price}" 
+                     data-rating="${app.averageRating}" 
+                     data-name="${app.name}"
+                     data-category="${app.categoryName}">
+                    <div class="card-image-wrapper">
+                        <img src="${app.pathImg || '/images/default-app.png'}" alt="${app.name}" class="card-image" />
                     </div>
-                    <div class="card-rating">
-                        ${starsHtml}
-                        <span class="rating-value">${(app.averageRating || 0).toFixed(1)}</span>
+                    <div class="card-content">
+                        <h3 class="card-title">${app.name}</h3>
+                        ${app.shortDescription ? `<p class="card-description">${app.shortDescription}</p>` : ''}
+                        <div class="card-category-price">
+                            <span class="card-category">${app.categoryName || 'Без категории'}</span>
+                            ${priceHtml}
+                        </div>
+                        <div class="card-rating">
+                            ${starsHtml}
+                            <span class="rating-value">${(app.averageRating || 0).toFixed(1)}</span>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </a>
         `;
         
         appsList.innerHTML += appItem; // Добавить приложение в список

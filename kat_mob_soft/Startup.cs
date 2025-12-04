@@ -121,6 +121,7 @@ namespace kat_mob_soft.DAL
             services.AddScoped<IBaseStorage<AppDb>, AppStorage>();
             services.AddScoped<IBaseStorage<CategoryDb>, CategoryStorage>();
             services.AddScoped<IBaseStorage<DeveloperDb>, DeveloperStorage>();
+            services.AddScoped<IBaseStorage<AppScreenshotDb>, AppScreenshotStorage>();
             // Регистрация UserStorage напрямую для доступа из контроллеров
             services.AddScoped<UserStorage>();
 
