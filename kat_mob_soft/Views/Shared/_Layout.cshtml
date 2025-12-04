@@ -54,8 +54,8 @@
 
 
                 <div class="header-actions">
-                    <form asp-area="" asp-controller="Catalog" asp-action="Search" method="get" class="search-form">
-                        <input type="search" name="q" placeholder="Поиск приложений..." aria-label="Поиск по каталогу" />
+                    <form asp-area="" asp-controller="Apps" asp-action="ListOfApps" method="get" class="search-form">
+                        <input type="search" name="q" id="header-search" placeholder="Поиск приложений..." aria-label="Поиск по каталогу" />
                         <button type="submit" class="btn-icon" aria-label="Искать">Поиск</button>
                     </form>
 
