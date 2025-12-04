@@ -1,4 +1,4 @@
-﻿@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Identity
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -134,6 +134,7 @@
     <script src="~/js/contact_script.js" asp-append-version="true"></script>
     <script src="~/js/chared_script.js" asp-append-version="true"></script>
 
+    @RenderSection("Scripts", required: false)
 
     <!-- Связка кнопок шапки с модалкой -->
     <script>

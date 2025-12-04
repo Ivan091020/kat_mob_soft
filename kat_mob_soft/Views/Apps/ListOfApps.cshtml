@@ -2,6 +2,39 @@
 @{
     Layout = "_Layout";
     ViewData["Title"] = "Каталог приложений";
+    
+    // Категории приложений для фильтров
+    var categories = new List<string>
+    {
+        "Аркады",
+        "Викторины",
+        "Головоломки",
+        "Гонки",
+        "Казуальные",
+        "Карточные",
+        "Музыкальные",
+        "Настольные",
+        "Обучающие",
+        "Приключения",
+        "Ролевые",
+        "Симуляторы",
+        "Словесные",
+        "Спортивные",
+        "Стратегии",
+        "Экшен",
+        "Автомобили и Транспорт",
+        "Бизнес",
+        "Видеоплееры и Редактор",
+        "Детям",
+        "Еда и напитки",
+        "Жилье и дом",
+        "Здоровье и фитнес",
+        "Инструменты"
+    };
+    
+    // Определяем максимальную цену для ползунка
+    var maxPrice = Model != null && Model.Count > 0 ? Model.Max(a => a.Price) : 100m;
+    if (maxPrice < 10) maxPrice = 100m; // Минимальный максимум
 }
 
 <div class="container-apps">
@@ -10,46 +43,118 @@
         > Каталог приложений
     </div>
 
-    <div class="grid-container">
-        @if (Model != null && Model.Count != 0)
-        {
-            @foreach (var item in Model)
-            {
-                <div class="card-app">
-                    <div class="card-image-wrapper">
-                        <img src="@item.PathImg" alt="@item.Name" class="card-image" />
+    <!-- Секция сортировки -->
+    <div class="container-apps-sort">
+        <div class="sorts">
+            <label for="sort-options">Сортировать по:</label>
+            <select id="sort-options">
+                <option value="">Выберите...</option>
+                <option value="price-asc">Цена (по возрастанию)</option>
+                <option value="price-desc">Цена (по убыванию)</option>
+                <option value="rating-desc">Рейтинг (по убыванию)</option>
+                <option value="rating-asc">Рейтинг (по возрастанию)</option>
+                <option value="name-asc">Название (А-Я)</option>
+                <option value="name-desc">Название (Я-А)</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="apps-layout">
+        <!-- Секция фильтров -->
+        <div class="container-filter-apps">
+            <div class="filter">
+                <h3>Фильтр</h3>
+                
+                <!-- Фильтр по цене -->
+                <div class="price-filter">
+                    <label class="title">Цена приложения:</label>
+                    <div>
+                        <span id="price-min-label">0</span>
+                        <label>Минимальная цена:</label>
+                        <input type="range" id="price-min" min="0" max="@((int)maxPrice)" value="0" />
                     </div>
-                    <div class="card-content">
-                        <h3 class="card-title">@item.Name</h3>
-                        <div class="card-category-price">
-                            <span class="card-category">@item.CategoryName</span>
-                            @if (item.Price > 0)
-                            {
-                                <span class="card-price">@item.Price.ToString("F2") @item.Currency</span>
-                            }
-                        </div>
-                        <div class="card-rating">
-                            @for (int i = 1; i <= 5; i++)
-                            {
-                                if (i <= Math.Round(item.AverageRating))
-                                {
-                                    <span class="star filled">★</span>
-                                }
-                                else
-                                {
-                                    <span class="star">★</span>
-                                }
-                            }
-                            <span class="rating-value">@item.AverageRating.ToString("F1")</span>
-                        </div>
+                    <div>
+                        <label>Максимальная цена:</label>
+                        <input type="range" id="price-max" min="0" max="@((int)maxPrice)" value="@((int)maxPrice)" />
+                        <span id="price-max-label">@((int)maxPrice)</span>
+                    </div>
+                    <div>
+                        Текущие значения: <span id="price-values">0 - @((int)maxPrice)</span>
                     </div>
                 </div>
-            }
-        }
-        else
-        {
-            <p class="no-apps-message">Приложения не найдены</p>
-        }
+
+                <!-- Фильтр по категориям -->
+                <div class="app-categories">
+                    <label class="title">Категории приложений:</label>
+                    @foreach (var category in categories)
+                    {
+                        <div>
+                            <input type="checkbox" class="custom-checkbox" id="category-@category.Replace(" ", "-")" value="@category" />
+                            <label for="category-@category.Replace(" ", "-")">@category</label>
+                        </div>
+                    }
+                </div>
+
+                <!-- Кнопка применения фильтра -->
+                <div class="filter-button">
+                    <button type="button" id="apply-filter">Применить фильтр</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Контейнер с приложениями -->
+        <div class="container-apps-list">
+            <div class="grid-container">
+                @if (Model != null && Model.Count != 0)
+                {
+                    @foreach (var item in Model)
+                    {
+                        <div class="app-item card-app" 
+                             data-price="@item.Price" 
+                             data-rating="@item.AverageRating" 
+                             data-name="@item.Name"
+                             data-category="@item.CategoryName">
+                            <div class="card-image-wrapper">
+                                <img src="@item.PathImg" alt="@item.Name" class="card-image" />
+                            </div>
+                            <div class="card-content">
+                                <h3 class="card-title">@item.Name</h3>
+                                <div class="card-category-price">
+                                    <span class="card-category">@item.CategoryName</span>
+                                    @if (item.Price > 0)
+                                    {
+                                        <span class="card-price">@item.Price.ToString("F2") @item.Currency</span>
+                                    }
+                                </div>
+                                <div class="card-rating">
+                                    @for (int i = 1; i <= 5; i++)
+                                    {
+                                        if (i <= Math.Round(item.AverageRating))
+                                        {
+                                            <span class="star filled">★</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="star">★</span>
+                                        }
+                                    }
+                                    <span class="rating-value">@item.AverageRating.ToString("F1")</span>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <p class="no-apps-message">Приложения не найдены</p>
+                }
+            </div>
+        </div>
     </div>
 </div>
+
+@section Scripts {
+    <script src="~/js/apps_filter.js"></script>
+    <script src="~/js/apps_sort.js"></script>
+}
 

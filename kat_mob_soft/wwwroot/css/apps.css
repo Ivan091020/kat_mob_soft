@@ -180,3 +180,230 @@
     font-size: 1.2rem;
     color: #b0b0b0;
 }
+
+/* Макет с фильтрами и списком приложений */
+.apps-layout {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+/* Контейнер для фильтров */
+.container-filter-apps {
+    width: 300px;
+    flex-shrink: 0;
+}
+
+/* Контейнер для списка приложений */
+.container-apps-list {
+    flex: 1;
+    min-width: 0;
+}
+
+/* Контейнер для сортировки */
+.container-apps-sort {
+    padding: 0 20px;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+/* Блок сортировки */
+.sorts {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.sorts label {
+    font-size: 16px;
+    color: #333333;
+}
+
+.sorts select {
+    padding: 5px 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    cursor: pointer;
+}
+
+/* Стили для фильтров */
+.filter {
+    background-color: #2a2a2a;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.filter h3 {
+    color: #ffffff;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.filter-container .title {
+    margin-bottom: 19px;
+    display: flex;
+    justify-content: center;
+}
+
+.price-filter, .app-categories {
+    margin: 30px 15px;
+}
+
+.price-filter .title, .app-categories .title {
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 15px;
+    display: block;
+}
+
+.price-filter div {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid rgba(255, 165, 0, 0.2);
+    border-radius: 4px;
+    margin: 10px 10px;
+    background: rgba(255, 165, 0, 0.2);
+    gap: 10px;
+}
+
+.price-filter span {
+    font-size: 14px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.price-filter label {
+    color: #ffffff;
+    font-size: 14px;
+    margin-right: 10px;
+}
+
+#price-values {
+    font-weight: bold;
+    color: #6b5b46;
+    position: relative;
+}
+
+/* Стили для ползунков цены */
+.price-filter input[type="range"] {
+    -webkit-appearance: none; /* Убираем стандартный стиль */
+    width: 100%;
+    height: 8px;
+    background: #ccc; /* Цвет полосы */
+    border-radius: 5px;
+    outline: none;
+}
+
+.price-filter input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: #ffa500; /* Оранжевый цвет бегунка */
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.price-filter input[type="range"]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background: #ffa500; /* Оранжевый цвет бегунка */
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.price-filter input[type="range"]::-ms-thumb {
+    width: 20px;
+    height: 20px;
+    background: #ffa500; /* Оранжевый цвет бегунка */
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+/* Стили для чекбоксов категорий */
+.app-categories div {
+    margin-bottom: 10px;
+}
+
+.custom-checkbox {
+    display: none;
+}
+
+.custom-checkbox + label {
+    position: relative;
+    padding-left: 30px; /* Отступ для иконки чекбокса */
+    cursor: pointer;
+    line-height: 20px;
+    color: #ffffff;
+}
+
+.custom-checkbox + label::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 20px;
+    height: 20px;
+    border: 2px solid orange; /* Цвет рамки */
+    border-radius: 4px; /* Скругленные углы */
+    background-color: white;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.custom-checkbox:checked + label::before {
+    background-color: orange; /* Оранжевый фон */
+    border-color: orange; /* Оранжевая рамка */
+}
+
+.custom-checkbox:checked + label::after {
+    content: '✓'; /* Галочка */
+    position: absolute;
+    left: 5px;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* Кнопка применения фильтра */
+.filter-button {
+    display: flex;
+    justify-content: center;
+}
+
+.filter-button button {
+    padding: 15px 15px;
+    background-color: #ffa500;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 17px;
+    font-weight: bold;
+    margin: 20px;
+}
+
+.filter-button button:hover {
+    background-color: #3d170c;
+}
+
+/* Адаптивность для фильтров */
+@media (max-width: 1024px) {
+    .apps-layout {
+        flex-direction: column;
+    }
+    
+    .container-filter-apps {
+        width: 100%;
+    }
+}
