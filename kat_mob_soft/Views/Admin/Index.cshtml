@@ -1,0 +1,50 @@
+@{
+    ViewData["Title"] = "Админ-панель";
+    Layout = "_Layout";
+}
+
+<div class="container">
+    <h1>Админ-панель</h1>
+    
+    <div class="admin-menu">
+        <a href="@Url.Action("AddApp", "Admin")" class="btn btn-primary">Добавить приложение</a>
+        <a href="@Url.Action("ListOfApps", "Apps")" class="btn btn-secondary">Просмотр каталога</a>
+    </div>
+</div>
+
+<style>
+    .admin-menu {
+        margin-top: 30px;
+        display: flex;
+        gap: 15px;
+    }
+
+    .btn {
+        padding: 12px 24px;
+        text-decoration: none;
+        border-radius: 5px;
+        display: inline-block;
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        color: white;
+    }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        color: white;
+    }
+
+    .btn-secondary:hover {
+        background-color: #545b62;
+        color: white;
+    }
+</style>
+

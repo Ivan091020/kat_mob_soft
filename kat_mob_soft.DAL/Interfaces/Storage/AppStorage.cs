@@ -19,6 +19,8 @@ namespace kat_mob_soft.DAL.Interfaces.Storage
             var list = await _db.Apps
                                 .Include(a => a.Category)
                                 .Include(a => a.Developer)
+                                .Include(a => a.Icon)
+                                .Include(a => a.Downloads)
                                 .ToListAsync();
             return list;
         }

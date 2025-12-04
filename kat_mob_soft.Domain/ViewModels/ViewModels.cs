@@ -83,6 +83,44 @@ namespace kat_mob_soft.Domain.ViewModels
 
         public string PasswordConfirm { get; set; }
     }
+
+    public class AppViewModel
+    {
+        public long Id { get; set; }
+        public string Name { get; set; }
+        public string PathImg { get; set; }
+        public int CountDownload { get; set; }
+        public string CategoryName { get; set; }
+        public decimal AverageRating { get; set; }
+        public decimal Price { get; set; }
+        public string Currency { get; set; }
+    }
+
+    public class AddAppViewModel
+    {
+        [Required(ErrorMessage = "Название обязательно")]
+        [MaxLength(200)]
+        public string Name { get; set; }
+
+        [MaxLength(500)]
+        public string ShortDescription { get; set; }
+
+        public string FullDescription { get; set; }
+
+        public decimal Price { get; set; } = 0m;
+
+        [MaxLength(3)]
+        public string Currency { get; set; } = "USD";
+
+        [Required(ErrorMessage = "Категория обязательна")]
+        public string CategoryName { get; set; }
+
+        [Required(ErrorMessage = "Разработчик обязателен")]
+        [MaxLength(200)]
+        public string DeveloperName { get; set; }
+
+        public bool IsPublished { get; set; } = false;
+    }
 }
 
 

@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="~/css/shared.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/login_and_registration.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/apps.css" asp-append-version="true" />
 
     <meta name="description" content="AppCatalog — каталог мобильных приложений: обзоры, категории, подборки и рекомендации 2025" />
 </head>
@@ -38,10 +39,14 @@
             <div class="container header-bottom-inner">
                 <nav class="main-nav" role="navigation" aria-label="Главное меню">
                     <ul class="nav-list">
-                        <li><a asp-area="" asp-controller=" Home" asp-action="Index">Каталог</a></li>
+                        <li><a asp-area="" asp-controller="Apps" asp-action="ListOfApps">Каталог</a></li>
                         <li><a asp-controller="Home" asp-action="Index">О нас</a></li>
                         <li><a asp-controller="Home" asp-action="Services">Услуги</a></li>
                         <li><a asp-controller="Home" asp-action="Contacts">Контакты</a></li>
+                        @if (User.Identity.IsAuthenticated && (User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value?.ToLower() == "admin" || User.FindFirst("Role")?.Value?.ToLower() == "admin"))
+                        {
+                            <li><a asp-controller="Admin" asp-action="Index">Админ-панель</a></li>
+                        }
                     </ul>
                 </nav>
 
@@ -77,10 +82,14 @@
             <nav class="footer-nav">
                 <h4>Меню</h4>
                 <ul>
-                    <li><a asp-area="" asp-controller=" Home" asp-action="Index">Каталог</a></li>
+                    <li><a asp-area="" asp-controller="Apps" asp-action="ListOfApps">Каталог</a></li>
                     <li><a asp-controller="Home" asp-action="Index">О нас</a></li>
                     <li><a asp-controller="Home" asp-action="Services">Услуги</a></li>
                     <li><a asp-controller="Home" asp-action="Contacts">Контакты</a></li>
+                    @if (User.Identity.IsAuthenticated && (User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value?.ToLower() == "admin" || User.FindFirst("Role")?.Value?.ToLower() == "admin"))
+                    {
+                        <li><a asp-controller="Admin" asp-action="Index">Админ-панель</a></li>
+                    }
                 </ul>
             </nav>
             <div class="footer-contacts">

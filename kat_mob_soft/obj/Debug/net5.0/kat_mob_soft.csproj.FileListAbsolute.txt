@@ -60,6 +60,9 @@ C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\scopedcss\bundle\kat_mob_soft.s
 C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\kat_mob_soft.TagHelpers.input.cache
 C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\kat_mob_soft.TagHelpers.output.cache
 C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\kat_mob_soft.RazorCoreGenerate.cache
+C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\Razor\Views\Admin\AddApp.cshtml.g.cs
+C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\Razor\Views\Admin\Index.cshtml.g.cs
+C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\Razor\Views\Apps\ListOfApps.cshtml.g.cs
 C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\Razor\Views\Home\Contacts.cshtml.g.cs
 C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\Razor\Views\Home\Services.cshtml.g.cs
 C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\Razor\Views\Home\SiteInformation.cshtml.g.cs

@@ -55,17 +55,68 @@ namespace kat_mob_soft.DAL
             modelBuilder.Entity<UserDb>().Property(u => u.EmailConfirmed).HasColumnName("email_confirmed");
             modelBuilder.Entity<UserDb>().Property(u => u.EmailConfirmationToken).HasColumnName("email_confirmation_token");
             modelBuilder.Entity<DeveloperDb>().ToTable("developers", "public");
+            // Настройка имен столбцов для DeveloperDb (snake_case)
+            modelBuilder.Entity<DeveloperDb>().Property(d => d.Id).HasColumnName("id");
+            modelBuilder.Entity<DeveloperDb>().Property(d => d.Name).HasColumnName("name");
+            modelBuilder.Entity<DeveloperDb>().Property(d => d.Website).HasColumnName("website");
+            modelBuilder.Entity<DeveloperDb>().Property(d => d.ContactEmail).HasColumnName("contact_email");
+            modelBuilder.Entity<DeveloperDb>().Property(d => d.Description).HasColumnName("description");
+            modelBuilder.Entity<DeveloperDb>().Property(d => d.CreatedAt).HasColumnName("created_at");
+
             modelBuilder.Entity<CategoryDb>().ToTable("categories", "public");
+            // Настройка имен столбцов для CategoryDb (snake_case)
+            modelBuilder.Entity<CategoryDb>().Property(c => c.Id).HasColumnName("id");
+            modelBuilder.Entity<CategoryDb>().Property(c => c.Name).HasColumnName("name");
+            modelBuilder.Entity<CategoryDb>().Property(c => c.Slug).HasColumnName("slug");
+            modelBuilder.Entity<CategoryDb>().Property(c => c.ParentId).HasColumnName("parent_id");
+            modelBuilder.Entity<CategoryDb>().Property(c => c.Description).HasColumnName("description");
+            modelBuilder.Entity<CategoryDb>().Property(c => c.CreatedAt).HasColumnName("created_at");
+
             modelBuilder.Entity<TagDb>().ToTable("tags", "public");
+            // Настройка имен столбцов для TagDb (snake_case)
+            modelBuilder.Entity<TagDb>().Property(t => t.Id).HasColumnName("id");
+            modelBuilder.Entity<TagDb>().Property(t => t.Name).HasColumnName("name");
 
             modelBuilder.Entity<AppDb>().ToTable("apps", "public");
+            // Настройка имен столбцов для AppDb (snake_case)
+            modelBuilder.Entity<AppDb>().Property(a => a.Id).HasColumnName("id");
+            modelBuilder.Entity<AppDb>().Property(a => a.Name).HasColumnName("name");
+            modelBuilder.Entity<AppDb>().Property(a => a.Slug).HasColumnName("slug");
+            modelBuilder.Entity<AppDb>().Property(a => a.ShortDescription).HasColumnName("short_description");
+            modelBuilder.Entity<AppDb>().Property(a => a.FullDescription).HasColumnName("full_description");
+            modelBuilder.Entity<AppDb>().Property(a => a.Price).HasColumnName("price");
+            modelBuilder.Entity<AppDb>().Property(a => a.Currency).HasColumnName("currency");
+            modelBuilder.Entity<AppDb>().Property(a => a.IsPublished).HasColumnName("is_published");
+            modelBuilder.Entity<AppDb>().Property(a => a.PublishedAt).HasColumnName("published_at");
+            modelBuilder.Entity<AppDb>().Property(a => a.AverageRating).HasColumnName("average_rating");
+            modelBuilder.Entity<AppDb>().Property(a => a.TotalReviews).HasColumnName("total_reviews");
+            modelBuilder.Entity<AppDb>().Property(a => a.CreatedAt).HasColumnName("created_at");
+            modelBuilder.Entity<AppDb>().Property(a => a.UpdatedAt).HasColumnName("updated_at");
+            modelBuilder.Entity<AppDb>().Property(a => a.DeveloperId).HasColumnName("developer_id");
+            modelBuilder.Entity<AppDb>().Property(a => a.CategoryId).HasColumnName("category_id");
+            modelBuilder.Entity<AppDb>().Property(a => a.Metadata).HasColumnName("metadata");
             modelBuilder.Entity<AppVersionDb>().ToTable("app_versions", "public");
             modelBuilder.Entity<AppScreenshotDb>().ToTable("app_screenshots", "public");
             modelBuilder.Entity<AppIconDb>().ToTable("app_icons", "public");
+            // Настройка имен столбцов для AppIconDb (snake_case)
+            modelBuilder.Entity<AppIconDb>().Property(i => i.Id).HasColumnName("id");
+            modelBuilder.Entity<AppIconDb>().Property(i => i.AppId).HasColumnName("app_id");
+            modelBuilder.Entity<AppIconDb>().Property(i => i.FilePath).HasColumnName("file_path");
+            modelBuilder.Entity<AppIconDb>().Property(i => i.UploadedAt).HasColumnName("uploaded_at");
+
             modelBuilder.Entity<AppTagDb>().ToTable("app_tags", "public");
 
             modelBuilder.Entity<ReviewDb>().ToTable("reviews", "public");
             modelBuilder.Entity<DownloadDb>().ToTable("downloads", "public");
+            // Настройка имен столбцов для DownloadDb (snake_case)
+            modelBuilder.Entity<DownloadDb>().Property(d => d.Id).HasColumnName("id");
+            modelBuilder.Entity<DownloadDb>().Property(d => d.AppId).HasColumnName("app_id");
+            modelBuilder.Entity<DownloadDb>().Property(d => d.VersionId).HasColumnName("version_id");
+            modelBuilder.Entity<DownloadDb>().Property(d => d.UserId).HasColumnName("user_id");
+            modelBuilder.Entity<DownloadDb>().Property(d => d.IpAddress).HasColumnName("ip_address");
+            modelBuilder.Entity<DownloadDb>().Property(d => d.Platform).HasColumnName("platform");
+            modelBuilder.Entity<DownloadDb>().Property(d => d.CreatedAt).HasColumnName("created_at");
+
             modelBuilder.Entity<PurchaseDb>().ToTable("purchases", "public");
 
             modelBuilder.Entity<ReportDb>().ToTable("reports", "public");
@@ -212,7 +263,7 @@ namespace kat_mob_soft.DAL
             // ----------------------------------------
             if (Database.ProviderName != null && Database.ProviderName.Contains("Npgsql"))
             {
-                modelBuilder.Entity<AppDb>().Property(nameof(AppDb.Metadata)).HasColumnType("jsonb");
+                modelBuilder.Entity<AppDb>().Property(a => a.Metadata).HasColumnName("metadata").HasColumnType("jsonb");
                 modelBuilder.Entity<AuditLogDb>().Property(nameof(AuditLogDb.Payload)).HasColumnType("jsonb");
             }
 

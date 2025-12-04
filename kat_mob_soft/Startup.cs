@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -35,6 +36,15 @@ namespace kat_mob_soft.DAL
 
         public void ConfigureServices(IServiceCollection services)
         {
+            // Настройка культуры для правильного парсинга decimal (точка как разделитель)
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                var supportedCultures = new[] { new CultureInfo("en-US") };
+                options.DefaultRequestCulture = new Microsoft.AspNetCore.Localization.RequestCulture("en-US");
+                options.SupportedCultures = supportedCultures;
+                options.SupportedUICultures = supportedCultures;
+            });
+
             services.AddControllersWithViews(options =>
             {
                 options.Filters.Add<FluentValidationActionFilter>();
@@ -104,11 +114,15 @@ namespace kat_mob_soft.DAL
 
             // Регистрация Storage
             services.AddScoped<IBaseStorage<UserDb>, UserStorage>();
+            services.AddScoped<IBaseStorage<AppDb>, AppStorage>();
+            services.AddScoped<IBaseStorage<CategoryDb>, CategoryStorage>();
+            services.AddScoped<IBaseStorage<DeveloperDb>, DeveloperStorage>();
             // Регистрация UserStorage напрямую для доступа из контроллеров
             services.AddScoped<UserStorage>();
 
             // Регистрация сервисов
             services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IAppService, AppService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -131,6 +145,10 @@ namespace kat_mob_soft.DAL
             }
             app.UseStaticFiles();
             app.UseRouting();
+            
+            // Использование настроенной локализации
+            app.UseRequestLocalization();
+            
             app.UseAuthentication();
             app.UseAuthorization();
 

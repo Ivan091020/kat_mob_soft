@@ -54,6 +54,13 @@ namespace kat_mob_soft.Service
                 .ForMember(dest => dest.GeneratedCode, opt => opt.MapFrom(src => src.EmailConfirmationToken))
                 .ReverseMap();
 
+            // Маппинг AppDb -> AppViewModel
+            CreateMap<AppDb, AppViewModel>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+                .ForMember(dest => dest.PathImg, opt => opt.MapFrom(src => src.Icon != null ? src.Icon.FilePath : "/images/default-app.png"))
+                .ForMember(dest => dest.CountDownload, opt => opt.MapFrom(src => src.Downloads != null ? src.Downloads.Count : 0));
+
             // Другие маппинги по необходимости
         }
     }
