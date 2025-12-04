@@ -10,6 +10,7 @@ using kat_mob_soft.Domain.Models.Db;
 using kat_mob_soft.DAL.Interfaces;
 using kat_mob_soft.Domain.Response;
 using kat_mob_soft.Domain.Enum;
+using kat_mob_soft.Domain.Filter;
 using Microsoft.EntityFrameworkCore;
 using kat_mob_soft.DAL;
 
@@ -189,6 +190,75 @@ namespace kat_mob_soft.Service
             }
         }
 
+        public BaseResponse<List<AppViewModel>> GetAppsByFilter(AppFilter filter)
+        {
+            try
+            {
+                // Получаем все опубликованные приложения из БД
+                var appsDb = _db.Apps
+                    .Include(a => a.Category)
+                    .Include(a => a.Developer)
+                    .Include(a => a.Icon)
+                    .Include(a => a.Downloads)
+                    .Where(a => a.IsPublished)
+                    .ToList();
+
+                var appsFilter = appsDb;
+
+                // Применяем фильтры
+                if (filter != null && appsFilter != null)
+                {
+                    // Фильтр по цене
+                    if (filter.PriceMax != 0 || filter.PriceMin != 0)
+                    {
+                        appsFilter = appsFilter
+                            .Where(a => a.Price >= filter.PriceMin && a.Price <= filter.PriceMax)
+                            .ToList();
+                    }
+
+                    // Фильтр по категориям
+                    if (filter.Categories != null && filter.Categories.Count > 0)
+                    {
+                        appsFilter = appsFilter
+                            .Where(a => a.Category != null && filter.Categories.Contains(a.Category.Name))
+                            .ToList();
+                    }
+                }
+
+                // Маппинг в ViewModel
+                var result = new List<AppViewModel>();
+                foreach (var app in appsFilter)
+                {
+                    var viewModel = new AppViewModel
+                    {
+                        Id = app.Id,
+                        Name = app.Name,
+                        PathImg = app.Icon != null ? app.Icon.FilePath : "/images/default-app.png",
+                        CountDownload = app.Downloads != null ? app.Downloads.Count : 0,
+                        CategoryName = app.Category != null ? app.Category.Name : "Без категории",
+                        AverageRating = app.AverageRating,
+                        Price = app.Price,
+                        Currency = app.Currency ?? "USD"
+                    };
+                    result.Add(viewModel);
+                }
+
+                return new BaseResponse<List<AppViewModel>>
+                {
+                    Data = result,
+                    Description = "Отфильтрованные данные",
+                    StatusCode = StatusCode.OK
+                };
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<List<AppViewModel>>
+                {
+                    Description = ex.Message,
+                    StatusCode = StatusCode.InternalServerError
+                };
+            }
+        }
 
         private string GenerateSlug(string name)
         {

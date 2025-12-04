@@ -48,6 +48,10 @@ namespace kat_mob_soft.DAL
             services.AddControllersWithViews(options =>
             {
                 options.Filters.Add<FluentValidationActionFilter>();
+            })
+            .AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase;
             });
 
             // Регистрация валидаторов FluentValidation для ViewModels

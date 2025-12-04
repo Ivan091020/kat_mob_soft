@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using kat_mob_soft.Service;
 using kat_mob_soft.Domain.ViewModels;
+using kat_mob_soft.Domain.Filter;
 
 namespace kat_mob_soft.Controllers
 {
@@ -22,6 +23,13 @@ namespace kat_mob_soft.Controllers
                 return View(new System.Collections.Generic.List<AppViewModel>());
             }
             return View(result.Data);
+        }
+
+        [HttpPost]
+        public IActionResult Filter([FromBody] AppFilter filter)
+        {
+            var result = _appService.GetAppsByFilter(filter);
+            return Json(result.Data);
         }
     }
 }

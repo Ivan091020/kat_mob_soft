@@ -31,60 +31,112 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Функция применения фильтров
+// Функция применения фильтров (отправка fetch запроса)
 function applyFilters() {
-    const priceMin = parseFloat(document.getElementById('price-min').value);
-    const priceMax = parseFloat(document.getElementById('price-max').value);
+    // Сбор данных из ползунков
+    const priceMin = parseFloat(document.getElementById('price-min').value) || 0;
+    const priceMax = parseFloat(document.getElementById('price-max').value) || 0;
     
-    // Получаем выбранные категории
+    // Сбор данных из чекбоксов
     const selectedCategories = [];
     const categoryCheckboxes = document.querySelectorAll('.app-categories .custom-checkbox:checked');
     categoryCheckboxes.forEach(function(checkbox) {
         selectedCategories.push(checkbox.value);
     });
     
-    // Получаем все карточки приложений
-    const appItems = document.querySelectorAll('.app-item');
+    // Формирование данных для отправки
+    const filterData = {
+        priceMin: priceMin,
+        priceMax: priceMax,
+        categories: selectedCategories
+    };
     
-    appItems.forEach(function(item) {
-        const itemPrice = parseFloat(item.getAttribute('data-price')) || 0;
-        const itemCategory = item.getAttribute('data-category') || '';
-        
-        // Проверка цены
-        const priceMatch = itemPrice >= priceMin && itemPrice <= priceMax;
-        
-        // Проверка категории
-        const categoryMatch = selectedCategories.length === 0 || selectedCategories.includes(itemCategory);
-        
-        // Показываем или скрываем элемент
-        if (priceMatch && categoryMatch) {
-            item.style.display = '';
-        } else {
-            item.style.display = 'none';
+    console.log('Отправляемые данные:', filterData);
+    
+    // Отправка данных через fetch запрос
+    fetch('/Apps/Filter', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(filterData)
+    })
+    .then((response) => {
+        if (!response.ok) {
+            throw new Error('Ошибка при фильтрации данных');
         }
+        return response.json(); // Преобразуем ответ в JSON
+    })
+    .then((data) => {
+        console.log('Результаты фильтрации:', data);
+        dataDisplay(data); // Отображаем отфильтрованные данные
+    })
+    .catch((error) => {
+        console.error('Ошибка:', error);
     });
+}
+
+// Функция для отображения приложений при успешной фильтрации
+function dataDisplay(data) {
+    // Найти контейнер для списка приложений
+    const appsList = document.querySelector('.container-apps-list .grid-container');
     
-    // Проверяем, есть ли видимые элементы
-    let visibleCount = 0;
-    appItems.forEach(function(item) {
-        if (item.style.display !== 'none') {
-            visibleCount++;
-        }
-    });
-    
-    const noAppsMessage = document.querySelector('.no-apps-message');
-    
-    if (visibleCount === 0) {
-        if (!noAppsMessage) {
-            const gridContainer = document.querySelector('.grid-container');
-            const message = document.createElement('p');
-            message.className = 'no-apps-message';
-            message.textContent = 'Приложения не найдены';
-            gridContainer.appendChild(message);
-        }
-    } else {
-        if (noAppsMessage) {
-            noAppsMessage.remove();
-        }
+    if (!appsList) {
+        console.error('Контейнер для приложений не найден');
+        return;
     }
+    
+    appsList.innerHTML = ''; // Очистить старые данные
+    
+    if (!data || data.length === 0) {
+        // Если нет данных, отображаем сообщение
+        const noAppsMessage = '<p class="no-apps-message">По данному фильтру нет приложений</p>';
+        appsList.innerHTML = noAppsMessage;
+        return;
+    }
+    
+    // Если данные есть, создаем элементы для приложений
+    data.forEach((app) => {
+        // Формируем HTML для звезд рейтинга
+        let starsHtml = '';
+        const rating = Math.round(app.averageRating || 0);
+        for (let i = 1; i <= 5; i++) {
+            if (i <= rating) {
+                starsHtml += '<span class="star filled">★</span>';
+            } else {
+                starsHtml += '<span class="star">★</span>';
+            }
+        }
+        
+        // Формируем HTML для цены
+        let priceHtml = '';
+        if (app.price > 0) {
+            priceHtml = `<span class="card-price">${app.price.toFixed(2)} ${app.currency || 'USD'}</span>`;
+        }
+        
+        const appItem = `
+            <div class="app-item card-app" 
+                 data-price="${app.price}" 
+                 data-rating="${app.averageRating}" 
+                 data-name="${app.name}"
+                 data-category="${app.categoryName}">
+                <div class="card-image-wrapper">
+                    <img src="${app.pathImg || '/images/default-app.png'}" alt="${app.name}" class="card-image" />
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">${app.name}</h3>
+                    <div class="card-category-price">
+                        <span class="card-category">${app.categoryName || 'Без категории'}</span>
+                        ${priceHtml}
+                    </div>
+                    <div class="card-rating">
+                        ${starsHtml}
+                        <span class="rating-value">${(app.averageRating || 0).toFixed(1)}</span>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        appsList.innerHTML += appItem; // Добавить приложение в список
+    });
 }
