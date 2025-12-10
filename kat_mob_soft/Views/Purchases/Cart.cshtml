@@ -1,0 +1,127 @@
+@model kat_mob_soft.Domain.ViewModels.CartViewModel
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Корзина";
+}
+
+<div class="container-cart">
+    <h1>Корзина</h1>
+    
+    @if (Model.Items != null && Model.Items.Count > 0)
+    {
+        <div class="cart-items">
+            @foreach (var item in Model.Items)
+            {
+                <div class="cart-item" data-purchase-id="@item.Id">
+                    <div class="cart-item-image">
+                        <img src="@item.AppIconPath" alt="@item.AppName" />
+                    </div>
+                    <div class="cart-item-info">
+                        <h3>@item.AppName</h3>
+                        <p class="cart-item-price">@item.PricePaid.ToString("F2") @item.Currency</p>
+                    </div>
+                    <div class="cart-item-actions">
+                        <button class="btn-remove-from-cart" data-purchase-id="@item.Id">Удалить</button>
+                        <button class="btn-complete-purchase" data-purchase-id="@item.Id">Купить</button>
+                    </div>
+                </div>
+            }
+        </div>
+        
+        <div class="cart-summary">
+            <div class="cart-total">
+                <h2>Итого: @Model.TotalPrice.ToString("F2") @Model.Currency</h2>
+            </div>
+            <button class="btn-buy-all" id="buy-all-btn">Купить все</button>
+        </div>
+    }
+    else
+    {
+        <p class="empty-cart">Корзина пуста</p>
+        <a asp-controller="Apps" asp-action="ListOfApps" class="btn-browse-apps">Перейти в каталог</a>
+    }
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Удаление из корзины
+        document.querySelectorAll('.btn-remove-from-cart').forEach(btn => {
+            btn.addEventListener('click', async function() {
+                const purchaseId = this.getAttribute('data-purchase-id');
+                const response = await fetch('/Purchases/RemoveFromCart?purchaseId=' + purchaseId, {
+                    method: 'POST',
+                    headers: {
+                        'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value || ''
+                    }
+                });
+                
+                const result = await response.json();
+                if (result.success) {
+                    location.reload();
+                } else {
+                    alert(result.message || 'Ошибка при удалении из корзины');
+                }
+            });
+        });
+        
+        // Завершение покупки одного товара
+        document.querySelectorAll('.btn-complete-purchase').forEach(btn => {
+            btn.addEventListener('click', async function() {
+                const purchaseId = this.getAttribute('data-purchase-id');
+                const response = await fetch('/Purchases/CompletePurchase?purchaseId=' + purchaseId, {
+                    method: 'POST',
+                    headers: {
+                        'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value || ''
+                    }
+                });
+                
+                const result = await response.json();
+                if (result.success) {
+                    alert('Покупка успешно завершена!');
+                    location.reload();
+                } else {
+                    alert(result.message || 'Ошибка при завершении покупки');
+                }
+            });
+        });
+        
+        // Покупка всех товаров
+        const buyAllBtn = document.getElementById('buy-all-btn');
+        if (buyAllBtn) {
+            buyAllBtn.addEventListener('click', async function() {
+                if (!confirm('Вы уверены, что хотите купить все товары в корзине?')) return;
+                
+                const purchaseIds = Array.from(document.querySelectorAll('.cart-item')).map(item => 
+                    item.getAttribute('data-purchase-id')
+                );
+                
+                let successCount = 0;
+                for (const purchaseId of purchaseIds) {
+                    const response = await fetch('/Purchases/CompletePurchase?purchaseId=' + purchaseId, {
+                        method: 'POST',
+                        headers: {
+                            'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value || ''
+                        }
+                    });
+                    
+                    const result = await response.json();
+                    if (result.success) {
+                        successCount++;
+                    }
+                }
+                
+                if (successCount > 0) {
+                    alert(`Успешно куплено товаров: ${successCount}`);
+                    location.reload();
+                } else {
+                    alert('Ошибка при покупке товаров');
+                }
+            });
+        }
+    });
+</script>
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/cart.css" asp-append-version="true" />
+}
+

@@ -70,9 +70,18 @@
     font-size: 1.1rem;
 }
 
-.star {
-    width: 20px;
-    height: 20px;
+.rating-stars {
     display: inline-block;
+    margin: 0 0.5rem;
+}
+
+.rating-stars .star {
+    display: inline-block;
+    font-size: 1.2rem;
     margin-right: 2px;
+    color: #ddd;
+}
+
+.rating-stars .star.filled {
+    color: #ffc107;
 }

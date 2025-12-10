@@ -26,7 +26,6 @@ namespace kat_mob_soft.Service
     {
         private readonly IBaseStorage<UserDb> _userStorage;
         private readonly UserStorage _userStorageTyped;
-        private readonly IMapper _mapper;
         private readonly IValidator<LoginViewModel> _loginValidator;
         private readonly IValidator<RegisterViewModel> _registerValidator;
         private readonly IConfiguration _configuration;
@@ -51,7 +50,8 @@ namespace kat_mob_soft.Service
         {
             _userStorage = userStorage;
             _userStorageTyped = userStorage as UserStorage;
-            _mapper = mapper;
+            // mapper - задел на будущее, пока не используется
+            _ = mapper;
             _loginValidator = loginValidator;
             _registerValidator = registerValidator;
             _configuration = configuration;
@@ -263,8 +263,9 @@ namespace kat_mob_soft.Service
                 message.Subject = "Подтверждение регистрации - Каталог мобильных приложений";
 
                 // Текст письма с кодом подтверждения
-                var bodyBuilder = new BodyBuilder();
-                bodyBuilder.HtmlBody = $@"
+                var bodyBuilder = new BodyBuilder
+                {
+                    HtmlBody = $@"
                     <html>
                     <body style='font-family: Arial, sans-serif; line-height: 1.6; color: #333;'>
                         <div style='max-width: 600px; margin: 0 auto; padding: 20px;'>
@@ -292,9 +293,8 @@ namespace kat_mob_soft.Service
                             </p>
                         </div>
                     </body>
-                    </html>";
-
-                bodyBuilder.TextBody = $@"
+                    </html>",
+                    TextBody = $@"
 Добро пожаловать в каталог мобильных приложений!
 
 Здравствуйте, {username}!
@@ -317,7 +317,8 @@ namespace kat_mob_soft.Service
 
 С уважением,
 Команда каталога мобильных приложений
-Откройте для себя лучшие приложения для ваших устройств!";
+Откройте для себя лучшие приложения для ваших устройств!"
+                };
 
                 message.Body = bodyBuilder.ToMessageBody();
 
@@ -404,7 +405,7 @@ namespace kat_mob_soft.Service
         /// <summary>
         /// Генерация кода подтверждения (6 цифр)
         /// </summary>
-        private string GenerateConfirmationToken()
+        private static string GenerateConfirmationToken()
         {
             var random = new Random();
             return random.Next(100000, 999999).ToString(); // 6-значный код

@@ -75,6 +75,17 @@ namespace kat_mob_soft.Service
             CreateMap<AppScreenshotDb, AppScreenshotViewModel>()
                 .ForMember(dest => dest.PathImg, opt => opt.MapFrom(src => src.FilePath));
 
+            // Отзывы
+            CreateMap<ReviewDb, ReviewViewModel>()
+                .ForMember(dest => dest.AppName, opt => opt.MapFrom(src => src.App != null ? src.App.Name : "Неизвестное приложение"))
+                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.User != null ? (src.User.DisplayName ?? src.User.Username) : "Анонимный пользователь"));
+
+            // Покупки
+            CreateMap<PurchaseDb, PurchaseViewModel>()
+                .ForMember(dest => dest.AppName, opt => opt.MapFrom(src => src.App != null ? src.App.Name : "Неизвестное приложение"))
+                .ForMember(dest => dest.AppIconPath, opt => opt.MapFrom(src => src.App != null && src.App.Icon != null ? src.App.Icon.FilePath : "/images/default-app.png"))
+                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.User != null ? (src.User.DisplayName ?? src.User.Username) : "Пользователь"));
+
             // Другие маппинги по необходимости
         }
     }

@@ -70,6 +70,27 @@ function applyFilters() {
     .then((data) => {
         console.log('Результаты фильтрации:', data);
         dataDisplay(data); // Отображаем отфильтрованные данные
+        
+        // Очищаем поиск после применения фильтра
+        const mySearch = document.querySelector("#mySearch");
+        const headerSearch = document.querySelector("#header-search");
+        if (mySearch) {
+            mySearch.value = '';
+        }
+        if (headerSearch) {
+            headerSearch.value = '';
+        }
+        
+        // Применяем текущую сортировку после фильтрации
+        const sortSelect = document.getElementById('sort-options');
+        if (sortSelect && sortSelect.value) {
+            // Небольшая задержка, чтобы DOM обновился
+            setTimeout(function() {
+                if (typeof applySorting === 'function') {
+                    applySorting(sortSelect.value);
+                }
+            }, 50);
+        }
     })
     .catch((error) => {
         console.error('Ошибка:', error);
@@ -96,6 +117,9 @@ function dataDisplay(data) {
     }
     
     // Если данные есть, создаем элементы для приложений
+    // Используем DocumentFragment для эффективной работы с DOM
+    const fragment = document.createDocumentFragment();
+    
     data.forEach((app) => {
         // Формируем HTML для звезд рейтинга
         let starsHtml = '';
@@ -114,18 +138,20 @@ function dataDisplay(data) {
             priceHtml = `<span class="card-price">${app.price.toFixed(2)} ${app.currency || 'USD'}</span>`;
         }
         
-        const appItem = `
+        // Создаем контейнер для HTML
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = `
             <a href="/Apps/AppPage/${app.id}" class="app-item-link">
                 <div class="app-item card-app" 
                      data-price="${app.price}" 
                      data-rating="${app.averageRating}" 
                      data-name="${app.name}"
-                     data-category="${app.categoryName}">
+                     data-category="${app.categoryName || ''}">
                     <div class="card-image-wrapper">
-                        <img src="${app.pathImg || '/images/default-app.png'}" alt="${app.name}" class="card-image" />
+                        <img src="${app.pathImg || '/images/default-app.png'}" alt="${app.name || 'Приложение'}" class="card-image" />
                     </div>
                     <div class="card-content">
-                        <h3 class="card-title">${app.name}</h3>
+                        <h3 class="card-title">${app.name || 'Без названия'}</h3>
                         ${app.shortDescription ? `<p class="card-description">${app.shortDescription}</p>` : ''}
                         <div class="card-category-price">
                             <span class="card-category">${app.categoryName || 'Без категории'}</span>
@@ -140,6 +166,10 @@ function dataDisplay(data) {
             </a>
         `;
         
-        appsList.innerHTML += appItem; // Добавить приложение в список
+        // Добавляем созданный элемент в фрагмент
+        fragment.appendChild(tempDiv.firstElementChild);
     });
+    
+    // Добавляем все элементы из фрагмента в контейнер
+    appsList.appendChild(fragment);
 }

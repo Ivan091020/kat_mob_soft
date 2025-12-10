@@ -115,6 +115,17 @@ namespace kat_mob_soft.DAL
             modelBuilder.Entity<AppTagDb>().ToTable("app_tags", "public");
 
             modelBuilder.Entity<ReviewDb>().ToTable("reviews", "public");
+            // Настройка имен столбцов для ReviewDb (snake_case)
+            modelBuilder.Entity<ReviewDb>().Property(r => r.Id).HasColumnName("id");
+            modelBuilder.Entity<ReviewDb>().Property(r => r.AppId).HasColumnName("app_id");
+            modelBuilder.Entity<ReviewDb>().Property(r => r.UserId).HasColumnName("user_id");
+            modelBuilder.Entity<ReviewDb>().Property(r => r.Title).HasColumnName("title");
+            modelBuilder.Entity<ReviewDb>().Property(r => r.Body).HasColumnName("body");
+            modelBuilder.Entity<ReviewDb>().Property(r => r.Rating).HasColumnName("rating");
+            modelBuilder.Entity<ReviewDb>().Property(r => r.IsApproved).HasColumnName("is_approved");
+            modelBuilder.Entity<ReviewDb>().Property(r => r.CreatedAt).HasColumnName("created_at");
+            modelBuilder.Entity<ReviewDb>().Property(r => r.UpdatedAt).HasColumnName("updated_at");
+            
             modelBuilder.Entity<DownloadDb>().ToTable("downloads", "public");
             // Настройка имен столбцов для DownloadDb (snake_case)
             modelBuilder.Entity<DownloadDb>().Property(d => d.Id).HasColumnName("id");
@@ -126,6 +137,17 @@ namespace kat_mob_soft.DAL
             modelBuilder.Entity<DownloadDb>().Property(d => d.CreatedAt).HasColumnName("created_at");
 
             modelBuilder.Entity<PurchaseDb>().ToTable("purchases", "public");
+            // Настройка имен столбцов для PurchaseDb (snake_case)
+            modelBuilder.Entity<PurchaseDb>().Property(p => p.Id).HasColumnName("id");
+            modelBuilder.Entity<PurchaseDb>().Property(p => p.UserId).HasColumnName("user_id");
+            modelBuilder.Entity<PurchaseDb>().Property(p => p.AppId).HasColumnName("app_id");
+            modelBuilder.Entity<PurchaseDb>().Property(p => p.VersionId).HasColumnName("version_id");
+            modelBuilder.Entity<PurchaseDb>().Property(p => p.PricePaid).HasColumnName("price_paid");
+            modelBuilder.Entity<PurchaseDb>().Property(p => p.Currency).HasColumnName("currency");
+            modelBuilder.Entity<PurchaseDb>().Property(p => p.PaymentProvider).HasColumnName("payment_provider");
+            modelBuilder.Entity<PurchaseDb>().Property(p => p.ProviderTransactionId).HasColumnName("provider_transaction_id");
+            modelBuilder.Entity<PurchaseDb>().Property(p => p.Status).HasColumnName("status");
+            modelBuilder.Entity<PurchaseDb>().Property(p => p.PurchasedAt).HasColumnName("purchased_at");
 
             modelBuilder.Entity<ReportDb>().ToTable("reports", "public");
             modelBuilder.Entity<AuditLogDb>().ToTable("audit_logs", "public");

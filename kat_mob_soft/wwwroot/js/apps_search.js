@@ -9,45 +9,66 @@ function triggerSearch() {
     if (!mySearch) return;
     
     let val = mySearch.value.trim().toLowerCase();
-    let apps = document.querySelectorAll('.app-item');
+    // Работаем с родительскими ссылками, чтобы скрывать весь элемент целиком
+    const appsContainer = document.querySelector('.container-apps-list .grid-container');
+    if (!appsContainer) return;
     
-    apps.forEach(function (app_item) {
-        let appName = app_item.querySelector('.card-title').innerText.toLowerCase();
+    let appLinks = appsContainer.querySelectorAll('.app-item-link');
+    
+    appLinks.forEach(function (appLink) {
+        const app_item = appLink.querySelector('.app-item');
+        if (!app_item) return;
+        
+        let appName = app_item.querySelector('.card-title') ? app_item.querySelector('.card-title').innerText.toLowerCase() : '';
         let appDescription = app_item.querySelector('.card-description') ? app_item.querySelector('.card-description').innerText.toLowerCase() : '';
         let appCategory = app_item.querySelector('.card-category') ? app_item.querySelector('.card-category').innerText.toLowerCase() : '';
         
         // Проверяем, содержит ли название, описание или категория введенный текст
-        if (appName.search(val) === -1 && appDescription.search(val) === -1 && appCategory.search(val) === -1) {
-            app_item.classList.add('hide');
-        } else {
+        if (val === '' || appName.search(val) !== -1 || appDescription.search(val) !== -1 || appCategory.search(val) !== -1) {
+            // Показываем элемент - убираем класс hide с родительской ссылки
+            appLink.classList.remove('hide');
             app_item.classList.remove('hide');
-        }
-        
-        // Выделение совпадений в названии приложения
-        if (appName.search(val) !== -1) {
-            let str = app_item.querySelector('.card-title').innerText;
-            app_item.querySelector('.card-title').innerHTML = insertMark(str, appName.search(val), val.length);
         } else {
-            app_item.querySelector('.card-title').innerHTML = app_item.querySelector('.card-title').innerText;
+            // Скрываем элемент - добавляем класс hide к родительской ссылке
+            appLink.classList.add('hide');
+            app_item.classList.add('hide');
         }
         
-        // Выделение совпадений в описании приложения
-        if (app_item.querySelector('.card-description')) {
-            if (appDescription.search(val) !== -1) {
-                let str = app_item.querySelector('.card-description').innerText;
-                app_item.querySelector('.card-description').innerHTML = insertMark(str, appDescription.search(val), val.length);
-            } else {
-                app_item.querySelector('.card-description').innerHTML = app_item.querySelector('.card-description').innerText;
+        // Выделение совпадений в названии приложения (только для видимых элементов)
+        if (!appLink.classList.contains('hide')) {
+            const titleElement = app_item.querySelector('.card-title');
+            if (titleElement) {
+                if (val !== '' && appName.search(val) !== -1) {
+                    let str = titleElement.innerText;
+                    titleElement.innerHTML = insertMark(str, appName.search(val), val.length);
+                } else {
+                    // Очищаем mark при пустом поиске или отсутствии совпадений
+                    titleElement.innerHTML = titleElement.innerText;
+                }
             }
-        }
-        
-        // Выделение совпадений в категории приложения
-        if (app_item.querySelector('.card-category')) {
-            if (appCategory.search(val) !== -1) {
-                let str = app_item.querySelector('.card-category').innerText;
-                app_item.querySelector('.card-category').innerHTML = insertMark(str, appCategory.search(val), val.length);
-            } else {
-                app_item.querySelector('.card-category').innerHTML = app_item.querySelector('.card-category').innerText;
+            
+            // Выделение совпадений в описании приложения
+            const descElement = app_item.querySelector('.card-description');
+            if (descElement) {
+                if (val !== '' && appDescription.search(val) !== -1) {
+                    let str = descElement.innerText;
+                    descElement.innerHTML = insertMark(str, appDescription.search(val), val.length);
+                } else {
+                    // Очищаем mark при пустом поиске или отсутствии совпадений
+                    descElement.innerHTML = descElement.innerText;
+                }
+            }
+            
+            // Выделение совпадений в категории приложения
+            const catElement = app_item.querySelector('.card-category');
+            if (catElement) {
+                if (val !== '' && appCategory.search(val) !== -1) {
+                    let str = catElement.innerText;
+                    catElement.innerHTML = insertMark(str, appCategory.search(val), val.length);
+                } else {
+                    // Очищаем mark при пустом поиске или отсутствии совпадений
+                    catElement.innerHTML = catElement.innerText;
+                }
             }
         }
     });

@@ -4,10 +4,15 @@
     {
         OK = 200,
 
-        // Ошибки уровня пользователя
-        UserNotFound = 404,
-        UserAlreadyExists = 409,
+        // Общие HTTP ошибки
+        BadRequest = 400,
         InvalidPassword = 401,
+        Forbidden = 403,
+        NotFound = 404,
+        UserAlreadyExists = 409,
+
+        // Ошибки уровня пользователя
+        UserNotFound = 410,
 
         // Ошибки уровня сущностей (каталог мобильных приложений)
         AppNotFound = 420,

@@ -6,6 +6,7 @@
 
 @section Styles {
     <link rel="stylesheet" href="~/css/app-page.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/reviews.css" asp-append-version="true" />
 }
 
 <div class="app-page">
@@ -48,29 +49,101 @@
         @if (Model.AverageRating > 0)
         {
             <p><strong>Рейтинг:</strong> 
-                @for (int i = 1; i <= 5; i++)
-                {
-                    if (i <= Math.Round(Model.AverageRating))
+                <span class="rating-stars">
+                    @for (int i = 1; i <= 5; i++)
                     {
-                        <img src="/images/star.jpg" alt="Star" class="star" />
+                        if (i <= Math.Round(Model.AverageRating))
+                        {
+                            <span class="star filled">★</span>
+                        }
+                        else
+                        {
+                            <span class="star">☆</span>
+                        }
                     }
-                    else
-                    {
-                        <img src="/images/star-empty.jpg" alt="Star" class="star" />
-                    }
-                }
+                </span>
                 @Model.AverageRating.ToString("F1")
             </p>
         }
         
         <p><strong>Цена:</strong> @Model.Price.ToString("F2") @Model.Currency</p>
+        
+        @if (User.Identity.IsAuthenticated)
+        {
+            <button class="btn-add-to-cart" data-app-id="@Model.Id" style="margin-top: 1rem; padding: 0.75rem 1.5rem; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 600;">Добавить в корзину</button>
+        }
+        else
+        {
+            <a asp-controller="Account" asp-action="Login" class="btn-add-to-cart" style="display: inline-block; margin-top: 1rem; padding: 0.75rem 1.5rem; background: #007bff; color: white; text-decoration: none; border-radius: 4px; font-weight: 600;">Войдите, чтобы добавить в корзину</a>
+        }
     </div>
 </div>
+
+@{
+    var reviews = new List<kat_mob_soft.Domain.ViewModels.ReviewViewModel>();
+    var reviewsViewData = new ViewDataDictionary(ViewData) { { "AppId", Model.Id } };
+}
+@await Html.PartialAsync("_ReviewsPartial", reviews, reviewsViewData)
 
 <script>
     function changeImage(thumbnail) {
         var mainImage = document.getElementById('main-image');
         mainImage.src = thumbnail.src;
     }
+    
+    // Загрузка отзывов при загрузке страницы
+    document.addEventListener('DOMContentLoaded', function() {
+        const appId = @Model.Id;
+        fetch('/Reviews/GetReviews?appId=' + appId)
+            .then(response => response.json())
+            .then(data => {
+                const reviewsList = document.getElementById('reviews-list');
+                if (data && data.length > 0) {
+                    reviewsList.innerHTML = data.map(review => `
+                        <div class="review-item" data-review-id="${review.id}">
+                            <div class="review-header">
+                                <h4>${review.title}</h4>
+                                <div class="review-rating">
+                                    ${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}
+                                </div>
+                            </div>
+                            <div class="review-body">
+                                <p>${review.body}</p>
+                            </div>
+                            <div class="review-footer">
+                                <span class="review-author">${review.userName}</span>
+                                <span class="review-date">${new Date(review.createdAt).toLocaleDateString('ru-RU')}</span>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+            });
+    });
+    
+    // Добавление в корзину
+    document.querySelectorAll('.btn-add-to-cart').forEach(btn => {
+        btn.addEventListener('click', async function(e) {
+            e.preventDefault();
+            const appId = this.getAttribute('data-app-id');
+            
+            const response = await fetch('/Purchases/AddToCart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value || ''
+                },
+                body: JSON.stringify({
+                    AppId: parseInt(appId)
+                })
+            });
+            
+            const result = await response.json();
+            if (result.success) {
+                alert('Приложение добавлено в корзину!');
+            } else {
+                alert(result.message || 'Ошибка при добавлении в корзину');
+            }
+        });
+    });
 </script>
 

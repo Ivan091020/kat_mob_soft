@@ -1,3 +1,10 @@
+C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\kat_mob_soft.GeneratedMSBuildEditorConfig.editorconfig
+C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\kat_mob_soft.AssemblyInfoInputs.cache
+C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\kat_mob_soft.AssemblyInfo.cs
+C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\kat_mob_soft.csproj.CoreCompileInputs.cache
+C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\kat_mob_soft.MvcApplicationPartsAssemblyInfo.cache
+C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\kat_mob_soft.RazorAssemblyInfo.cache
+C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\kat_mob_soft.RazorAssemblyInfo.cs
 C:\up\kat_mob_soft\kat_mob_soft\bin\Debug\net5.0\appsettings.Development.json
 C:\up\kat_mob_soft\kat_mob_soft\bin\Debug\net5.0\appsettings.json
 C:\up\kat_mob_soft\kat_mob_soft\bin\Debug\net5.0\kat_mob_soft.exe
@@ -47,13 +54,6 @@ C:\up\kat_mob_soft\kat_mob_soft\bin\Debug\net5.0\kat_mob_soft.Domain.pdb
 C:\up\kat_mob_soft\kat_mob_soft\bin\Debug\net5.0\kat_mob_soft.Service.pdb
 C:\up\kat_mob_soft\kat_mob_soft\bin\Debug\net5.0\kat_mob_soft.DAL.pdb
 C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\kat_mob_soft.csproj.AssemblyReference.cache
-C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\kat_mob_soft.GeneratedMSBuildEditorConfig.editorconfig
-C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\kat_mob_soft.AssemblyInfoInputs.cache
-C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\kat_mob_soft.AssemblyInfo.cs
-C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\kat_mob_soft.csproj.CoreCompileInputs.cache
-C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\kat_mob_soft.MvcApplicationPartsAssemblyInfo.cache
-C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\kat_mob_soft.RazorAssemblyInfo.cache
-C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\kat_mob_soft.RazorAssemblyInfo.cs
 C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\staticwebassets\kat_mob_soft.StaticWebAssets.Manifest.cache
 C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\staticwebassets\kat_mob_soft.StaticWebAssets.xml
 C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\scopedcss\bundle\kat_mob_soft.styles.css
@@ -62,10 +62,13 @@ C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\kat_mob_soft.TagHelpers.output.
 C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\kat_mob_soft.RazorCoreGenerate.cache
 C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\Razor\Views\Admin\AddApp.cshtml.g.cs
 C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\Razor\Views\Admin\Index.cshtml.g.cs
+C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\Razor\Views\Apps\AppPage.cshtml.g.cs
 C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\Razor\Views\Apps\ListOfApps.cshtml.g.cs
 C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\Razor\Views\Home\Contacts.cshtml.g.cs
 C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\Razor\Views\Home\Services.cshtml.g.cs
 C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\Razor\Views\Home\SiteInformation.cshtml.g.cs
+C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\Razor\Views\Purchases\Cart.cshtml.g.cs
+C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\Razor\Views\Purchases\MyPurchases.cshtml.g.cs
 C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\Razor\Views\Shared\Error.cshtml.g.cs
 C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\Razor\Views\Shared\_ConfirmEmailPartial.cshtml.g.cs
 C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\Razor\Views\Shared\_Layout.cshtml.g.cs
@@ -82,4 +85,4 @@ C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\kat_mob_soft.dll
 C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\ref\kat_mob_soft.dll
 C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\kat_mob_soft.pdb
 C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\kat_mob_soft.genruntimeconfig.cache
-C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\Razor\Views\Apps\AppPage.cshtml.g.cs
+C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\Razor\Views\Shared\_ReviewsPartial.cshtml.g.cs

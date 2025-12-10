@@ -122,12 +122,16 @@ namespace kat_mob_soft.DAL
             services.AddScoped<IBaseStorage<CategoryDb>, CategoryStorage>();
             services.AddScoped<IBaseStorage<DeveloperDb>, DeveloperStorage>();
             services.AddScoped<IBaseStorage<AppScreenshotDb>, AppScreenshotStorage>();
+            services.AddScoped<IBaseStorage<ReviewDb>, ReviewStorage>();
+            services.AddScoped<IBaseStorage<PurchaseDb>, PurchaseStorage>();
             // Регистрация UserStorage напрямую для доступа из контроллеров
             services.AddScoped<UserStorage>();
 
             // Регистрация сервисов
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IAppService, AppService>();
+            services.AddScoped<IReviewService, ReviewService>();
+            services.AddScoped<IPurchaseService, PurchaseService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

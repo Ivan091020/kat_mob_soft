@@ -45,6 +45,11 @@
                         <li><a asp-controller="Home" asp-action="Index">О нас</a></li>
                         <li><a asp-controller="Home" asp-action="Services">Услуги</a></li>
                         <li><a asp-controller="Home" asp-action="Contacts">Контакты</a></li>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li><a asp-controller="Purchases" asp-action="Cart">Корзина</a></li>
+                            <li><a asp-controller="Purchases" asp-action="MyPurchases">Мои покупки</a></li>
+                        }
                         @if (User.Identity.IsAuthenticated && (User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value?.ToLower() == "admin" || User.FindFirst("Role")?.Value?.ToLower() == "admin"))
                         {
                             <li><a asp-controller="Admin" asp-action="Index">Админ-панель</a></li>

@@ -35,7 +35,7 @@ namespace kat_mob_soft.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(kat_mob_soft.ViewModels.RegisterViewModel model, bool isAjax = true)
+        public async Task<IActionResult> Register(kat_mob_soft.ViewModels.RegisterViewModel model)
         {
             if (!ModelState.IsValid)
                 return Json(new { success = false, errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage) });
@@ -73,10 +73,10 @@ namespace kat_mob_soft.Controllers
             catch (ValidationException ex)
             {
                 Console.WriteLine("ОШИБКА ВАЛИДАЦИИ: " + ex.ToString());
-                var errors = ex.Errors.Select(e => e.ErrorMessage).ToList();
+                var errorMessages = ex.Errors.Select(e => e.ErrorMessage).ToList();
                 if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
                 {
-                    return Json(new { success = false, errors = errors });
+                    return Json(new { success = false, errors = errorMessages });
                 }
                 foreach (var error in ex.Errors)
                 {
@@ -111,8 +111,8 @@ namespace kat_mob_soft.Controllers
             {
                 if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
                 {
-                    var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage);
-                    return Json(new { success = false, errors = errors });
+                    var errorMessages = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage);
+                    return Json(new { success = false, errors = errorMessages });
                 }
                 return View(model);
             }
@@ -185,10 +185,10 @@ namespace kat_mob_soft.Controllers
             catch (ValidationException ex)
             {
                 Console.WriteLine("ОШИБКА ВАЛИДАЦИИ: " + ex.ToString());
-                var errors = ex.Errors.Select(e => e.ErrorMessage).ToList();
+                var errorMessages = ex.Errors.Select(e => e.ErrorMessage).ToList();
                 if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
                 {
-                    return Json(new { success = false, errors = errors });
+                    return Json(new { success = false, errors = errorMessages });
                 }
                 foreach (var error in ex.Errors)
                 {

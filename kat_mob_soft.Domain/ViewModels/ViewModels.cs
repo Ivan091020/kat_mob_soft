@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -144,6 +145,65 @@ namespace kat_mob_soft.Domain.ViewModels
         public long Id { get; set; }
         public string PathImg { get; set; }
         public string Caption { get; set; }
+    }
+
+    public class ReviewViewModel
+    {
+        public long Id { get; set; }
+        public long AppId { get; set; }
+        public string AppName { get; set; }
+        public long? UserId { get; set; }
+        public string UserName { get; set; }
+        public string Title { get; set; }
+        public string Body { get; set; }
+        public short Rating { get; set; }
+        public bool IsApproved { get; set; }
+        public DateTimeOffset CreatedAt { get; set; }
+    }
+
+    public class AddReviewViewModel
+    {
+        [Required(ErrorMessage = "ID приложения обязателен")]
+        public long AppId { get; set; }
+
+        [Required(ErrorMessage = "Заголовок обязателен")]
+        [MaxLength(250, ErrorMessage = "Заголовок не должен превышать 250 символов")]
+        public string Title { get; set; }
+
+        [Required(ErrorMessage = "Текст отзыва обязателен")]
+        [MinLength(10, ErrorMessage = "Текст отзыва должен содержать минимум 10 символов")]
+        public string Body { get; set; }
+
+        [Required(ErrorMessage = "Рейтинг обязателен")]
+        [Range(1, 5, ErrorMessage = "Рейтинг должен быть от 1 до 5")]
+        public short Rating { get; set; }
+    }
+
+    public class PurchaseViewModel
+    {
+        public long Id { get; set; }
+        public long UserId { get; set; }
+        public string UserName { get; set; }
+        public long AppId { get; set; }
+        public string AppName { get; set; }
+        public string AppIconPath { get; set; }
+        public decimal PricePaid { get; set; }
+        public string Currency { get; set; }
+        public string Status { get; set; }
+        public DateTimeOffset PurchasedAt { get; set; }
+    }
+
+    public class AddToCartViewModel
+    {
+        [Required(ErrorMessage = "ID приложения обязателен")]
+        public long AppId { get; set; }
+    }
+
+    public class CartViewModel
+    {
+        public List<PurchaseViewModel> Items { get; set; } = new List<PurchaseViewModel>();
+        public decimal TotalPrice { get; set; }
+        public string Currency { get; set; } = "USD";
     }
 }
 

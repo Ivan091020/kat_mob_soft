@@ -1,0 +1,42 @@
+@model List<kat_mob_soft.Domain.ViewModels.PurchaseViewModel>
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Мои покупки";
+}
+
+<div class="container-purchases">
+    <h1>Мои покупки</h1>
+    
+    @if (Model != null && Model.Count > 0)
+    {
+        <div class="purchases-list">
+            @foreach (var purchase in Model)
+            {
+                <div class="purchase-item">
+                    <div class="purchase-item-image">
+                        <img src="@purchase.AppIconPath" alt="@purchase.AppName" />
+                    </div>
+                    <div class="purchase-item-info">
+                        <h3>@purchase.AppName</h3>
+                        <p class="purchase-item-price">@purchase.PricePaid.ToString("F2") @purchase.Currency</p>
+                        <p class="purchase-item-date">Куплено: @purchase.PurchasedAt.ToString("dd.MM.yyyy HH:mm")</p>
+                        <p class="purchase-item-status">Статус: @purchase.Status</p>
+                    </div>
+                    <div class="purchase-item-actions">
+                        <a asp-controller="Apps" asp-action="AppPage" asp-route-id="@purchase.AppId" class="btn-view-app">Открыть</a>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <p class="no-purchases">У вас пока нет покупок</p>
+        <a asp-controller="Apps" asp-action="ListOfApps" class="btn-browse-apps">Перейти в каталог</a>
+    }
+</div>
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/purchases.css" asp-append-version="true" />
+}
+

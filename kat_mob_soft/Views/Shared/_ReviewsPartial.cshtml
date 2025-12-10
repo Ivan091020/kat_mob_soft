@@ -1,0 +1,175 @@
+@model List<kat_mob_soft.Domain.ViewModels.ReviewViewModel>
+@{
+    var appId = ViewData["AppId"] as long? ?? 0;
+    var isAuthenticated = User.Identity.IsAuthenticated;
+}
+
+<div class="reviews-section">
+    <h2>Отзывы</h2>
+    
+    @if (isAuthenticated)
+    {
+        <div class="add-review-form">
+            <h3>Оставить отзыв</h3>
+            <form id="review-form">
+                <input type="hidden" id="review-app-id" value="@appId" />
+                <div class="form-group">
+                    <label for="review-title">Заголовок:</label>
+                    <input type="text" id="review-title" name="Title" required maxlength="250" />
+                </div>
+                <div class="form-group">
+                    <label for="review-body">Текст отзыва:</label>
+                    <textarea id="review-body" name="Body" required minlength="10"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="review-rating">Рейтинг:</label>
+                    <select id="review-rating" name="Rating" required>
+                        <option value="">Выберите рейтинг</option>
+                        <option value="1">1 звезда</option>
+                        <option value="2">2 звезды</option>
+                        <option value="3">3 звезды</option>
+                        <option value="4">4 звезды</option>
+                        <option value="5">5 звезд</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-submit-review">Отправить отзыв</button>
+            </form>
+            <div id="review-errors"></div>
+        </div>
+    }
+
+    <div class="reviews-list" id="reviews-list">
+        @if (Model != null && Model.Count > 0)
+        {
+            @foreach (var review in Model)
+            {
+                <div class="review-item" data-review-id="@review.Id">
+                    <div class="review-header">
+                        <h4>@review.Title</h4>
+                        <div class="review-rating">
+                            @for (int i = 1; i <= 5; i++)
+                            {
+                                if (i <= review.Rating)
+                                {
+                                    <span class="star filled">★</span>
+                                }
+                                else
+                                {
+                                    <span class="star">★</span>
+                                }
+                            }
+                        </div>
+                    </div>
+                    <div class="review-body">
+                        <p>@review.Body</p>
+                    </div>
+                    <div class="review-footer">
+                        <span class="review-author">@review.UserName</span>
+                        <span class="review-date">@review.CreatedAt.ToString("dd.MM.yyyy")</span>
+                        @if (isAuthenticated && User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value == review.UserId?.ToString())
+                        {
+                            <button class="btn-delete-review" data-review-id="@review.Id">Удалить</button>
+                        }
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <p class="no-reviews">Пока нет отзывов. Будьте первым!</p>
+        }
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const reviewForm = document.getElementById('review-form');
+        if (reviewForm) {
+            reviewForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const appId = document.getElementById('review-app-id').value;
+                const title = document.getElementById('review-title').value;
+                const body = document.getElementById('review-body').value;
+                const rating = document.getElementById('review-rating').value;
+                
+                const response = await fetch('/Reviews/CreateReview', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value || ''
+                    },
+                    body: JSON.stringify({
+                        AppId: parseInt(appId),
+                        Title: title,
+                        Body: body,
+                        Rating: parseInt(rating)
+                    })
+                });
+                
+                const result = await response.json();
+                if (result.success) {
+                    alert(result.message || 'Отзыв успешно добавлен');
+                    reviewForm.reset();
+                    loadReviews();
+                } else {
+                    const errorDiv = document.getElementById('review-errors');
+                    errorDiv.innerHTML = '<div class="error">' + (result.message || result.errors?.join(', ') || 'Ошибка при добавлении отзыва') + '</div>';
+                }
+            });
+        }
+        
+        // Удаление отзыва
+        document.querySelectorAll('.btn-delete-review').forEach(btn => {
+            btn.addEventListener('click', async function() {
+                if (!confirm('Вы уверены, что хотите удалить этот отзыв?')) return;
+                
+                const reviewId = this.getAttribute('data-review-id');
+                const response = await fetch('/Reviews/DeleteReview?reviewId=' + reviewId, {
+                    method: 'POST',
+                    headers: {
+                        'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value || ''
+                    }
+                });
+                
+                const result = await response.json();
+                if (result.success) {
+                    loadReviews();
+                } else {
+                    alert(result.message || 'Ошибка при удалении отзыва');
+                }
+            });
+        });
+        
+        function loadReviews() {
+            const appId = document.getElementById('review-app-id')?.value || '@appId';
+            fetch('/Reviews/GetReviews?appId=' + appId)
+                .then(response => response.json())
+                .then(data => {
+                    const reviewsList = document.getElementById('reviews-list');
+                    if (data && data.length > 0) {
+                        reviewsList.innerHTML = data.map(review => `
+                            <div class="review-item" data-review-id="${review.id}">
+                                <div class="review-header">
+                                    <h4>${review.title}</h4>
+                                    <div class="review-rating">
+                                        ${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}
+                                    </div>
+                                </div>
+                                <div class="review-body">
+                                    <p>${review.body}</p>
+                                </div>
+                                <div class="review-footer">
+                                    <span class="review-author">${review.userName}</span>
+                                    <span class="review-date">${new Date(review.createdAt).toLocaleDateString('ru-RU')}</span>
+                                </div>
+                            </div>
+                        `).join('');
+                    } else {
+                        reviewsList.innerHTML = '<p class="no-reviews">Пока нет отзывов. Будьте первым!</p>';
+                    }
+                });
+        }
+    });
+</script>
+

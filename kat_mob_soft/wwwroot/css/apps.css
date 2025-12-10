@@ -525,8 +525,20 @@
     transform: rotate(45deg);
 }
 
+/* Скрываем элементы с классом hide - они не должны занимать место в grid */
+.app-item-link.hide {
+    display: none !important;
+}
+
 .hide {
-    display: none;
+    display: none !important;
+}
+
+/* Убеждаемся, что скрытые элементы не мешают grid layout */
+.grid-container > .app-item-link.hide {
+    display: none !important;
+    grid-column: unset !important;
+    grid-row: unset !important;
 }
 
 /* Стили для выделения найденного текста */
