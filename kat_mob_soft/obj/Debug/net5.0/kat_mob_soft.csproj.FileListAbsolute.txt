@@ -86,3 +86,4 @@ C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\ref\kat_mob_soft.dll
 C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\kat_mob_soft.pdb
 C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\kat_mob_soft.genruntimeconfig.cache
 C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\Razor\Views\Shared\_ReviewsPartial.cshtml.g.cs
+C:\up\kat_mob_soft\kat_mob_soft\obj\Debug\net5.0\Razor\Views\Account\Profile.cshtml.g.cs

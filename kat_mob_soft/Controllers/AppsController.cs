@@ -20,14 +20,50 @@ namespace kat_mob_soft.Controllers
             _mapper = mapper;
         }
 
-        public async Task<IActionResult> ListOfApps()
+        public async Task<IActionResult> ListOfApps(string q, int page = 1, int pageSize = 12)
         {
-            var result = await _appService.GetAllAppsAsync();
-            if (result.Data == null)
+            // Создаем фильтр
+            var filter = new AppFilter
             {
-                return View(new List<AppViewModel>());
+                SearchQuery = q,
+                Page = page,
+                PageSize = pageSize
+            };
+            
+            // Получаем отфильтрованные данные с пагинацией
+            var result = _appService.GetAppsByFilter(filter);
+            
+            // Для подсчета общего количества получаем все приложения без пагинации
+            var allApps = await _appService.GetAllAppsAsync();
+            var allAppsList = allApps.Data ?? new List<AppViewModel>();
+            
+            // Применяем поиск для подсчета общего количества
+            int totalCount;
+            if (!string.IsNullOrWhiteSpace(q))
+            {
+                var searchLower = q.ToLower();
+                totalCount = allAppsList.Count(a => 
+                    (a.Name != null && a.Name.ToLower().Contains(searchLower)) ||
+                    (a.ShortDescription != null && a.ShortDescription.ToLower().Contains(searchLower)) ||
+                    (a.CategoryName != null && a.CategoryName.ToLower().Contains(searchLower))
+                );
             }
-            return View(result.Data);
+            else
+            {
+                totalCount = allAppsList.Count;
+            }
+            
+            var pagedResult = new PagedResult<AppViewModel>
+            {
+                Items = result.Data ?? new List<AppViewModel>(),
+                TotalCount = totalCount,
+                Page = page,
+                PageSize = pageSize
+            };
+            
+            ViewBag.SearchQuery = q;
+            ViewBag.PagedResult = pagedResult;
+            return View(result.Data ?? new List<AppViewModel>());
         }
 
         [HttpPost]

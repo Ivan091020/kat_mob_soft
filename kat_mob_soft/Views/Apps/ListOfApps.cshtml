@@ -164,6 +164,43 @@
                     <p class="no-apps-message">Приложения не найдены</p>
                 }
             </div>
+            
+            @* Пагинация *@
+            @if (ViewBag.PagedResult != null)
+            {
+                var pagedResult = ViewBag.PagedResult as kat_mob_soft.Domain.ViewModels.PagedResult<kat_mob_soft.Domain.ViewModels.AppViewModel>;
+                if (pagedResult != null && pagedResult.TotalPages > 1)
+                {
+                    <div class="pagination-container">
+                        <div class="pagination">
+                            @if (pagedResult.HasPreviousPage)
+                            {
+                                <a href="?page=@(pagedResult.Page - 1)@(ViewBag.SearchQuery != null ? "&q=" + ViewBag.SearchQuery : "")" class="pagination-link pagination-prev">‹ Назад</a>
+                            }
+                            
+                            @for (int i = Math.Max(1, pagedResult.Page - 2); i <= Math.Min(pagedResult.TotalPages, pagedResult.Page + 2); i++)
+                            {
+                                if (i == pagedResult.Page)
+                                {
+                                    <span class="pagination-link pagination-current">@i</span>
+                                }
+                                else
+                                {
+                                    <a href="?page=@i@(ViewBag.SearchQuery != null ? "&q=" + ViewBag.SearchQuery : "")" class="pagination-link">@i</a>
+                                }
+                            }
+                            
+                            @if (pagedResult.HasNextPage)
+                            {
+                                <a href="?page=@(pagedResult.Page + 1)@(ViewBag.SearchQuery != null ? "&q=" + ViewBag.SearchQuery : "")" class="pagination-link pagination-next">Вперёд ›</a>
+                            }
+                        </div>
+                        <div class="pagination-info">
+                            Страница @pagedResult.Page из @pagedResult.TotalPages (@pagedResult.TotalCount приложений)
+                        </div>
+                    </div>
+                }
+            }
         </div>
     </div>
 </div>

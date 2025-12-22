@@ -548,3 +548,83 @@ mark {
     padding: 2px 0;
     font-weight: 600;
 }
+
+/* === ПАГИНАЦИЯ === */
+.pagination-container {
+    margin-top: 40px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.pagination {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.pagination-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    height: 40px;
+    padding: 8px 12px;
+    background: #fff;
+    color: #222;
+    text-decoration: none;
+    border-radius: 6px;
+    border: 1px solid #e0e0e0;
+    transition: all 0.2s ease;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.pagination-link:hover {
+    background: #0078ff;
+    color: #fff;
+    border-color: #0078ff;
+}
+
+.pagination-current {
+    background: #0078ff;
+    color: #fff;
+    border-color: #0078ff;
+    cursor: default;
+}
+
+.pagination-current:hover {
+    background: #0078ff;
+    color: #fff;
+}
+
+.pagination-prev,
+.pagination-next {
+    min-width: auto;
+    padding: 8px 16px;
+}
+
+.pagination-info {
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+}
+
+/* Адаптация для мобильных */
+@media (max-width: 520px) {
+    .pagination-link {
+        min-width: 36px;
+        height: 36px;
+        padding: 6px 10px;
+        font-size: 13px;
+    }
+    
+    .pagination-prev,
+    .pagination-next {
+        padding: 6px 12px;
+    }
+}

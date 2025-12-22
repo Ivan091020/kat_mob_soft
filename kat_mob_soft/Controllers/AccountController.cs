@@ -278,5 +278,127 @@ namespace kat_mob_soft.Controllers
                 return Json(new { success = false, errors = new[] { "Произошла ошибка при подтверждении email" } });
             }
         }
+
+        [HttpGet]
+        [Microsoft.AspNetCore.Authorization.Authorize]
+        public async Task<IActionResult> Profile()
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userIdClaim) || !long.TryParse(userIdClaim, out long userId))
+            {
+                return RedirectToAction("Login");
+            }
+
+            try
+            {
+                var profile = await _accountService.GetProfileAsync(userId);
+                return View(profile);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка получения профиля: {ex.Message}");
+                return RedirectToAction("Index", "Home");
+            }
+        }
+
+        [HttpPost]
+        [Microsoft.AspNetCore.Authorization.Authorize]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateProfile(Domain.ViewModels.UpdateProfileViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+                {
+                    var errors = ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage)
+                        .ToArray();
+                    return Json(new { success = false, errors });
+                }
+                return RedirectToAction("Profile");
+            }
+
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userIdClaim) || !long.TryParse(userIdClaim, out long userId))
+            {
+                return Json(new { success = false, message = "Пользователь не авторизован" });
+            }
+
+            try
+            {
+                var updatedProfile = await _accountService.UpdateProfileAsync(userId, model);
+                if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+                {
+                    return Json(new { success = true, data = updatedProfile, message = "Профиль успешно обновлен" });
+                }
+                return RedirectToAction("Profile");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка обновления профиля: {ex.Message}");
+                if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+                {
+                    return Json(new { success = false, message = "Ошибка при обновлении профиля" });
+                }
+                return RedirectToAction("Profile");
+            }
+        }
+
+        [HttpPost]
+        [Microsoft.AspNetCore.Authorization.Authorize]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ChangePassword(Domain.ViewModels.ChangePasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+                {
+                    var errors = ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage)
+                        .ToArray();
+                    return Json(new { success = false, errors });
+                }
+                return RedirectToAction("Profile");
+            }
+
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userIdClaim) || !long.TryParse(userIdClaim, out long userId))
+            {
+                return Json(new { success = false, message = "Пользователь не авторизован" });
+            }
+
+            try
+            {
+                var result = await _accountService.ChangePasswordAsync(userId, model);
+                if (result)
+                {
+                    if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+                    {
+                        return Json(new { success = true, message = "Пароль успешно изменен" });
+                    }
+                    return RedirectToAction("Profile");
+                }
+                else
+                {
+                    if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+                    {
+                        return Json(new { success = false, message = "Неверный текущий пароль" });
+                    }
+                    ModelState.AddModelError("", "Неверный текущий пароль");
+                    return RedirectToAction("Profile");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка смены пароля: {ex.Message}");
+                if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+                {
+                    return Json(new { success = false, message = "Ошибка при смене пароля" });
+                }
+                return RedirectToAction("Profile");
+            }
+        }
     }
 }

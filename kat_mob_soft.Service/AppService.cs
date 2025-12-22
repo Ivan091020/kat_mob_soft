@@ -205,33 +205,53 @@ namespace kat_mob_soft.Service
                     .Include(a => a.Icon)
                     .Include(a => a.Downloads)
                     .Where(a => a.IsPublished)
-                    .ToList();
-
-                var appsFilter = appsDb;
+                    .AsQueryable();
 
                 // Применяем фильтры
-                if (filter != null && appsFilter != null)
+                if (filter != null)
                 {
+                    // Поиск по названию, описанию или категории
+                    if (!string.IsNullOrWhiteSpace(filter.SearchQuery))
+                    {
+                        var searchQuery = filter.SearchQuery.ToLower();
+                        appsDb = appsDb.Where(a => 
+                            (a.Name != null && a.Name.ToLower().Contains(searchQuery)) ||
+                            (a.ShortDescription != null && a.ShortDescription.ToLower().Contains(searchQuery)) ||
+                            (a.Category != null && a.Category.Name != null && a.Category.Name.ToLower().Contains(searchQuery))
+                        );
+                    }
+
                     // Фильтр по цене
                     if (filter.PriceMax != 0 || filter.PriceMin != 0)
                     {
-                        appsFilter = appsFilter
-                            .Where(a => a.Price >= filter.PriceMin && a.Price <= filter.PriceMax)
-                            .ToList();
+                        if (filter.PriceMin > 0)
+                            appsDb = appsDb.Where(a => a.Price >= filter.PriceMin);
+                        if (filter.PriceMax > 0)
+                            appsDb = appsDb.Where(a => a.Price <= filter.PriceMax);
                     }
 
                     // Фильтр по категориям
                     if (filter.Categories != null && filter.Categories.Count > 0)
                     {
-                        appsFilter = appsFilter
-                            .Where(a => a.Category != null && filter.Categories.Contains(a.Category.Name))
-                            .ToList();
+                        appsDb = appsDb.Where(a => a.Category != null && filter.Categories.Contains(a.Category.Name));
                     }
                 }
 
+                // Получаем общее количество для пагинации
+                var totalCount = appsDb.Count();
+
+                // Применяем пагинацию
+                if (filter != null && filter.PageSize > 0)
+                {
+                    var skip = (filter.Page - 1) * filter.PageSize;
+                    appsDb = appsDb.Skip(skip).Take(filter.PageSize);
+                }
+
+                var appsList = appsDb.ToList();
+
                 // Маппинг в ViewModel
                 var result = new List<AppViewModel>();
-                foreach (var app in appsFilter)
+                foreach (var app in appsList)
                 {
                     var viewModel = new AppViewModel
                     {
@@ -403,4 +423,5 @@ namespace kat_mob_soft.Service
 
     }
 }
+
 

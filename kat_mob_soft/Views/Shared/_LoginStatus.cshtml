@@ -16,19 +16,48 @@
         userName = "Пользователь";
     }
     var userEmail = User?.FindFirst(ClaimTypes.Email)?.Value ?? "";
+    var userId = User?.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "";
+    var avatarPath = "/ImageUser/default-avatar.jpg"; // Путь по умолчанию
 }
 
 @if (isAuthenticated)
 {
-    <div class="user-status">
-        <div class="user-info">
-            <span class="user-icon">👤</span>
+    <div class="user-menu-container">
+        <button class="user-menu-trigger" id="user-menu-trigger" aria-label="Меню пользователя">
+            <img src="@avatarPath" alt="@userName" class="user-avatar" onerror="this.src='/ImageUser/default-avatar.jpg'" />
             <span class="user-name">@userName</span>
+            <span class="user-menu-arrow">▼</span>
+        </button>
+        <div class="user-menu-dropdown" id="user-menu-dropdown">
+            <div class="user-menu-header">
+                <img src="@avatarPath" alt="@userName" class="user-avatar-large" onerror="this.src='/ImageUser/default-avatar.jpg'" />
+                <div class="user-menu-info">
+                    <div class="user-menu-name">@userName</div>
+                    <div class="user-menu-email">@userEmail</div>
+                </div>
+            </div>
+            <div class="user-menu-divider"></div>
+            <a asp-controller="Account" asp-action="Profile" class="user-menu-item">
+                <span class="user-menu-icon">👤</span>
+                <span>Профиль</span>
+            </a>
+            <a asp-controller="Purchases" asp-action="Cart" class="user-menu-item">
+                <span class="user-menu-icon">🛒</span>
+                <span>Корзина</span>
+            </a>
+            <a asp-controller="Purchases" asp-action="MyPurchases" class="user-menu-item">
+                <span class="user-menu-icon">📦</span>
+                <span>Мои покупки</span>
+            </a>
+            <div class="user-menu-divider"></div>
+            <form asp-controller="Account" asp-action="Logout" method="post" class="logout-form">
+                @Html.AntiForgeryToken()
+                <button type="button" id="btn-logout" class="user-menu-item user-menu-logout">
+                    <span class="user-menu-icon">🚪</span>
+                    <span>Выйти</span>
+                </button>
+            </form>
         </div>
-        <form asp-controller="Account" asp-action="Logout" method="post" class="logout-form" id="logout-form">
-            @Html.AntiForgeryToken()
-            <button type="button" id="btn-logout" class="btn btn-ghost btn-small">Выйти</button>
-        </form>
     </div>
 }
 else

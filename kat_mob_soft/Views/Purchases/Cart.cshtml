@@ -42,24 +42,37 @@
     }
 </div>
 
+@Html.AntiForgeryToken()
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // Получаем токен CSRF
+        const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value || '';
+        
         // Удаление из корзины
         document.querySelectorAll('.btn-remove-from-cart').forEach(btn => {
             btn.addEventListener('click', async function() {
-                const purchaseId = this.getAttribute('data-purchase-id');
-                const response = await fetch('/Purchases/RemoveFromCart?purchaseId=' + purchaseId, {
-                    method: 'POST',
-                    headers: {
-                        'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value || ''
-                    }
-                });
+                if (!confirm('Вы уверены, что хотите удалить этот товар из корзины?')) return;
                 
-                const result = await response.json();
-                if (result.success) {
-                    location.reload();
-                } else {
-                    alert(result.message || 'Ошибка при удалении из корзины');
+                const purchaseId = this.getAttribute('data-purchase-id');
+                try {
+                    const response = await fetch('/Purchases/RemoveFromCart?purchaseId=' + purchaseId, {
+                        method: 'POST',
+                        headers: {
+                            'RequestVerificationToken': token,
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    });
+                    
+                    const result = await response.json();
+                    if (result.success) {
+                        location.reload();
+                    } else {
+                        alert(result.message || 'Ошибка при удалении из корзины');
+                    }
+                } catch (error) {
+                    alert('Ошибка при удалении из корзины');
+                    console.error(error);
                 }
             });
         });
@@ -68,19 +81,25 @@
         document.querySelectorAll('.btn-complete-purchase').forEach(btn => {
             btn.addEventListener('click', async function() {
                 const purchaseId = this.getAttribute('data-purchase-id');
-                const response = await fetch('/Purchases/CompletePurchase?purchaseId=' + purchaseId, {
-                    method: 'POST',
-                    headers: {
-                        'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value || ''
+                try {
+                    const response = await fetch('/Purchases/CompletePurchase?purchaseId=' + purchaseId, {
+                        method: 'POST',
+                        headers: {
+                            'RequestVerificationToken': token,
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    });
+                    
+                    const result = await response.json();
+                    if (result.success) {
+                        alert('Покупка успешно завершена!');
+                        location.reload();
+                    } else {
+                        alert(result.message || 'Ошибка при завершении покупки');
                     }
-                });
-                
-                const result = await response.json();
-                if (result.success) {
-                    alert('Покупка успешно завершена!');
-                    location.reload();
-                } else {
-                    alert(result.message || 'Ошибка при завершении покупки');
+                } catch (error) {
+                    alert('Ошибка при завершении покупки');
+                    console.error(error);
                 }
             });
         });
@@ -96,22 +115,32 @@
                 );
                 
                 let successCount = 0;
+                let errorCount = 0;
+                
                 for (const purchaseId of purchaseIds) {
-                    const response = await fetch('/Purchases/CompletePurchase?purchaseId=' + purchaseId, {
-                        method: 'POST',
-                        headers: {
-                            'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value || ''
+                    try {
+                        const response = await fetch('/Purchases/CompletePurchase?purchaseId=' + purchaseId, {
+                            method: 'POST',
+                            headers: {
+                                'RequestVerificationToken': token,
+                                'X-Requested-With': 'XMLHttpRequest'
+                            }
+                        });
+                        
+                        const result = await response.json();
+                        if (result.success) {
+                            successCount++;
+                        } else {
+                            errorCount++;
                         }
-                    });
-                    
-                    const result = await response.json();
-                    if (result.success) {
-                        successCount++;
+                    } catch (error) {
+                        errorCount++;
+                        console.error(error);
                     }
                 }
                 
                 if (successCount > 0) {
-                    alert(`Успешно куплено товаров: ${successCount}`);
+                    alert(`Успешно куплено товаров: ${successCount}${errorCount > 0 ? '. Ошибок: ' + errorCount : ''}`);
                     location.reload();
                 } else {
                     alert('Ошибка при покупке товаров');

@@ -971,6 +971,178 @@ body {
     font-size: 13px;
 }
 
+/* === ВЫПАДАЮЩЕЕ МЕНЮ ПОЛЬЗОВАТЕЛЯ === */
+.user-menu-container {
+    position: relative;
+    display: inline-block;
+}
+
+.user-menu-trigger {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    background: transparent;
+    border: 1px solid #e0e0e0;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+    font-size: 14px;
+    color: #222;
+}
+
+.user-menu-trigger:hover {
+    background: #f5f5f5;
+    border-color: #0078ff;
+}
+
+.user-menu-trigger.active {
+    background: #0078ff;
+    border-color: #0078ff;
+    color: #fff;
+}
+
+.user-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #e0e0e0;
+}
+
+.user-menu-trigger.active .user-avatar {
+    border-color: #fff;
+}
+
+.user-menu-arrow {
+    font-size: 10px;
+    transition: transform 0.2s ease;
+}
+
+.user-menu-trigger.active .user-menu-arrow {
+    transform: rotate(180deg);
+}
+
+.user-menu-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    min-width: 240px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.2s ease;
+    z-index: 1000;
+    overflow: hidden;
+}
+
+.user-menu-container.active .user-menu-dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.user-menu-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    background: #f9f9fb;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.user-avatar-large {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #e0e0e0;
+}
+
+.user-menu-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.user-menu-name {
+    font-weight: 600;
+    font-size: 15px;
+    color: #222;
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.user-menu-email {
+    font-size: 13px;
+    color: #666;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.user-menu-divider {
+    height: 1px;
+    background: #e0e0e0;
+    margin: 4px 0;
+}
+
+.user-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    color: #222;
+    text-decoration: none;
+    transition: background 0.2s ease;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    font-family: inherit;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.user-menu-item:hover {
+    background: #f5f5f5;
+}
+
+.user-menu-item.user-menu-logout {
+    color: #c02020;
+}
+
+.user-menu-item.user-menu-logout:hover {
+    background: #ffe0e0;
+}
+
+.user-menu-icon {
+    font-size: 18px;
+    width: 20px;
+    text-align: center;
+}
+
+/* Адаптация для мобильных */
+@media (max-width: 520px) {
+    .user-menu-dropdown {
+        right: -10px;
+        min-width: 200px;
+    }
+    
+    .user-menu-trigger .user-name {
+        display: none;
+    }
+    
+    .user-menu-trigger {
+        padding: 6px;
+    }
+}
+
 /* === TOAST УВЕДОМЛЕНИЯ === */
 .toast-container {
     position: fixed;

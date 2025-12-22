@@ -1,0 +1,154 @@
+@model kat_mob_soft.Domain.ViewModels.ProfileViewModel
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Профиль пользователя";
+}
+
+<div class="profile-container">
+    <div class="profile-header">
+        <h1>Профиль пользователя</h1>
+    </div>
+
+    <div class="profile-content">
+        <div class="profile-sidebar">
+            <div class="profile-avatar-section">
+                <img src="@(Model.AvatarPath ?? "/ImageUser/default-avatar.jpg")" alt="@Model.Username" class="profile-avatar" onerror="this.src='/ImageUser/default-avatar.jpg'" />
+                <h2>@(Model.DisplayName ?? Model.Username)</h2>
+                <p class="profile-email">@Model.Email</p>
+            </div>
+        </div>
+
+        <div class="profile-main">
+            <div class="profile-section">
+                <h3>Основная информация</h3>
+                <form id="profile-form" class="profile-form">
+                    @Html.AntiForgeryToken()
+                    <div class="form-group">
+                        <label for="DisplayName">Отображаемое имя</label>
+                        <input type="text" id="DisplayName" name="DisplayName" value="@(Model.DisplayName ?? Model.Username)" class="form-control" />
+                        <span class="field-error" id="DisplayName-error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="Email">Email</label>
+                        <input type="email" id="Email" name="Email" value="@Model.Email" class="form-control" />
+                        <span class="field-error" id="Email-error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="FullName">Полное имя</label>
+                        <input type="text" id="FullName" name="FullName" value="@Model.FullName" class="form-control" />
+                        <span class="field-error" id="FullName-error"></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+                </form>
+            </div>
+
+            <div class="profile-section">
+                <h3>Смена пароля</h3>
+                <form id="password-form" class="profile-form">
+                    @Html.AntiForgeryToken()
+                    <div class="form-group">
+                        <label for="OldPassword">Текущий пароль</label>
+                        <input type="password" id="OldPassword" name="OldPassword" class="form-control" required />
+                        <span class="field-error" id="OldPassword-error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="NewPassword">Новый пароль</label>
+                        <input type="password" id="NewPassword" name="NewPassword" class="form-control" required />
+                        <span class="field-error" id="NewPassword-error"></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Изменить пароль</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/profile.css" asp-append-version="true" />
+}
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Обновление профиля
+            const profileForm = document.getElementById('profile-form');
+            if (profileForm) {
+                profileForm.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    
+                    const formData = new FormData(profileForm);
+                    const data = {
+                        DisplayName: formData.get('DisplayName'),
+                        Email: formData.get('Email'),
+                        FullName: formData.get('FullName')
+                    };
+
+                    try {
+                        const response = await fetch('@Url.Action("UpdateProfile", "Account")', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                            },
+                            body: JSON.stringify(data)
+                        });
+
+                        const result = await response.json();
+                        if (result.success) {
+                            alert('Профиль успешно обновлен!');
+                            location.reload();
+                        } else {
+                            if (result.errors) {
+                                result.errors.forEach(error => {
+                                    alert(error);
+                                });
+                            } else {
+                                alert(result.message || 'Ошибка при обновлении профиля');
+                            }
+                        }
+                    } catch (error) {
+                        alert('Ошибка при обновлении профиля');
+                        console.error(error);
+                    }
+                });
+            }
+
+            // Смена пароля
+            const passwordForm = document.getElementById('password-form');
+            if (passwordForm) {
+                passwordForm.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    
+                    const formData = new FormData(passwordForm);
+                    const data = {
+                        OldPassword: formData.get('OldPassword'),
+                        NewPassword: formData.get('NewPassword')
+                    };
+
+                    try {
+                        const response = await fetch('@Url.Action("ChangePassword", "Account")', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'RequestVerificationToken': document.querySelector('#password-form input[name="__RequestVerificationToken"]').value
+                            },
+                            body: JSON.stringify(data)
+                        });
+
+                        const result = await response.json();
+                        if (result.success) {
+                            alert('Пароль успешно изменен!');
+                            passwordForm.reset();
+                        } else {
+                            alert(result.message || 'Ошибка при смене пароля');
+                        }
+                    } catch (error) {
+                        alert('Ошибка при смене пароля');
+                        console.error(error);
+                    }
+                });
+            }
+        });
+    </script>
+}
+
